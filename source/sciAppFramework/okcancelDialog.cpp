@@ -1,0 +1,34 @@
+
+// =========================================
+
+#include "sciAppFramework/okcancelDialog.h"
+
+#include <QStackedLayout>
+#include <QBoxLayout>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QPushButton>
+
+using namespace sciAppFramework;
+
+// =========================================
+
+QWidget* okcancelDialog::createButtonsWidget()
+{
+  QPushButton *OkButton = new QPushButton( acceptButtonName() ,this );
+  connect( OkButton, SIGNAL(clicked()), SLOT(accept()) );
+
+  QPushButton *CancelButton = new QPushButton( rejectButtonName(), this );
+  connect( CancelButton, SIGNAL(clicked()), SLOT(reject()) );
+
+  QBoxLayout *Layout = new QHBoxLayout();
+  Layout->addWidget( OkButton );
+  Layout->addWidget( CancelButton );
+
+  QWidget *Widget = new QWidget(this);
+  Widget->setLayout(Layout);
+  return Widget;
+}
+
+// =========================================
+

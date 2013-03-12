@@ -1,0 +1,32 @@
+
+cmake_minimum_required( VERSION 2.6 )
+
+find_package(Qt4 REQUIRED)
+include(${QT_USE_FILE})
+
+if(WIN32)
+  add_definitions( -DQT_DLL )
+  link_libraries( ${QT_QTMAIN_LIBRARY} )
+  set( gui_type WIN32 )
+endif(WIN32)
+
+project( testControlWidget )
+add_executable( testControlWidget testControlWidget.cpp )
+target_link_libraries( testControlWidget ${QT_LIBRARIES} ${scigraphicsQt_LIBRARY} sciAppFramework )
+
+project( testInputWidget )
+add_executable( testInputWidget testInputWidget.cpp )
+target_link_libraries( testInputWidget ${QT_LIBRARIES} ${scigraphicsQt_LIBRARY} sciAppFramework )
+
+project( testMainWidget )
+add_executable( testMainWidget testMainWidget.cpp )
+target_link_libraries( testMainWidget ${QT_LIBRARIES} ${scigraphicsQt_LIBRARY} sciAppFramework )
+
+project( testMultiInputWidget )
+add_executable( testMultiInputWidget testMultiInputWidget.cpp )
+target_link_libraries( testMultiInputWidget ${QT_LIBRARIES} ${scigraphicsQt_LIBRARY} sciAppFramework )
+
+project( testOutputWidget )
+add_executable( testOutputWidget testOutputWidget.cpp )
+target_link_libraries( testOutputWidget ${QT_LIBRARIES} ${scigraphicsQt_LIBRARY} sciAppFramework )
+
