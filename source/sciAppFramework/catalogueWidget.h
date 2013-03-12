@@ -8,6 +8,8 @@
 #include <QList>
 #include <QVariant>
 
+#include <QListWidget>
+
 class QAbstractItemView;
 class QListWidgetItem;
 class QListWidget;
@@ -63,8 +65,8 @@ namespace sciAppFramework
   template <class itemView> class catalogueItemViewTemplateWidget : public catalogueWidget
   {
     protected:
-      void enableSelectionSignalItemView()  { itemViewCast()->disconnect(); }
-      void disableSelectionSignalItemView() { connect( itemViewCast(), SIGNAL( itemSelectionChanged() ), SIGNAL(selectionChanged()) ); }
+      void enableSelectionSignalItemView()  { connect( itemViewCast(), SIGNAL( itemSelectionChanged() ), SIGNAL(selectionChanged()) ); }
+      void disableSelectionSignalItemView() { itemViewCast()->disconnect();  }
 
     protected:
       itemView* itemViewCast() { return itemViewTemplateCast<itemView>(); }

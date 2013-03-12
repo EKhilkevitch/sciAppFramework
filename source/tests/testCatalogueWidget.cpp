@@ -26,7 +26,11 @@ int main( int argc, char **argv )
 
   testCatalogueListWidget Widget;
   Widget.show();
-  
+
+  Widget.add( "Line1" );
+  Widget.add( "Line2", false );
+  Widget.add( "Line3", true );
+
   return app.exec(); 
 }
 
