@@ -12,29 +12,29 @@ endif(WIN32)
 
 project( testControlWidget )
 add_executable( testControlWidget testControlWidget.cpp )
-target_link_libraries( testControlWidget ${QT_LIBRARIES} ${scigraphicsQt_LIBRARY} sciAppFramework )
+target_link_libraries( testControlWidget ${QT_LIBRARIES} ${scigraphicsQt_LIBRARY} ${scigraphics_LIBRARY} sciAppFramework )
 
 project( testInputWidget )
 add_executable( testInputWidget testInputWidget.cpp )
-target_link_libraries( testInputWidget ${QT_LIBRARIES} ${scigraphicsQt_LIBRARY} sciAppFramework )
+target_link_libraries( testInputWidget ${QT_LIBRARIES} ${scigraphicsQt_LIBRARY} ${scigraphics_LIBRARY} sciAppFramework )
 
 project( testMainWidget )
 add_executable( testMainWidget testMainWidget.cpp )
-target_link_libraries( testMainWidget ${QT_LIBRARIES} ${scigraphicsQt_LIBRARY} sciAppFramework )
+target_link_libraries( testMainWidget ${QT_LIBRARIES} ${scigraphicsQt_LIBRARY} ${scigraphics_LIBRARY} sciAppFramework )
 
 project( testMultiInputWidget )
 add_executable( testMultiInputWidget testMultiInputWidget.cpp )
-target_link_libraries( testMultiInputWidget ${QT_LIBRARIES} ${scigraphicsQt_LIBRARY} sciAppFramework )
+target_link_libraries( testMultiInputWidget ${QT_LIBRARIES} ${scigraphicsQt_LIBRARY} ${scigraphics_LIBRARY} sciAppFramework )
 
 project( testOutputWidget )
 add_executable( testOutputWidget testOutputWidget.cpp )
-target_link_libraries( testOutputWidget ${QT_LIBRARIES} ${scigraphicsQt_LIBRARY} sciAppFramework )
+target_link_libraries( testOutputWidget ${QT_LIBRARIES} ${scigraphicsQt_LIBRARY} ${scigraphics_LIBRARY} sciAppFramework )
 
 project( testCatalogueWidget )
 add_executable( testCatalogueWidget testCatalogueWidget.cpp )
-target_link_libraries( testCatalogueWidget ${QT_LIBRARIES} ${scigraphicsQt_LIBRARY} sciAppFramework )
+target_link_libraries( testCatalogueWidget ${QT_LIBRARIES} ${scigraphicsQt_LIBRARY} ${scigraphics_LIBRARY} sciAppFramework )
 
 project( testWaitWidget )
 add_executable( testWaitWidget testWaitWidget.cpp )
-target_link_libraries( testWaitWidget ${QT_LIBRARIES} ${scigraphicsQt_LIBRARY} sciAppFramework )
+target_link_libraries( testWaitWidget ${QT_LIBRARIES} ${scigraphicsQt_LIBRARY} ${scigraphics_LIBRARY} sciAppFramework )
 

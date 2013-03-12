@@ -6,7 +6,6 @@ project( sciAppFramework )
 if( NOT CMAKE_BUILD_TYPE )
   set( CMAKE_BUILD_TYPE Release )
 endif()
-message( "CMAKE_BUILD_TYPE = " ${CMAKE_BUILD_TYPE} )
 
 set( EXECUTABLE_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/bin/" )
 set( LIBRARY_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/lib/" )
@@ -20,7 +19,12 @@ macro( check_found libname )
   endif()
 endmacro()
 
-set( library_type STATIC )
+if ( NOT LIBRARY_TYPE )
+  set( LIBRARY_TYPE STATIC )
+endif()
+
+message( "LIBRARY_TYPE = ${LIBRARY_TYPE}" )
+message( "CMAKE_BUILD_TYPE = ${CMAKE_BUILD_TYPE}" )
 
 set( graphics_dir "${PROJECT_SOURCE_DIR}/../scigraphics/" )
 include_directories( "${graphics_dir}/source/" )

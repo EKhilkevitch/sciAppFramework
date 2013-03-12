@@ -34,5 +34,6 @@ qt4_wrap_cpp( sciAppFramework_moc_sources
                 waitWidget.h
   )
 
-add_library( sciAppFramework ${library_type} ${sciAppFramework_source_files} ${sciAppFramework_moc_sources} )
+add_library( sciAppFramework ${LIBRARY_TYPE} ${sciAppFramework_source_files} ${sciAppFramework_moc_sources} )
+target_link_libraries( sciAppFramework ${QT_LIBRARIES} ${scigraphics_LIBRARY} ${scigraphicsQt_LIBRARY} )
 
