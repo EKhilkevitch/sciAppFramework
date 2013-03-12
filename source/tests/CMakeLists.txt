@@ -30,3 +30,7 @@ project( testOutputWidget )
 add_executable( testOutputWidget testOutputWidget.cpp )
 target_link_libraries( testOutputWidget ${QT_LIBRARIES} ${scigraphicsQt_LIBRARY} sciAppFramework )
 
+project( testCatalogueWidget )
+add_executable( testCatalogueWidget testCatalogueWidget.cpp )
+target_link_libraries( testCatalogueWidget ${QT_LIBRARIES} ${scigraphicsQt_LIBRARY} sciAppFramework )
+

@@ -35,6 +35,8 @@ namespace sciAppFramework
       virtual QWidget* createButtonsWidget();
       virtual QList<QPushButton*> createButtonsList();
 
+      virtual bool putButtonsonTheTop() const { return true; }
+
     protected:
       template <class V> V* itemViewTemplateCast() { return dynamic_cast<V*>(ItemView); }
       template <class V> const V* itemViewTemplateCast() const { return dynamic_cast<const V*>(ItemView); }

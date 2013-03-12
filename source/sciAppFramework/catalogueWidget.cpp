@@ -45,8 +45,15 @@ void catalogueWidget::init()
   ItemView = createItemView();
 
   QBoxLayout *Layout = new QVBoxLayout();
-  Layout->addWidget( ButtonsWidget );
-  Layout->addWidget( ItemView );
+
+  if ( putButtonsonTheTop() )
+  {
+    Layout->addWidget( ButtonsWidget );
+    Layout->addWidget( ItemView );
+  } else {
+    Layout->addWidget( ItemView );
+    Layout->addWidget( ButtonsWidget );
+  }
   setLayout( Layout );
 
   enableSelectionSignalItemView();
