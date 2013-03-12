@@ -97,6 +97,12 @@ measureControlWidget::measureControlWidget( QWidget *Parent ) :
 
 // -----------------------------------------
 
+measureControlWidget::~measureControlWidget()
+{
+}
+
+// -----------------------------------------
+
 QWidget* measureControlWidget::createBtnWidget()
 {
   QPushButton *StartBtn = new QPushButton("Start",this);

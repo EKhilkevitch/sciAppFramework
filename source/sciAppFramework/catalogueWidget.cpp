@@ -36,7 +36,7 @@ QList<QPushButton*> catalogueWidget::createButtonsList()
 
 // -----------------------------------------
 
-void catalogueWidget::init()
+void catalogueWidget::initWidget()
 {
   Q_ASSERT( ButtonsWidget == NULL );
   Q_ASSERT( ItemView == NULL );
@@ -84,6 +84,12 @@ catalogueWidget::catalogueWidget( QWidget *Parent ) :
   QWidget(Parent),
   ButtonsWidget(NULL),
   ItemView(NULL) 
+{
+}
+
+// -----------------------------------------
+
+catalogueWidget::~catalogueWidget() 
 {
 }
 

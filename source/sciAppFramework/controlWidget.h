@@ -41,7 +41,7 @@ namespace sciAppFramework
 
     public:
       controlWidget( QWidget *Parent = NULL );
-      ~controlWidget();
+      virtual ~controlWidget() = 0;
 
       void saveSettings( QSettings* );
       void loadSettings( QSettings* );
@@ -76,6 +76,7 @@ namespace sciAppFramework
     
     public:
       measureControlWidget( QWidget *Parent = NULL );
+      virtual ~measureControlWidget() = 0;
 
       virtual void prepareToStart();
       virtual void prepareToStop();

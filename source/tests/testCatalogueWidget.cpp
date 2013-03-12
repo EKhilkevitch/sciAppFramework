@@ -8,7 +8,7 @@ using namespace sciAppFramework;
 
 struct testCatalogueListWidget : public catalogueListWidget
 {
-  testCatalogueListWidget() { init(); }
+  testCatalogueListWidget() { initWidget(); }
 
   QList<QPushButton*> createButtonsList()
   {

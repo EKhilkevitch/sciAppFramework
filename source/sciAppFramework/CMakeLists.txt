@@ -16,6 +16,7 @@ set ( sciAppFramework_source_files
                 mainWidget.cpp          
                 okcancelDialog.cpp      
                 catalogueWidget.cpp
+                waitWidget.cpp
                 utility.cpp             
   )
 
@@ -30,6 +31,7 @@ qt4_wrap_cpp( sciAppFramework_moc_sources
                 mainWidget.h                    
                 okcancelDialog.h                
                 catalogueWidget.h
+                waitWidget.h
   )
 
 add_library( sciAppFramework ${library_type} ${sciAppFramework_source_files} ${sciAppFramework_moc_sources} )

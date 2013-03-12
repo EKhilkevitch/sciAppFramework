@@ -48,10 +48,11 @@ namespace sciAppFramework
       virtual void enableSelectionSignalItemView() = 0;
       virtual void disableSelectionSignalItemView() = 0;
 
-      void init();
+      void initWidget();
 
     public:
       catalogueWidget( QWidget *Parent = NULL );
+      virtual ~catalogueWidget();
 
       virtual void loadSettings( QSettings *Settings );
       virtual void saveSettings( QSettings *Settings );
