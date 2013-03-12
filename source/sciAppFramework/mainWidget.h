@@ -93,7 +93,7 @@ namespace sciAppFramework
     protected:
       virtual void doInitWidget();
       
-      template <class thread> thread* mainMeasurementThread() { return dynamic_cast< thread* >( MeasurementThread ); }
+      template <class thr> thr* mainMeasurementThread() { return dynamic_cast< thr* >( MeasurementThread ); }
 
     public:
       measureMainWidget();

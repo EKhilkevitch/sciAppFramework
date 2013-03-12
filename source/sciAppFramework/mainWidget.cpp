@@ -14,6 +14,7 @@
 #include <QApplication>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QIcon>
 #include <QDebug>
 
 using namespace sciAppFramework;
