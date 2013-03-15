@@ -6,7 +6,6 @@
 #include "sciAppFramework/utility.h"
 
 #include <QVBoxLayout>
-#include <QSettings>
 #include <QGroupBox>
 #include <QLabel>
 #include <QDebug>

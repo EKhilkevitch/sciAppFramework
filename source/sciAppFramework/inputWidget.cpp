@@ -13,7 +13,6 @@
 #include <QVBoxLayout>
 #include <QFileDialog>
 #include <QFileInfo>
-#include <QSettings>
 #include <QGroupBox>
 #include <QDebug>
 
