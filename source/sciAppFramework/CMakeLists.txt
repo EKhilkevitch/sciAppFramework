@@ -12,7 +12,7 @@ set ( sciAppFramework_source_files
                 parametersWidget.cpp    
                 controlWidget.cpp       
                 outputWidget.cpp        
-                settingsWidget.cpp      
+                outputSettingsWidget.cpp
                 mainWidget.cpp          
                 okcancelDialog.cpp      
                 catalogueWidget.cpp
@@ -27,7 +27,7 @@ qt4_wrap_cpp( sciAppFramework_moc_sources
                 parametersWidget.h              
                 controlWidget.h                 
                 outputWidget.h                  
-                settingsWidget.h                
+                outputSettingsWidget.h                
                 mainWidget.h                    
                 okcancelDialog.h                
                 catalogueWidget.h

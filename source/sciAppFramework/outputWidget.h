@@ -24,7 +24,7 @@ namespace sciAppFramework
 
     public:
       virtual QWidget* outputWidget() = 0;
-      virtual QWidget* settingsWidget() = 0;
+      virtual QWidget* outputSettingsWidget() = 0;
       virtual QString title() const { return Title; }
 
       virtual void saveSettings( QSettings* ) {}
@@ -50,7 +50,7 @@ namespace sciAppFramework
       ~simpleOutputWidgetItem() {}
 
       QWidget* outputWidget() { return OutputWidget; }
-      QWidget* settingsWidget() { return SettingsWidget; }
+      QWidget* outputSettingsWidget() { return SettingsWidget; }
   };
   
   // -----------------------------------------
@@ -63,7 +63,7 @@ namespace sciAppFramework
     public:
       plotManagerOutputWidgetItem( qt4plotManager *PlotManager, const QString &Title );
       QWidget* outputWidget();
-      QWidget* settingsWidget();
+      QWidget* outputSettingsWidget();
       void saveSettings( QSettings* );
       void loadSettings( QSettings* );
   };

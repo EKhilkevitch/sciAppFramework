@@ -17,7 +17,7 @@ namespace sciAppFramework
   class inputWidget;
   class outputWidget;
   class controlWidget;
-  class settingsWidget;
+  class outputSettingsWidget;
   class measurementThread;
   class measurementParameters;
 
@@ -29,7 +29,7 @@ namespace sciAppFramework
 
     private:
       outputWidget *OutputWidget;
-      settingsWidget *SettingsWidget;
+      outputSettingsWidget *OutputSettingsWidget;
       controlWidget *ControlWidget;
 
       QString CurrentDir;
@@ -40,14 +40,14 @@ namespace sciAppFramework
 
     protected:
       virtual void setupOutputWidget();
-      virtual void setupSettingsWidget();
+      virtual void setupOutputSettingsWidget();
       virtual void setupControlWidget();
       virtual void setupThisWindow();
 
     private:
       virtual controlWidget* createControlWidget() = 0;
       virtual outputWidget* createOutputWidget() = 0;
-      virtual settingsWidget* createSettingsWidget();
+      virtual outputSettingsWidget* createOutputSettingsWidget();
       virtual QString appTitle() const;
       virtual QIcon appIcon() const;
 

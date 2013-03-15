@@ -3,7 +3,6 @@
 
 #include "sciAppFramework/outputWidget.h"
 #include "scigraphics/qt4/qt4plotmanager.h"
-#include <cstdlib>
 
 #include <QStackedLayout>
 #include <QTabWidget>
@@ -29,7 +28,7 @@ QWidget* plotManagerOutputWidgetItem::outputWidget()
 
 // -----------------------------------------
 
-QWidget* plotManagerOutputWidgetItem::settingsWidget()
+QWidget* plotManagerOutputWidgetItem::outputSettingsWidget()
 {
   return PlotManager->settingsWidget();
 }
@@ -81,7 +80,8 @@ void outputWidget::appendOutputWidgetItem( outputWidgetItem *Item )
   switch ( OutputWidgetItems.size() )
   {
     case 0:
-      std::abort();
+      qFatal( "OutputWidgetItems.size() == 0" );
+      break;
     case 1:
       Layout->addWidget( Item->outputWidget() );
       break;
@@ -162,7 +162,7 @@ const QList<QWidget*> outputWidget::listOfSettingsWidgets()
   QList<QWidget*> SettingsWidgets;
 
   foreach ( outputWidgetItem *Item, OutputWidgetItems )
-    SettingsWidgets.append( Item->settingsWidget() );
+    SettingsWidgets.append( Item->outputSettingsWidget() );
 
   return SettingsWidgets;
 }

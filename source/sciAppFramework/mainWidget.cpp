@@ -3,7 +3,7 @@
 
 #include "sciAppFramework/mainWidget.h"
 #include "sciAppFramework/outputWidget.h"
-#include "sciAppFramework/settingsWidget.h"
+#include "sciAppFramework/outputSettingsWidget.h"
 #include "sciAppFramework/controlWidget.h"
 #include "sciAppFramework/measurementThread.h"
 #include "sciAppFramework/parametersWidget.h"
@@ -23,7 +23,7 @@ using namespace sciAppFramework;
     
 mainWidget::mainWidget() : 
   OutputWidget(NULL),
-  SettingsWidget(NULL),
+  OutputSettingsWidget(NULL),
   ControlWidget(NULL)
 {
 }
@@ -44,7 +44,7 @@ void mainWidget::initWidget()
   doInitWidget();
 
   Q_ASSERT( OutputWidget != NULL );
-  Q_ASSERT( SettingsWidget != NULL );
+  Q_ASSERT( OutputSettingsWidget != NULL );
   Q_ASSERT( ControlWidget != NULL );
   
   loadSettings();
@@ -55,15 +55,15 @@ void mainWidget::initWidget()
 void mainWidget::doInitWidget()
 {
   setupOutputWidget();
-  setupSettingsWidget();
+  setupOutputSettingsWidget();
   setupControlWidget();
 }
 
 // -----------------------------------------
 
-settingsWidget* mainWidget::createSettingsWidget()
+outputSettingsWidget* mainWidget::createOutputSettingsWidget()
 {
-  return new settingsWidget( this );
+  return new outputSettingsWidget( this );
 }
 
 // -----------------------------------------
@@ -76,17 +76,17 @@ void mainWidget::setupOutputWidget()
 
 // -----------------------------------------
 
-void mainWidget::setupSettingsWidget()
+void mainWidget::setupOutputSettingsWidget()
 {
   Q_ASSERT( OutputWidget != NULL );
 
-  SettingsWidget = createSettingsWidget();
-  SettingsWidget->addSettingsWidgets( OutputWidget->listOfSettingsWidgets() );
-  connect( OutputWidget, SIGNAL(currentOutputChanged(int)), SettingsWidget, SLOT(setCurrentSettings(int)) );
+  OutputSettingsWidget = createOutputSettingsWidget();
+  OutputSettingsWidget->addSettingsWidgets( OutputWidget->listOfSettingsWidgets() );
+  connect( OutputWidget, SIGNAL(currentOutputChanged(int)), OutputSettingsWidget, SLOT(setCurrentSettings(int)) );
 
   QDockWidget *DockWidget = new QDockWidget( "Settings", this );
   DockWidget->setAllowedAreas( Qt::BottomDockWidgetArea );
-  DockWidget->setWidget( SettingsWidget );
+  DockWidget->setWidget( OutputSettingsWidget );
   DockWidget->setFeatures( QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable );
   addDockWidget( Qt::BottomDockWidgetArea, DockWidget );  
 }
@@ -155,7 +155,7 @@ void mainWidget::doSaveSettings( QSettings *Settings )
   Settings->setValue( "CurrentDir", CurrentDir ); 
 
   OutputWidget->saveSettings( Settings );
-  SettingsWidget->saveSettings( Settings );
+  OutputSettingsWidget->saveSettings( Settings );
   ControlWidget->saveSettings( Settings );
 }
 
@@ -180,7 +180,7 @@ void mainWidget::doLoadSettings( QSettings *Settings )
   move( qMax(x(),5), qMax(y(),5) );
   
   OutputWidget->loadSettings( Settings );
-  SettingsWidget->loadSettings( Settings );
+  OutputSettingsWidget->loadSettings( Settings );
   ControlWidget->loadSettings( Settings );
 }
 
@@ -236,9 +236,9 @@ void measureMainWidget::setupControlWidget()
     return;
   
   connect( ControlWidget, SIGNAL(start()), SLOT(startMeasurement()) );
-  connect( ControlWidget, SIGNAL(stop()), SLOT(stopMeasurement()) );
+  connect( ControlWidget, SIGNAL(stop()),  SLOT(stopMeasurement()) );
   connect( ControlWidget, SIGNAL(pause()), SLOT(pauseMeasurement()) );
-  connect( ControlWidget, SIGNAL(cont()), SLOT(contMeasurement()) );
+  connect( ControlWidget, SIGNAL(cont()),  SLOT(contMeasurement()) );
 }
 
 // -----------------------------------------

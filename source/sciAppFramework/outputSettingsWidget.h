@@ -20,7 +20,7 @@ namespace sciAppFramework
 
   // =========================================
 
-  class settingsWidget : public QWidget
+  class outputSettingsWidget : public QWidget
   {
     Q_OBJECT
 
@@ -28,9 +28,9 @@ namespace sciAppFramework
       QStackedLayout* getCurrentLayout();
 
     public:
-      settingsWidget( QWidget *Parent = NULL );
-      settingsWidget( outputWidget *OutputWidget, QWidget *Parent = NULL );
-      ~settingsWidget();
+      outputSettingsWidget( QWidget *Parent = NULL );
+      outputSettingsWidget( outputWidget *OutputWidget, QWidget *Parent = NULL );
+      ~outputSettingsWidget();
 
       void addSettingsWidget( QWidget *Widget );
       void addSettingsWidgets( const QList<QWidget*> &Widgets );

@@ -2,7 +2,7 @@
 #include <QtGui>
 
 #include "sciAppFramework/outputWidget.h"
-#include "sciAppFramework/settingsWidget.h"
+#include "sciAppFramework/outputSettingsWidget.h"
 
 using namespace sciAppFramework;
 
@@ -30,7 +30,7 @@ int main( int argc, char **argv )
   testOutputWidget OutputWidget;
   OutputWidget.show();
 
-  settingsWidget SettingsWidget( &OutputWidget );
+  outputSettingsWidget SettingsWidget( &OutputWidget );
   SettingsWidget.show();
   
   return app.exec(); 

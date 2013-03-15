@@ -33,7 +33,7 @@ namespace sciAppFramework
     protected:
       virtual QVariant getValueToSettings() const { return getVariantValue(); }
       virtual void setValueFromSettings( const QVariant& Value ) { setVariantValue( Value ); }
-      
+
     public:
       inputWidget( QWidget *Parent ) : QWidget(Parent) {}
       virtual ~inputWidget() {}

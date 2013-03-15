@@ -1,7 +1,7 @@
 
 // =========================================
 
-#include "sciAppFramework/settingsWidget.h"
+#include "sciAppFramework/outputSettingsWidget.h"
 #include "sciAppFramework/outputWidget.h"
 
 #include <QStackedLayout>
@@ -10,13 +10,13 @@ using namespace sciAppFramework;
 
 // =========================================
 
-settingsWidget::settingsWidget( QWidget *Parent ) : QWidget(Parent)
+outputSettingsWidget::outputSettingsWidget( QWidget *Parent ) : QWidget(Parent)
 {
 }
 
 // -----------------------------------------
       
-settingsWidget::settingsWidget( outputWidget *OutputWidget, QWidget *Parent ) : QWidget(Parent)
+outputSettingsWidget::outputSettingsWidget( outputWidget *OutputWidget, QWidget *Parent ) : QWidget(Parent)
 {
   if ( OutputWidget != NULL )
   {
@@ -27,20 +27,20 @@ settingsWidget::settingsWidget( outputWidget *OutputWidget, QWidget *Parent ) : 
 
 // -----------------------------------------
 
-settingsWidget::~settingsWidget()
+outputSettingsWidget::~outputSettingsWidget()
 {
 }
 
 // -----------------------------------------
 
-QStackedLayout* settingsWidget::getCurrentLayout()
+QStackedLayout* outputSettingsWidget::getCurrentLayout()
 {
   return dynamic_cast<QStackedLayout*>( layout() );
 }
 
 // -----------------------------------------
 
-void settingsWidget::addSettingsWidget( QWidget *Widget )
+void outputSettingsWidget::addSettingsWidget( QWidget *Widget )
 {
   if ( layout() == NULL )
     setLayout( new QStackedLayout() );
@@ -50,7 +50,7 @@ void settingsWidget::addSettingsWidget( QWidget *Widget )
 
 // -----------------------------------------
 
-void settingsWidget::addSettingsWidgets( const QList<QWidget*> &Widgets )
+void outputSettingsWidget::addSettingsWidgets( const QList<QWidget*> &Widgets )
 {
   foreach ( QWidget *W, Widgets )
     addSettingsWidget( W );
@@ -58,7 +58,7 @@ void settingsWidget::addSettingsWidgets( const QList<QWidget*> &Widgets )
 
 // -----------------------------------------
 
-void settingsWidget::setCurrentSettings( int Index )
+void outputSettingsWidget::setCurrentSettings( int Index )
 {
   getCurrentLayout()->setCurrentIndex( Index );
 }
