@@ -8,6 +8,7 @@
 #include <QVariant>
 
 #include "sciAppFramework/inputWidget.h"
+#include "sciAppFramework/settingsObject.h"
 
 class QSettings;
 class QLayout;
@@ -21,7 +22,7 @@ namespace sciAppFramework
 
   // ======================================================
 
-  class multiInputWidget : public QWidget
+  class multiInputWidget : public QWidget, public multiSettingsObject
   {
     Q_OBJECT
 
@@ -33,8 +34,9 @@ namespace sciAppFramework
       QBoxLayout* createBoxLayout();
 
     public:
-      multiInputWidget( QWidget *Parent = NULL );
+      multiInputWidget( QWidget *Parent = NULL, const QString &SettingsName = QString() );
 
+      void setupSettingsObject( settingsObject *Object, const QString &Name = QString() );
       inputWidget* registerInputWidget( inputWidget *Input ); 
       inputWidget* registerInputWidget( const QString &InputName, inputWidget *Input ); 
       inputWidget* addInputWidget( inputWidget *Input );
@@ -54,9 +56,6 @@ namespace sciAppFramework
       template <class inp> inp* input( const QString &Name );
       template <class inp> const inp* input( const QString &Name ) const;
    
-      virtual void saveSettings( QSettings *Settings );
-      virtual void loadSettings( QSettings *Settings );
-
     signals:
       void changed();
   };

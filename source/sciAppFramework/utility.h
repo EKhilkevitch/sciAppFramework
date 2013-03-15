@@ -39,7 +39,7 @@ namespace sciAppFramework
   {
     const std::list< std::string > &AviablePorts = comportType::aviablePorts();
     labelComboWidget *Combo = new labelComboWidget(Label,Parent); 
-    Combo->setName(Name);
+    Combo->setSettingsName(Name);
     for ( std::list< std::string >::const_iterator p = AviablePorts.begin(); p != AviablePorts.end(); ++p )
       Combo->addItem( p->c_str(), QString(p->c_str()) );
     return Combo;

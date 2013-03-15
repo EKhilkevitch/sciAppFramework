@@ -40,12 +40,6 @@ struct testMainWidget : public measureMainWidget
   measurementThread* createMeasurementThread( const measurementParameters &Parameters ) { return new measurementThread(Parameters); }
 };
 
-#if 0
-struct o1 : public QObject {};
-struct w1 : public QWidget {};
-struct mix : virtual public o1, virtual public w1 {  };
-#endif
-
 int main( int argc, char **argv )
 {
   QApplication app(argc,argv);

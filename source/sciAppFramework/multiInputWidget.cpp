@@ -15,7 +15,9 @@ using namespace sciAppFramework;
 
 // ======================================================
 
-multiInputWidget::multiInputWidget( QWidget *Parent ) : QWidget(Parent)
+multiInputWidget::multiInputWidget( QWidget *Parent, const QString &SettingsName ) : 
+  QWidget(Parent),
+  multiSettingsObject( dynamic_cast<multiSettingsObject*>(Parent), settingsObject::normolizeToSettingsName(SettingsName) )
 {
   QBoxLayout *Layout = createBoxLayout();
   setLayout( Layout );
@@ -35,10 +37,24 @@ inputWidget* multiInputWidget::addInputWidget( inputWidget *Input )
   if ( Input == NULL )
     return NULL;
 
+  setupSettingsObject( Input );
   registerInputWidget( Input );
   addWidget( Input );
   
   return Input;
+}
+
+// ------------------------------------------------------
+
+void multiInputWidget::setupSettingsObject( settingsObject *Object, const QString &Name )
+{
+  if ( Object == NULL )
+    return;
+
+  Object->setSettingsParent( this );
+
+  if ( ! Name.isEmpty() )
+    Object->setSettingsName( Name );
 }
 
 // ------------------------------------------------------
@@ -48,9 +64,8 @@ inputWidget* multiInputWidget::registerInputWidget( inputWidget *Input )
   if ( Input == NULL )
     return NULL;
 
-  QString InputName = Input->name();
+  QString InputName = Input->settingsName();
   return registerInputWidget( InputName, Input );
-
 }
 
 // ------------------------------------------------------
@@ -83,6 +98,8 @@ QGroupBox* multiInputWidget::addMultiInputWidget( const QString &Name, const QSt
   QGroupBox *Box = new QGroupBox( Label, this );
   Box->setLayout( Layout );
   addWidget( Box );
+  
+  setupSettingsObject( Widget, Name );
 
   for ( labelInputMap::iterator i = Widget->LabelInputMap.begin(); i != Widget->LabelInputMap.end(); ++i )
     registerInputWidget( Name + ":" + i.key(), i.value() );
@@ -121,30 +138,6 @@ void  multiInputWidget::addLayout( QLayout *Layout )
     layoutOperations::appendLayoutItem( this, Layout, 1 );
 }
 
-// ------------------------------------------------------
-
-void multiInputWidget::saveSettings( QSettings *Settings )
-{
-  if ( Settings == NULL )
-    return;
-
-  QList< inputWidget* > ListOfLabelInputs = findChildren<inputWidget*>();
-  foreach( inputWidget *Input, ListOfLabelInputs )
-    Input->saveSettings( Settings );
-}
-
-// ------------------------------------------------------
-
-void multiInputWidget::loadSettings( QSettings *Settings )
-{
-  if ( Settings == NULL )
-    return;
-
-  QList< inputWidget* > ListOfLabelInputs = findChildren<inputWidget*>();
-  foreach( inputWidget *Input, ListOfLabelInputs )
-    Input->loadSettings( Settings );
-}
-      
 // ------------------------------------------------------
 
 QVariant multiInputWidget::getVariantValue( const QString &Name ) const

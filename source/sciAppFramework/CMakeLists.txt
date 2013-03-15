@@ -6,6 +6,7 @@ find_package(Qt4 REQUIRED)
 include(${QT_USE_FILE})
 
 set ( sciAppFramework_source_files
+                settingsObject.cpp
                 inputWidget.cpp         
                 multiInputWidget.cpp    
                 measurementThread.cpp   

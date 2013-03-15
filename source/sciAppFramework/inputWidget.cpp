@@ -23,37 +23,10 @@ using namespace sciAppFramework;
 
 // ======================================================
 
-const QString inputWidget::name() const 
-{ 
-  QString Name = objectName();
-  if ( ! Name.isEmpty() )
-    return Name;
-  
-  Name = label();
-  Name.replace( QRegExp("[\\s:+*\\-]"), "_" );
-  return Name;
-}
-
-// ------------------------------------------------------
-    
-void inputWidget::saveSettings( QSettings *Settings )
+inputWidget::inputWidget( QWidget *Parent, const QString &SettingsName ) : 
+  QWidget(Parent),
+  singleSettingsObject( dynamic_cast<settingsObject*>(Parent), settingsObject::normolizeToSettingsName(SettingsName) ) 
 {
-  if ( Settings == NULL )
-    return;
-  Settings->setValue( name(), getValueToSettings() );
-}
-
-// ------------------------------------------------------
-
-void inputWidget::loadSettings( QSettings *Settings )
-{
-  if ( Settings == NULL )
-    return;
-
-  QVariant Value = Settings->value( name() );
-  //qDebug() << "labelInput::loadSettings" << name() << Value;
-  if ( Value.isValid() )
-    setValueFromSettings( Value );
 }
 
 // ======================================================
