@@ -34,6 +34,11 @@ find_library( scigraphicsQt_LIBRARY NAMES scigraphicsQt PATHS "${graphics_dir}/l
 check_found( scigraphicsQt_LIBRARY )
 
 if ( UNIX )
+  set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC") 
+  set( CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -fPIC") 
+endif()
+
+if ( UNIX )
   set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall") 
 endif()
 
