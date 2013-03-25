@@ -14,7 +14,8 @@ int main( int argc, char **argv )
 
   labelEditWidget *Edit1 = new labelEditWidget("Text1",&Widget), *Edit2 = new labelEditWidget("Label with very very very long text","abcd");
   labelEditWidget *Edit3 = new labelEditWidget("Text3");
-  labelEditPathWidget *EditPath1 = new labelEditPathWidget("PathEdit");
+  labelPathEditWidget *PathEdit1 = new labelPathEditWidget("PathEdit");
+  labelDoubleEditWidget *DoubleEdit1 = new labelDoubleEditWidget("DoubleEdit",0.3e-6);
   labelSpinWidget *Spin1 = new labelSpinWidget( "Spin1", 3 );
   labelDoubleSpinWidget *Spin2 = new labelDoubleSpinWidget( "Spin2", 1.3 );
   labelComboWidget *Combo1 = new labelComboWidget("Combo");
@@ -30,7 +31,8 @@ int main( int argc, char **argv )
   QBoxLayout *Layout = new QVBoxLayout();
   Layout->addWidget( Edit1 );
   Layout->addWidget( Edit2 );
-  Layout->addWidget( EditPath1 );
+  Layout->addWidget( PathEdit1 );
+  Layout->addWidget( DoubleEdit1 );
   Layout->addWidget( Spin1 );
   Layout->addWidget( Spin2 );
   Layout->addWidget( Combo1 );

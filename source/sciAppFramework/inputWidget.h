@@ -119,7 +119,7 @@ namespace sciAppFramework
       void setVariantValue( const QVariant &Value ) { setText( Value.toString() ); }
 
       QString text() const { return getLineEdit()->text(); }
-      void setText( const QString& S ) { getLineEdit()->setText(S); }
+      void setText( const QString& String ) { getLineEdit()->setText(String); }
       void setValidator( QValidator *Validator );
       
       void setReadOnly( bool E ) { getLineEdit()->setReadOnly(E); }
@@ -134,8 +134,37 @@ namespace sciAppFramework
   };
 
   // ======================================================
+  
+  class labelDoubleEditWidget : public labelEditWidget
+  {
+    Q_OBJECT
 
-  class labelEditPathWidget : public labelEditWidget
+    private:
+      // Disable usage of this functions
+      void setText( const QString& S ) { labelEditWidget::setText(S); } 
+      void setValidator( QValidator *Validator ) { labelEditWidget::setValidator(Validator); }
+      QString text() const { return labelEditWidget::text(); }
+
+    protected:
+      QWidget* createInputWidget(); 
+
+    public:
+      labelDoubleEditWidget( const QString& LabelText, QWidget *Parent = NULL ) : 
+        labelEditWidget(0,Parent,LabelText) { initWidget(LabelText); }
+
+      labelDoubleEditWidget( const QString& LabelText, double Value, QWidget *Parent = NULL ) :
+        labelEditWidget(0,Parent,LabelText) { initWidget(LabelText); setValue(Value); }
+      
+      QVariant getVariantValue() const { return value(); }
+      void setVariantValue( const QVariant &Value ) { setValue( Value.toDouble() ); }
+
+      void setValue( double Value ) { setText( QString::number(Value) ); }
+      double value() const { return text().toDouble(); }
+  };
+  
+  // ======================================================
+
+  class labelPathEditWidget : public labelEditWidget
   {
     Q_OBJECT
 
@@ -150,9 +179,9 @@ namespace sciAppFramework
       void initWidget( const QString &LabelText );
 
     public:
-      labelEditPathWidget( const QString& LabelText, QWidget *Parent = NULL )
+      labelPathEditWidget( const QString& LabelText, QWidget *Parent = NULL )
         : labelEditWidget(0,Parent,LabelText) { initWidget(LabelText); }
-      labelEditPathWidget( const QString& LabelText, const QString& Text, QWidget *Parent = NULL )
+      labelPathEditWidget( const QString& LabelText, const QString& Text, QWidget *Parent = NULL )
         : labelEditWidget(0,Parent,LabelText) { initWidget(LabelText); setText(Text); }
 
       void setFileMode( QFileDialog::FileMode Mode ) { FileMode = Mode; }

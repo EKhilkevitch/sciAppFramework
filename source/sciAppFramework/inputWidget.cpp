@@ -14,6 +14,8 @@
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QGroupBox>
+#include <QDoubleValidator>
+#include <QValidator>
 #include <QDebug>
 
 #include <limits>
@@ -102,7 +104,22 @@ void labelEditWidget::setValidator( QValidator *Validator )
 
 // ======================================================
 
-QLineEdit* labelEditPathWidget::getLineEdit()
+QWidget* labelDoubleEditWidget::createInputWidget()
+{
+  QWidget *Input = labelEditWidget::createInputWidget();
+  QLineEdit *Edit = dynamic_cast<QLineEdit*>( Input );
+
+  Q_ASSERT( Edit != NULL );
+
+  QValidator *Validator = new QDoubleValidator(this);
+  Edit->setValidator( Validator );
+
+  return Edit;
+}
+
+// ======================================================
+
+QLineEdit* labelPathEditWidget::getLineEdit()
 {
   QWidget *Widget = getInput<QWidget>();
   QList< QLineEdit* > ListOfLineEdits = Widget->findChildren<QLineEdit*>();
@@ -111,7 +128,7 @@ QLineEdit* labelEditPathWidget::getLineEdit()
 
 // ------------------------------------------------------
 
-QWidget* labelEditPathWidget::createInputWidget()
+QWidget* labelPathEditWidget::createInputWidget()
 {
   QPushButton *Button = new QPushButton("...",this);
   Button->setMaximumHeight( 20 );
@@ -130,7 +147,7 @@ QWidget* labelEditPathWidget::createInputWidget()
 
 // ------------------------------------------------------
     
-void labelEditPathWidget::initWidget( const QString &LabelText )
+void labelPathEditWidget::initWidget( const QString &LabelText )
 {
   setDefaultModes(); 
   labelEditWidget::initWidget(LabelText);
@@ -139,7 +156,7 @@ void labelEditPathWidget::initWidget( const QString &LabelText )
 
 // ------------------------------------------------------
 
-void labelEditPathWidget::setEditFromFileDialog()
+void labelPathEditWidget::setEditFromFileDialog()
 {
   qDebug() << "File: " << text() << " path = " << QFileInfo(text()).path();
 

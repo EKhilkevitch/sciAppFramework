@@ -41,7 +41,7 @@ int main( int argc, char **argv )
   Widget.addInputWidget( Combo );
   Widget.addInputWidget<labelEditWidget>("Edit1","This is a test input field",33);
   Widget.addInputWidget<labelEditWidget>("Edit2","This is a test input field #2",22);
-  Widget.addInputWidget<labelEditPathWidget>("Path1","This is a test path field");
+  Widget.addInputWidget<labelPathEditWidget>("Path1","This is a test path field");
   Widget.addInputWidget<labelSpinWidget>("Spin1","This is a test spin",12);
   Widget.addLabel("This is a label");
   radioButtonWidget *Radio1 = Widget.addInputWidget<radioButtonWidget>("Radio1","A lot of radio buttons");
