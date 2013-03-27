@@ -378,8 +378,16 @@ namespace sciAppFramework
 
       const QString label() const { return CheckBox->text(); }
 
+      Qt::CheckState checkState() const { return CheckBox->checkState(); }
       bool isChecked() const { return CheckBox->isChecked(); }
       void setChecked( bool C ) { CheckBox->setChecked(C); } 
+
+    public slots:
+      void setCheckedOn() { setCheckState(Qt::Checked); }
+      void setCheckedOff() { setCheckState(Qt::Unchecked); }
+      void setCheckedPartial() { setCheckState(Qt::PartiallyChecked); }
+      void setCheckState( Qt::CheckState State ) { CheckBox->setCheckState(State); }
+      void setCheckState( int State ) { setCheckState( static_cast<Qt::CheckState>(State) ); }
     
     signals:
       void clicked();
