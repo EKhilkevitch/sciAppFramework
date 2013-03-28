@@ -379,6 +379,8 @@ namespace sciAppFramework
       const QString label() const { return CheckBox->text(); }
 
       Qt::CheckState checkState() const { return CheckBox->checkState(); }
+      void setTristate( bool Set = true ) { CheckBox->setTristate(Set); }
+      bool isTristate() const { return CheckBox->isTristate; }
       bool isChecked() const { return CheckBox->isChecked(); }
       void setChecked( bool C ) { CheckBox->setChecked(C); } 
 
