@@ -63,6 +63,8 @@ namespace sciAppFramework
       virtual void clean();
 
       void setExistNewData() { ExistNewData = true; }
+      void clearExistNewData() const { ExistNewData = false; }
+
       void incrementCountOfMeasurements() { CountOfMeasurements += 1; }
 
       template <class T> T parameter( const QString &Name ) const;       
@@ -76,6 +78,7 @@ namespace sciAppFramework
       virtual ~measurementThread();
       
       bool isExistNewData() const { return ExistNewData; }
+
       unsigned countOfMeasurements() const { return CountOfMeasurements; }
 
       bool isError() const { return ErrorOccurs; }
