@@ -35,7 +35,7 @@ namespace sciAppFramework
       QWidget* createParametersWidget();
 
     protected:
-      multiInputWidget& getParametersWidget() { return *ParametersWidget; }
+      multiInputWidget& getParameters() { return *ParametersWidget; }
     
     protected:
       void initWidget();
