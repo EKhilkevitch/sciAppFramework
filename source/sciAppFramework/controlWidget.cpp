@@ -155,7 +155,7 @@ void measureControlWidget::setEnableLayout( QLayout *Layout, bool Enable )
 
 void measureControlWidget::prepareToStart()
 {
-  getParametersWidget().setEnabled(false);
+  getParameters().setEnabled(false);
   PauseContLayout->setCurrentIndex(0);
   StartStopLayout->setCurrentIndex(1);
   setEnableLayout( PauseContLayout, true );
@@ -173,7 +173,7 @@ void measureControlWidget::doStart()
 
 void measureControlWidget::prepareToStop()
 {
-  getParametersWidget().setEnabled(true);
+  getParameters().setEnabled(true);
   StartStopLayout->setCurrentIndex(0);
   setEnableLayout( PauseContLayout, false );
 }
