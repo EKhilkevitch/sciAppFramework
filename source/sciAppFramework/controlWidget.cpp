@@ -2,7 +2,6 @@
 // =========================================
 
 #include "sciAppFramework/controlWidget.h"
-#include "sciAppFramework/parametersWidget.h"
 #include "sciAppFramework/multiInputWidget.h"
 
 #include <QStackedLayout>
@@ -10,6 +9,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QPushButton>
+#include <QGroupBox>
 
 using namespace sciAppFramework;
 
@@ -45,10 +45,15 @@ void controlWidget::initWidget()
 
 QWidget* controlWidget::createParametersWidget()
 {
-  multiInputWidget *MultiInputWidget = createMultiInputWidget();
-  ParametersWidget = new parametersWidget(this,MultiInputWidget);
+  ParametersWidget = createMultiInputWidget();
   connect( ParametersWidget, SIGNAL(changed()), SIGNAL(changed()) );
-  return ParametersWidget;
+
+  QGroupBox *Box = new QGroupBox("Parameters",this);
+  QStackedLayout *Layout = new QStackedLayout();
+  Layout->addWidget( ParametersWidget );
+  Box->setLayout( Layout );
+
+  return Box;
 }
 
 // -----------------------------------------
@@ -63,13 +68,6 @@ multiInputWidget* controlWidget::createMultiInputWidget()
 QWidget* controlWidget::createBtnWidget()
 {
   return new QWidget(this);
-}
-
-// -----------------------------------------
-      
-const measurementParameters* controlWidget::getMeasurementParameters() const
-{
-  return ParametersWidget;
 }
 
 // -----------------------------------------
@@ -216,6 +214,13 @@ void measureControlWidget::doContinue()
 {
   prepareToContinue();
   emit cont();
+}
+
+// -----------------------------------------
+      
+QVariant measureControlWidget::getVariantValue( const QString &Name ) const
+{
+  return getParameters().getVariantValue( Name );
 }
 
 // =========================================

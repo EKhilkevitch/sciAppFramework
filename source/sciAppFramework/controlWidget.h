@@ -5,6 +5,8 @@
 
 #include <QWidget>
 
+#include "sciAppFramework/measurementThread.h"
+
 class QSettings;
 class QPushButton;
 class QStackedLayout;
@@ -15,7 +17,6 @@ namespace sciAppFramework
 {
 
   class multiInputWidget;
-  class parametersWidget;
   class measurementParameters;
 
   // =========================================
@@ -25,7 +26,7 @@ namespace sciAppFramework
     Q_OBJECT
 
     private:
-      parametersWidget *ParametersWidget;
+      multiInputWidget *ParametersWidget;
 
     private:
       virtual QWidget* createBtnWidget();
@@ -34,7 +35,7 @@ namespace sciAppFramework
       QWidget* createParametersWidget();
 
     protected:
-      parametersWidget& getParametersWidget() { return *ParametersWidget; }
+      multiInputWidget& getParametersWidget() { return *ParametersWidget; }
     
     protected:
       void initWidget();
@@ -46,16 +47,15 @@ namespace sciAppFramework
       void saveSettings( QSettings* );
       void loadSettings( QSettings* );
       
-      const measurementParameters* getMeasurementParameters() const;
+      const multiInputWidget& getParameters() const { return *ParametersWidget; }
       
     signals:
       void changed();
-
   };
 
   // =========================================
   
-  class measureControlWidget : public controlWidget
+  class measureControlWidget : public controlWidget, public measurementParameters
   {
     Q_OBJECT
 
@@ -82,6 +82,8 @@ namespace sciAppFramework
       virtual void prepareToStop();
       virtual void prepareToPause();
       virtual void prepareToContinue();
+      
+      QVariant getVariantValue( const QString &Name ) const;
 
     signals:
       void start();

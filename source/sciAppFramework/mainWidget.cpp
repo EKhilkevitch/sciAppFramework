@@ -6,7 +6,6 @@
 #include "sciAppFramework/outputSettingsWidget.h"
 #include "sciAppFramework/controlWidget.h"
 #include "sciAppFramework/measurementThread.h"
-#include "sciAppFramework/parametersWidget.h"
 
 #include <QTimer>
 #include <QSettings>
@@ -248,8 +247,7 @@ void measureMainWidget::setupMeasurementThread()
   const measureControlWidget *ControlWidget = mainControlWidget<measureControlWidget>();
   if ( ControlWidget == NULL )
     return;
-  const measurementParameters *Parameters = ControlWidget->getMeasurementParameters();
-  MeasurementThread = createMeasurementThread( *Parameters );
+  MeasurementThread = createMeasurementThread( *ControlWidget );
 }
 
 // -----------------------------------------

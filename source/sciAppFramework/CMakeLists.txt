@@ -10,7 +10,6 @@ set ( sciAppFramework_source_files
                 inputWidget.cpp         
                 multiInputWidget.cpp    
                 measurementThread.cpp   
-                parametersWidget.cpp    
                 controlWidget.cpp       
                 outputWidget.cpp        
                 outputSettingsWidget.cpp
@@ -25,7 +24,6 @@ qt4_wrap_cpp( sciAppFramework_moc_sources
                 inputWidget.h                   
                 multiInputWidget.h              
                 measurementThread.h             
-                parametersWidget.h              
                 controlWidget.h                 
                 outputWidget.h                  
                 outputSettingsWidget.h                
