@@ -22,9 +22,6 @@ measurementThread::measurementThread( const measurementParameters &P ) :
 
 measurementThread::~measurementThread()
 {
-  stop();
-  if ( isRunning() )
-    msleep(100);  
 }
 
 // -----------------------------------------
@@ -151,6 +148,27 @@ void measurementThread::waitForPause()
  
   while ( needToPauseMeasurement() )
     msleep( OneSleepTime );
+}
+
+// -----------------------------------------
+
+void measurementThread::waitWhileRunning( unsigned MaxWaitTimeMs )
+{
+  const unsigned OneSleepTime = 20;
+
+  QTime Time;
+  Time.start();
+  while ( Time.elapsed() * 1e-3 < MaxWaitTimeMs && isRunning() )
+    msleep( OneSleepTime );
+}
+      
+// -----------------------------------------
+
+void measurementThread::stopAndCleanOnDestruction()
+{
+  stop();
+  waitWhileRunning();
+  clean();
 }
 
 // -----------------------------------------

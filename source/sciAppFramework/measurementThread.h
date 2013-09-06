@@ -67,6 +67,9 @@ namespace sciAppFramework
 
       void incrementCountOfMeasurements() { CountOfMeasurements += 1; }
 
+      void waitWhileRunning( unsigned MaxWaitTimeMs = 1000 );
+      void stopAndCleanOnDestruction();
+
       template <class T> T parameter( const QString &Name ) const;       
       template <class T> T parameter( const QString &Name, const T &Default ) const; 
 
