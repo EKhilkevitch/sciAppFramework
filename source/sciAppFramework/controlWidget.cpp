@@ -99,6 +99,9 @@ measureControlWidget::measureControlWidget( QWidget *Parent ) :
 
 measureControlWidget::~measureControlWidget()
 {
+  delete StartStopLayout;
+  delete PauseContLayout;
+  StartStopLayout = PauseContLayout = NULL;
 }
 
 // -----------------------------------------
@@ -109,8 +112,10 @@ QWidget* measureControlWidget::createBtnWidget()
   makePauseContinueButtonsLayout();
 
   QBoxLayout *Layout = new QHBoxLayout();
-  Layout->addLayout( StartStopLayout );
-  Layout->addLayout( PauseContLayout );
+  if ( enableStartStopButtons() )
+    Layout->addLayout( StartStopLayout );
+  if ( enablePauseContinueButtons() )
+    Layout->addLayout( PauseContLayout );
 
   QWidget *Widget = new QWidget();
   Widget->setMinimumHeight(60);
