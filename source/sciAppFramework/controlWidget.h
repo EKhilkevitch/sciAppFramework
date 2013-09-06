@@ -9,6 +9,7 @@
 
 class QSettings;
 class QPushButton;
+class QLayout;
 class QStackedLayout;
 
 // =========================================
@@ -68,8 +69,22 @@ namespace sciAppFramework
       void doStart();
       void doPause();
       void doContinue();
-      
+     
+    private:
       QWidget* createBtnWidget();
+
+      virtual bool enableStartStopButtons() const { return true; }
+      virtual bool enablePauseContinueButtons() const { return true; }
+
+      virtual QString startButtonText() const { return "Start"; }
+      virtual QString stopButtonText() const { return "Stop"; }
+      virtual QString pauseButtonText() const { return "Puase"; }
+      virtual QString continueButtonText() const { return "Continue"; }
+
+      void makeStartStopButtonsLayout();
+      void makePauseContinueButtonsLayout();
+
+      static QStackedLayout* createStackedLayout( QWidget *FirstWidget, QWidget *SecondWidget );
       
     protected:
       static void setEnableLayout( QLayout *Layout, bool Enable );

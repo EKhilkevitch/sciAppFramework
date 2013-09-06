@@ -105,26 +105,8 @@ measureControlWidget::~measureControlWidget()
 
 QWidget* measureControlWidget::createBtnWidget()
 {
-  QPushButton *StartBtn = new QPushButton("Start",this);
-  connect( StartBtn, SIGNAL(clicked()), SLOT(doStart()) );
-
-  QPushButton *StopBtn = new QPushButton("Stop",this);
-  connect( StopBtn, SIGNAL(clicked()), SLOT(doStop()) );
-
-  StartStopLayout = new QStackedLayout();
-  StartStopLayout->addWidget( StartBtn );
-  StartStopLayout->addWidget( StopBtn );
-
-  QPushButton *PauseBtn = new QPushButton("Pause",this);
-  connect( PauseBtn, SIGNAL(clicked()), SLOT(doPause()) );
-
-  QPushButton *ContBtn = new QPushButton("Continue",this);
-  connect( ContBtn, SIGNAL(clicked()), SLOT(doContinue()) );
-
-  PauseContLayout = new QStackedLayout();
-  PauseContLayout->addWidget( PauseBtn );
-  PauseContLayout->addWidget( ContBtn );
-  setEnableLayout( PauseContLayout, false );
+  makeStartStopButtonsLayout();
+  makePauseContinueButtonsLayout();
 
   QBoxLayout *Layout = new QHBoxLayout();
   Layout->addLayout( StartStopLayout );
@@ -135,6 +117,56 @@ QWidget* measureControlWidget::createBtnWidget()
   Widget->setMaximumHeight(60);
   Widget->setLayout(Layout);
   return Widget;
+}
+
+// -----------------------------------------
+
+void measureControlWidget::makeStartStopButtonsLayout()
+{
+  Q_ASSERT( StartStopLayout == NULL );
+  
+  if ( enableStartStopButtons() )
+  {
+    QPushButton *StartBtn = new QPushButton(startButtonText(),this);
+    connect( StartBtn, SIGNAL(clicked()), SLOT(doStart()) );
+    QPushButton *StopBtn = new QPushButton(stopButtonText(),this);
+    connect( StopBtn, SIGNAL(clicked()), SLOT(doStop()) );
+    StartStopLayout = createStackedLayout(StartBtn,StopBtn);
+  } else {
+    StartStopLayout = new QStackedLayout();
+  }
+}
+
+// -----------------------------------------
+
+void measureControlWidget::makePauseContinueButtonsLayout()
+{
+  Q_ASSERT( PauseContLayout == NULL );
+
+  if ( enablePauseContinueButtons() )
+  {
+    QPushButton *PauseBtn = new QPushButton(pauseButtonText(),this);
+    connect( PauseBtn, SIGNAL(clicked()), SLOT(doPause()) );
+    QPushButton *ContBtn = new QPushButton(continueButtonText(),this);
+    connect( ContBtn, SIGNAL(clicked()), SLOT(doContinue()) );
+    PauseContLayout = createStackedLayout( PauseBtn, ContBtn );
+  } else {
+    PauseContLayout = new QStackedLayout();
+  }
+
+  setEnableLayout( PauseContLayout, false );
+}
+
+// -----------------------------------------
+
+QStackedLayout* measureControlWidget::createStackedLayout( QWidget *FirstWidget, QWidget *SecondWidget )
+{
+  QStackedLayout *Layout = new QStackedLayout();
+  if ( FirstWidget != NULL )
+    Layout->addWidget(FirstWidget);
+  if ( SecondWidget != NULL )
+    Layout->addWidget(SecondWidget);
+  return Layout;
 }
 
 // -----------------------------------------
