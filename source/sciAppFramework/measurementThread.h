@@ -65,7 +65,7 @@ namespace sciAppFramework
       void setExistNewData() { ExistNewData = true; }
       void clearExistNewData() const { ExistNewData = false; }
 
-      void incrementCountOfMeasurements() { CountOfMeasurements += 1; }
+      void incrementCountOfMeasurements();
 
       void waitWhileRunning( unsigned MaxWaitTimeMs = 1000 );
       void stopAndCleanOnDestruction();
@@ -75,6 +75,8 @@ namespace sciAppFramework
 
       template <class T> T returnLockedValue( const T &Value ) const;
       template <class T> void copyLockedValue( T *To, const T &From ) const;
+      
+      virtual int maxCountOfMeasurements() const;
 
     public:
       measurementThread( const measurementParameters &P );

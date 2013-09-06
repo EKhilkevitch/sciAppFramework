@@ -110,7 +110,7 @@ bool measurementThread::needToStopMeasurement()
   if ( ErrorOccurs )
     return true;
 
-  int MaxCountOfMeasurements = parameter<int>( maxCountOfMeasurementsName() );
+  int MaxCountOfMeasurements = maxCountOfMeasurements();
   if ( MaxCountOfMeasurements > 0 && (int)countOfMeasurements() >= MaxCountOfMeasurements )
     return true;
 
@@ -169,6 +169,20 @@ void measurementThread::stopAndCleanOnDestruction()
   stop();
   waitWhileRunning();
   clean();
+}
+      
+// -----------------------------------------
+
+void measurementThread::incrementCountOfMeasurements() 
+{ 
+  CountOfMeasurements += 1; 
+}
+
+// -----------------------------------------
+
+int measurementThread::maxCountOfMeasurements() const 
+{ 
+  return parameter<int>( maxCountOfMeasurementsName() ); 
 }
 
 // -----------------------------------------
