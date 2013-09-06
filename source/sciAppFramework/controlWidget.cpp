@@ -74,6 +74,7 @@ QWidget* controlWidget::createBtnWidget()
 
 void controlWidget::loadSettings( QSettings *Settings )
 {
+  Q_ASSERT( ParametersWidget != NULL );
   ParametersWidget->loadSettings(Settings);
 }
 
@@ -81,6 +82,7 @@ void controlWidget::loadSettings( QSettings *Settings )
 
 void controlWidget::saveSettings( QSettings *Settings )
 {
+  Q_ASSERT( ParametersWidget != NULL );
   ParametersWidget->saveSettings(Settings);
 }
 
@@ -155,6 +157,9 @@ void measureControlWidget::setEnableLayout( QLayout *Layout, bool Enable )
 
 void measureControlWidget::prepareToStart()
 {
+  Q_ASSERT( PauseContLayout != NULL );
+  Q_ASSERT( StartStopLayout != NULL );
+
   getParameters().setEnabled(false);
   PauseContLayout->setCurrentIndex(0);
   StartStopLayout->setCurrentIndex(1);
@@ -173,6 +178,9 @@ void measureControlWidget::doStart()
 
 void measureControlWidget::prepareToStop()
 {
+  Q_ASSERT( PauseContLayout != NULL );
+  Q_ASSERT( StartStopLayout != NULL );
+  
   getParameters().setEnabled(true);
   StartStopLayout->setCurrentIndex(0);
   setEnableLayout( PauseContLayout, false );
@@ -190,6 +198,7 @@ void measureControlWidget::doStop()
 
 void measureControlWidget::prepareToPause()
 {
+  Q_ASSERT( PauseContLayout != NULL );
   PauseContLayout->setCurrentIndex(1);
 }
 
@@ -205,6 +214,7 @@ void measureControlWidget::doPause()
 
 void measureControlWidget::prepareToContinue()
 {
+  Q_ASSERT( PauseContLayout != NULL );
   PauseContLayout->setCurrentIndex(0);
 }
 
