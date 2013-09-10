@@ -185,16 +185,27 @@ void mainWidget::doLoadSettings( QSettings *Settings )
 
 // -----------------------------------------
 
-QString mainWidget::getSaveFileName()
+QString mainWidget::getSaveFileName( const QString &Filter )
 {
   QString FileName = QFileDialog::getSaveFileName(this, "Save File",
-                           CurrentDir,
-                           "Dat files (*.dat);; All files (*)");
+                           CurrentDir, Filter );
 
   if ( ! FileName.isEmpty() )
     CurrentDir = QFileInfo(FileName).dir().path();
 
   return FileName;
+}
+
+// -----------------------------------------
+      
+void mainWidget::showErrorMessage( const QString &Message )
+{
+     QMessageBox::critical( this,
+                           "Program error",
+                           Message,
+                           QMessageBox::Ok,
+                           QMessageBox::NoButton,
+                           QMessageBox::NoButton );
 }
 
 // =========================================
@@ -238,6 +249,7 @@ void measureMainWidget::setupControlWidget()
   connect( ControlWidget, SIGNAL(stop()),  SLOT(stopMeasurement()) );
   connect( ControlWidget, SIGNAL(pause()), SLOT(pauseMeasurement()) );
   connect( ControlWidget, SIGNAL(cont()),  SLOT(contMeasurement()) );
+  connect( ControlWidget, SIGNAL(save(QString)), SLOT(saveMeasurement(QString)) );
 }
 
 // -----------------------------------------
@@ -318,6 +330,43 @@ void measureMainWidget::pauseMeasurement()
 void measureMainWidget::contMeasurement()
 {
   MeasurementThread->cont();
+}
+      
+// -----------------------------------------
+
+void measureMainWidget::saveMeasurement( QString Name )
+{
+  if ( Name == "Screen" )
+    saveMeasurementScreen();
+  else
+    saveMeasurementData(Name);
+}
+
+// -----------------------------------------
+
+void measureMainWidget::saveMeasurementScreen()
+{
+  const QString &FileName = getSaveImageFileName();
+  if ( FileName.isEmpty() )
+    return;
+
+  QPixmap Pixmap( width(), height() );
+  render( &Pixmap );
+  if ( ! Pixmap.save( FileName ) )
+     showErrorMessage( "Error while saving screen image.\nCheck your system and try again." );
+}
+
+// -----------------------------------------
+
+QString measureMainWidget::getSaveDataFileName()
+{
+  return getSaveFileName( "Dat files (*.dat);; All files (*)" );
+}
+
+// -----------------------------------------
+QString measureMainWidget::getSaveImageFileName()
+{
+  return getSaveFileName( "Image files (*.png);; All files (*)" );
 }
 
 // =========================================

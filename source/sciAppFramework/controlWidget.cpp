@@ -108,6 +108,19 @@ measureControlWidget::~measureControlWidget()
 
 QWidget* measureControlWidget::createBtnWidget()
 {
+  QBoxLayout *Layout = new QVBoxLayout();
+  Layout->addWidget( createControlButtonsWidget() );
+  Layout->addWidget( createSaveButtonsWidget() );
+
+  QWidget *Widget = new QWidget(this);
+  Widget->setLayout(Layout);
+  return Widget;
+}
+
+// -----------------------------------------
+
+QWidget* measureControlWidget::createControlButtonsWidget()
+{
   makeStartStopButtonsLayout();
   makePauseContinueButtonsLayout();
 
@@ -122,6 +135,59 @@ QWidget* measureControlWidget::createBtnWidget()
   Widget->setMaximumHeight(60);
   Widget->setLayout(Layout);
   return Widget;
+}
+
+// -----------------------------------------
+
+QWidget* measureControlWidget::createSaveButtonsWidget()
+{
+  const QStringList &ButtonsNameAndText = saveButtonsTextAndNames();
+
+  if ( ButtonsNameAndText.isEmpty() )
+    return new QWidget(this);
+
+  QBoxLayout *Layout = new QHBoxLayout();
+
+  foreach( QString NameAndText, ButtonsNameAndText )
+  {
+    QPushButton *Button = new QPushButton( buttonsTextFromString(NameAndText) ,this);
+    Button->setObjectName( buttonsNameFromString(NameAndText) );
+    connect( Button, SIGNAL(clicked()), SLOT(saveClicked()) );
+    Layout->addWidget(Button);
+  }
+
+  QWidget *Widget = new QWidget();
+  Widget->setMinimumHeight(60);
+  Widget->setMaximumHeight(60);
+  Widget->setLayout(Layout);
+  return Widget;
+
+}
+
+// -----------------------------------------
+
+QStringList measureControlWidget::saveButtonsTextAndNames() const
+{
+  QStringList List;
+  List.append( "Data;Save data" );
+  List.append( "Screen;Save screen" );
+  return List;
+}
+
+// -----------------------------------------
+
+QString measureControlWidget::buttonsNameFromString( const QString &NameAndText )
+{
+  int Index = NameAndText.indexOf(";");
+  return NameAndText.left(Index);
+}
+
+// -----------------------------------------
+
+QString measureControlWidget::buttonsTextFromString( const QString &NameAndText )
+{
+  int Index = NameAndText.indexOf(";");
+  return NameAndText.mid(Index+1);
 }
 
 // -----------------------------------------
@@ -261,6 +327,17 @@ void measureControlWidget::doContinue()
 {
   prepareToContinue();
   emit cont();
+}
+
+// -----------------------------------------
+
+void measureControlWidget::saveClicked()
+{
+  QObject *Sender = sender();
+  if ( Sender == NULL )
+    return;
+  QString SavedObjectName = Sender->objectName();
+  emit save(SavedObjectName);
 }
 
 // -----------------------------------------

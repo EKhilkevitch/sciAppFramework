@@ -31,6 +31,8 @@ struct testControlWidget : public measureControlWidget
     return new QSettings("./testControlWidget.conf",QSettings::IniFormat); 
   }
 
+  QStringList saveButtonsTextAndNames() const { return QStringList(); }
+
 
   testControlWidget() : measureControlWidget()
   {

@@ -36,7 +36,6 @@ namespace sciAppFramework
 
     private:
       static QSettings* createSettingsObject();
-      QString getSaveFileName();
 
     protected:
       virtual void setupOutputWidget();
@@ -60,6 +59,10 @@ namespace sciAppFramework
 
       virtual void doSaveSettings( QSettings *Settings );
       virtual void doLoadSettings( QSettings *Settings );
+      
+      QString getSaveFileName( const QString &Filter );
+
+      virtual void showErrorMessage( const QString &Message );
 
     public:
       mainWidget();
@@ -88,12 +91,16 @@ namespace sciAppFramework
     private:
       virtual measurementThread* createMeasurementThread( const measurementParameters &Parameters ) = 0;
       virtual void outputMeasurementData() { }
-      
+      virtual void saveMeasurementData( const QString &DataName ) { }
+      virtual void saveMeasurementScreen();
 
     protected:
       virtual void doInitWidget();
       
       template <class thr> thr* mainMeasurementThread() { return dynamic_cast< thr* >( MeasurementThread ); }
+      
+      QString getSaveDataFileName();
+      QString getSaveImageFileName();
 
     public:
       measureMainWidget();
@@ -107,6 +114,8 @@ namespace sciAppFramework
       void stopMeasurement();
       void pauseMeasurement();
       void contMeasurement();
+
+      void saveMeasurement( QString  );
   };
   
   // =========================================

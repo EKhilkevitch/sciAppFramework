@@ -80,11 +80,17 @@ namespace sciAppFramework
       virtual QString stopButtonText() const { return "Stop"; }
       virtual QString pauseButtonText() const { return "Puase"; }
       virtual QString continueButtonText() const { return "Continue"; }
+      virtual QStringList saveButtonsTextAndNames() const;
 
       void makeStartStopButtonsLayout();
       void makePauseContinueButtonsLayout();
+      QWidget* createControlButtonsWidget();
+      QWidget* createSaveButtonsWidget();
 
       static QStackedLayout* createStackedLayout( QWidget *FirstWidget, QWidget *SecondWidget );
+
+      static QString buttonsTextFromString( const QString &NameAndText );
+      static QString buttonsNameFromString( const QString &NameAndText );
       
     protected:
       static void setEnableLayout( QLayout *Layout, bool Enable );
@@ -100,11 +106,16 @@ namespace sciAppFramework
       
       QVariant getVariantValue( const QString &Name ) const;
 
+    private slots:
+      void saveClicked();
+
     signals:
       void start();
       void stop();
       void pause();
       void cont();
+
+      void save( QString );
   };
   
   // =========================================
