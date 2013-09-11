@@ -60,7 +60,7 @@ namespace sciAppFramework
       virtual void doSaveSettings( QSettings *Settings );
       virtual void doLoadSettings( QSettings *Settings );
       
-      QString getSaveFileName( const QString &Filter );
+      QString getSaveFileName( const QString &Filter, const QString &DefaultSuffix );
 
       virtual void showErrorMessage( const QString &Message );
 

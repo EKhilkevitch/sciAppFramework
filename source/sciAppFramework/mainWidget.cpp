@@ -185,14 +185,25 @@ void mainWidget::doLoadSettings( QSettings *Settings )
 
 // -----------------------------------------
 
-QString mainWidget::getSaveFileName( const QString &Filter )
+QString mainWidget::getSaveFileName( const QString &Filter, const QString &DefaultSuffix )
 {
-  QString FileName = QFileDialog::getSaveFileName(this, "Save File",
-                           CurrentDir, Filter );
+  qDebug() << "Current dir: " << CurrentDir;
+  QFileDialog Dialog( this, "Saving in file...", CurrentDir );
+  Dialog.setFilter( Filter );
+  Dialog.setDefaultSuffix( DefaultSuffix );
+  Dialog.setAcceptMode( QFileDialog::AcceptSave );
 
-  if ( ! FileName.isEmpty() )
-    CurrentDir = QFileInfo(FileName).dir().path();
+  bool OK = Dialog.exec();
+  if ( ! OK )
+    return QString();
 
+  const QStringList &Files = Dialog.selectedFiles();
+
+  if ( Files.isEmpty() )
+    return QString();
+
+  QString FileName = Files[0];
+  CurrentDir = FileName; //QFileInfo(FileName).dir().path();
   return FileName;
 }
 
@@ -360,13 +371,13 @@ void measureMainWidget::saveMeasurementScreen()
 
 QString measureMainWidget::getSaveDataFileName()
 {
-  return getSaveFileName( "Dat files (*.dat);; All files (*)" );
+  return getSaveFileName( "Dat files (*.dat);; All files (*)", "dat" );
 }
 
 // -----------------------------------------
 QString measureMainWidget::getSaveImageFileName()
 {
-  return getSaveFileName( "Image files (*.png);; All files (*)" );
+  return getSaveFileName( "Image files (*.png);; All files (*)", "png" );
 }
 
 // =========================================
