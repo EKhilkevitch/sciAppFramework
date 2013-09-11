@@ -69,6 +69,7 @@ namespace sciAppFramework
       void doStart();
       void doPause();
       void doContinue();
+      void doSave();
      
     private:
       QWidget* createBtnWidget();
@@ -105,9 +106,6 @@ namespace sciAppFramework
       virtual void prepareToContinue();
       
       QVariant getVariantValue( const QString &Name ) const;
-
-    private slots:
-      void saveClicked();
 
     signals:
       void start();

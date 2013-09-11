@@ -130,7 +130,7 @@ QWidget* measureControlWidget::createControlButtonsWidget()
   if ( enablePauseContinueButtons() )
     Layout->addLayout( PauseContLayout );
 
-  QWidget *Widget = new QWidget();
+  QWidget *Widget = new QWidget(this);
   Widget->setMinimumHeight(60);
   Widget->setMaximumHeight(60);
   Widget->setLayout(Layout);
@@ -152,11 +152,11 @@ QWidget* measureControlWidget::createSaveButtonsWidget()
   {
     QPushButton *Button = new QPushButton( buttonsTextFromString(NameAndText) ,this);
     Button->setObjectName( buttonsNameFromString(NameAndText) );
-    connect( Button, SIGNAL(clicked()), SLOT(saveClicked()) );
+    connect( Button, SIGNAL(clicked()), SLOT(doSave()) );
     Layout->addWidget(Button);
   }
 
-  QWidget *Widget = new QWidget();
+  QWidget *Widget = new QWidget(this);
   Widget->setMinimumHeight(60);
   Widget->setMaximumHeight(60);
   Widget->setLayout(Layout);
@@ -331,7 +331,7 @@ void measureControlWidget::doContinue()
 
 // -----------------------------------------
 
-void measureControlWidget::saveClicked()
+void measureControlWidget::doSave()
 {
   QObject *Sender = sender();
   if ( Sender == NULL )
