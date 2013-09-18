@@ -187,7 +187,6 @@ void mainWidget::doLoadSettings( QSettings *Settings )
 
 QString mainWidget::getSaveFileName( const QString &Filter, const QString &DefaultSuffix )
 {
-  qDebug() << "Current dir: " << CurrentDir;
   QFileDialog Dialog( this, "Saving in file...", CurrentDir );
   Dialog.setFilter( Filter );
   Dialog.setDefaultSuffix( DefaultSuffix );
