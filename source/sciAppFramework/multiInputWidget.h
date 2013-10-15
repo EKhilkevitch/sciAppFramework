@@ -39,9 +39,12 @@ namespace sciAppFramework
       void setupSettingsObject( settingsObject *Object, const QString &Name = QString() );
       inputWidget* registerInputWidget( inputWidget *Input ); 
       inputWidget* registerInputWidget( const QString &InputName, inputWidget *Input ); 
+
       inputWidget* addInputWidget( inputWidget *Input );
       template <class inp> inp* addInputWidget( const QString &Name, const QString &Label, const QVariant &Value = QVariant() );
+      
       QGroupBox* addMultiInputWidget( const QString &Name, const QString &Label, multiInputWidget *Widget );
+
       void addSpacing( int Spacing );
       void addWidget( QWidget *Widget );
       void addLayout( QLayout *Layout );

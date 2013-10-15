@@ -2,13 +2,14 @@
 cmake_minimum_required( VERSION 2.6 )
 project( sciAppFramework ) 
 
-find_package(Qt4 REQUIRED)
-include(${QT_USE_FILE})
+find_package( Qt4 COMPONENTS QtCore QtGui QtXml REQUIRED )
+include( ${QT_USE_FILE} )
 
 set ( sciAppFramework_source_files
                 settingsObject.cpp
                 inputWidget.cpp         
                 multiInputWidget.cpp    
+                multiInputXmlFactory.cpp
                 measurementThread.cpp   
                 controlWidget.cpp       
                 outputWidget.cpp        

@@ -158,7 +158,7 @@ void labelPathEditWidget::initWidget( const QString &LabelText )
 
 void labelPathEditWidget::setEditFromFileDialog()
 {
-  qDebug() << "File: " << text() << " path = " << QFileInfo(text()).path();
+  //qDebug() << "File: " << text() << " path = " << QFileInfo(text()).path();
 
   QString CurrDir = QFileInfo( text().length() > 0 ? text() : "." ).path();
 
@@ -208,6 +208,25 @@ QWidget* labelComboWidget::createInputWidget()
   connect( Combo, SIGNAL(currentIndexChanged(const QString&)), SIGNAL(currentIndexChanged(const QString&)));
   connect( Combo, SIGNAL(currentIndexChanged(int)), SIGNAL(changed()));
   return Combo;
+}
+
+// ------------------------------------------------------
+
+void labelComboWidget::addItems( const QStringList& List ) 
+{ 
+  foreach( QString String, List ) 
+    addItem( String ); 
+}
+
+// ------------------------------------------------------
+      
+void labelComboWidget::setCurrentData( const QVariant& V ) 
+{ 
+  for ( int i = 0; i < count(); i++ ) 
+  { 
+    if (getComboBox()->itemData(i) == V ) 
+      setCurrentIndex(i); 
+  } 
 }
 
 // ======================================================

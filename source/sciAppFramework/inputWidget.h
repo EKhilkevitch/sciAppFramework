@@ -218,7 +218,10 @@ namespace sciAppFramework
       int value() const { return getSpinBox()->value(); }
       void setValue( int V ) { getSpinBox()->setValue(V); }
       void setReadOnly( bool E ) { getSpinBox()->setReadOnly(E); };
+
       void setRange( int Min, int Max ) { getSpinBox()->setRange(Min,Max); }
+      int maximum() const { return getSpinBox()->maximum(); }
+      int minimum() const { return getSpinBox()->minimum(); }
 
     signals:
       void valueChanged( int i );
@@ -254,9 +257,16 @@ namespace sciAppFramework
       double value() const { return getDoubleSpinBox()->value(); }
       void setValue( double V ) { getDoubleSpinBox()->setValue(V); }
       void setReadOnly( bool E ) { getDoubleSpinBox()->setReadOnly(E); };
+
       void setRange( double Min, double Max ) { getDoubleSpinBox()->setRange(Min,Max); }
+      double minimum() const { return getDoubleSpinBox()->minimum(); }
+      double maximum() const { return getDoubleSpinBox()->maximum(); }
+
       void setDecimals( int D ) { getDoubleSpinBox()->setDecimals(D); }
+      int decimals() const { return getDoubleSpinBox()->decimals(); }
+
       void setSingleStep( double S ) { getDoubleSpinBox()->setSingleStep(S); }
+      double singleStep() const { return getDoubleSpinBox()->singleStep(); }
       
     signals:
       void valueChanged( double d );
@@ -291,15 +301,14 @@ namespace sciAppFramework
       QString currentText() const { return getComboBox()->currentText(); }
       QVariant currentData() const { return getComboBox()->itemData( currentIndex() ); }
       void addItem( const QString &Text, const QVariant &UserData = QVariant() ) { getComboBox()->addItem(Text,UserData); }
-      void addItems( const QStringList& List ) { foreach( QString S, List ) addItem(S); }
+      void addItems( const QStringList& List );
       void clear() { getComboBox()->clear(); }
       void setCurrentIndex( int Index ) { getComboBox()->setCurrentIndex(Index); }
-      void setCurrentData( const QVariant& V ) { for ( int i = 0; i < count(); i++ ) { if (getComboBox()->itemData(i)==V) setCurrentIndex(i); } }
+      void setCurrentData( const QVariant& V );
       
     signals:
       void currentIndexChanged( int i );
       void currentIndexChanged( const QString& );
-
   };
 
   // ======================================================
