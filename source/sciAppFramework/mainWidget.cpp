@@ -39,13 +39,7 @@ mainWidget::~mainWidget()
 void mainWidget::initWidget()
 {
   setupThisWindow();
- 
   doInitWidget();
-
-  Q_ASSERT( OutputWidget != NULL );
-  Q_ASSERT( OutputSettingsWidget != NULL );
-  Q_ASSERT( ControlWidget != NULL );
-  
   loadSettings();
 }
 
@@ -77,17 +71,22 @@ void mainWidget::setupOutputWidget()
 
 void mainWidget::setupOutputSettingsWidget()
 {
-  Q_ASSERT( OutputWidget != NULL );
-
   OutputSettingsWidget = createOutputSettingsWidget();
-  OutputSettingsWidget->addSettingsWidgets( OutputWidget->listOfSettingsWidgets() );
-  connect( OutputWidget, SIGNAL(currentOutputChanged(int)), OutputSettingsWidget, SLOT(setCurrentSettings(int)) );
+  
+  if ( OutputSettingsWidget != NULL && OutputWidget != NULL )
+  {
+    OutputSettingsWidget->addSettingsWidgets( OutputWidget->listOfSettingsWidgets() );
+    connect( OutputWidget, SIGNAL(currentOutputChanged(int)), OutputSettingsWidget, SLOT(setCurrentSettings(int)) );
+  }
 
-  QDockWidget *DockWidget = new QDockWidget( "Settings", this );
-  DockWidget->setAllowedAreas( Qt::BottomDockWidgetArea );
-  DockWidget->setWidget( OutputSettingsWidget );
-  DockWidget->setFeatures( QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable );
-  addDockWidget( Qt::BottomDockWidgetArea, DockWidget );  
+  if ( OutputSettingsWidget != NULL )
+  {
+    QDockWidget *DockWidget = new QDockWidget( "Settings", this );
+    DockWidget->setAllowedAreas( Qt::BottomDockWidgetArea );
+    DockWidget->setWidget( OutputSettingsWidget );
+    DockWidget->setFeatures( QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable );
+    addDockWidget( Qt::BottomDockWidgetArea, DockWidget );  
+  }
 }
 
 // -----------------------------------------
@@ -95,6 +94,8 @@ void mainWidget::setupOutputSettingsWidget()
 void mainWidget::setupControlWidget()
 {
   ControlWidget = createControlWidget();
+  if ( ControlWidget == NULL )
+    return;
 
   QDockWidget *DockWidget = new QDockWidget( "Control", this );
   DockWidget->setAllowedAreas( Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea );
@@ -153,9 +154,14 @@ void mainWidget::doSaveSettings( QSettings *Settings )
   Settings->setValue( "Pos", pos() );   
   Settings->setValue( "CurrentDir", CurrentDir ); 
 
-  OutputWidget->saveSettings( Settings );
-  OutputSettingsWidget->saveSettings( Settings );
-  ControlWidget->saveSettings( Settings );
+  if ( OutputWidget != NULL )
+    OutputWidget->saveSettings( Settings );
+
+  if ( OutputSettingsWidget != NULL )
+    OutputSettingsWidget->saveSettings( Settings );
+  
+  if ( ControlWidget != NULL )
+    ControlWidget->saveSettings( Settings );
 }
 
 // -----------------------------------------
@@ -177,10 +183,15 @@ void mainWidget::doLoadSettings( QSettings *Settings )
   resize( Settings->value( "Size", size() ).toSize() );
   move( Settings->value( "Pos", pos() ).toPoint() );
   move( qMax(x(),5), qMax(y(),5) );
-  
-  OutputWidget->loadSettings( Settings );
-  OutputSettingsWidget->loadSettings( Settings );
-  ControlWidget->loadSettings( Settings );
+ 
+  if ( OutputWidget != NULL )
+    OutputWidget->loadSettings( Settings );
+
+  if ( OutputSettingsWidget != NULL )
+    OutputSettingsWidget->loadSettings( Settings );
+
+  if ( ControlWidget != NULL )
+    ControlWidget->loadSettings( Settings );
 }
 
 // -----------------------------------------
@@ -291,6 +302,9 @@ void measureMainWidget::showMeasurementData()
 
 void measureMainWidget::checkMeasurementState()
 {
+  if ( MeasurementThread == NULL )
+    return;
+
   if ( MeasurementThread->isError() || !MeasurementThread->isRunning() )
     stopMeasurement();
   else if ( MeasurementThread->isExistNewData() )
@@ -301,13 +315,17 @@ void measureMainWidget::checkMeasurementState()
 
 void measureMainWidget::processMeasurementError()
 {
-  QMessageBox::warning( this, "Error", "Error while mreasurement:\n" + MeasurementThread->errorString() );
+  QMessageBox::warning( this, "Error", "Error while mreasurement:\n" + 
+    ( MeasurementThread == NULL ? QString("NO THREAD!") : MeasurementThread->errorString() ) );
 }
 
 // -----------------------------------------
 
 void measureMainWidget::startMeasurement()
 {
+  if ( MeasurementThread == NULL )
+    return;
+
   MeasurementTimer->start(30);
   MeasurementThread->start();   
 }
@@ -316,6 +334,9 @@ void measureMainWidget::startMeasurement()
 
 void measureMainWidget::stopMeasurement()
 {
+  if ( MeasurementThread == NULL )
+    return;
+
   MeasurementTimer->stop();
   MeasurementThread->stop();
   showMeasurementData();
@@ -332,14 +353,16 @@ void measureMainWidget::stopMeasurement()
 
 void measureMainWidget::pauseMeasurement()
 {
-  MeasurementThread->pause();
+  if ( MeasurementThread != NULL )
+    MeasurementThread->pause();
 }
 
 // -----------------------------------------
 
 void measureMainWidget::contMeasurement()
 {
-  MeasurementThread->cont();
+  if ( MeasurementThread != NULL )
+    MeasurementThread->cont();
 }
       
 // -----------------------------------------
@@ -374,6 +397,7 @@ QString measureMainWidget::getSaveDataFileName()
 }
 
 // -----------------------------------------
+
 QString measureMainWidget::getSaveImageFileName()
 {
   return getSaveFileName( "Image files (*.png);; All files (*)", "png" );

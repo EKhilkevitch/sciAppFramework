@@ -80,7 +80,7 @@ namespace sciAppFramework
 
     public:
       measurementThread( const measurementParameters &P );
-      virtual ~measurementThread();
+      virtual ~measurementThread() = 0;
       
       bool isExistNewData() const { return ExistNewData; }
 

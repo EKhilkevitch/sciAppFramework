@@ -44,8 +44,8 @@ namespace sciAppFramework
       virtual void setupThisWindow();
 
     private:
-      virtual controlWidget* createControlWidget() = 0;
-      virtual outputWidget* createOutputWidget() = 0;
+      virtual controlWidget* createControlWidget() { return NULL; }
+      virtual outputWidget* createOutputWidget() { return NULL; }
       virtual outputSettingsWidget* createOutputSettingsWidget();
       virtual QString appTitle() const;
       virtual QIcon appIcon() const;
@@ -66,7 +66,7 @@ namespace sciAppFramework
 
     public:
       mainWidget();
-      virtual ~mainWidget();
+      virtual ~mainWidget() = 0;
 
       void saveSettings();
       void loadSettings();
@@ -89,7 +89,7 @@ namespace sciAppFramework
       virtual void processMeasurementError();
       
     private:
-      virtual measurementThread* createMeasurementThread( const measurementParameters &Parameters ) = 0;
+      virtual measurementThread* createMeasurementThread( const measurementParameters &Parameters ) { return NULL; }
       virtual void outputMeasurementData() { }
       virtual void saveMeasurementData( const QString &DataName ) { }
       virtual void saveMeasurementScreen();
@@ -104,7 +104,7 @@ namespace sciAppFramework
 
     public:
       measureMainWidget();
-      ~measureMainWidget();
+      ~measureMainWidget() = 0;
 
     public slots:
       void showMeasurementData();

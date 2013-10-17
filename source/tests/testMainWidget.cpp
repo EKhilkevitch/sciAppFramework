@@ -7,10 +7,12 @@
 #include "sciAppFramework/controlWidget.h"
 #include "sciAppFramework/outputWidget.h"
 #include "sciAppFramework/measurementThread.h"
+#include "sciAppFramework/main.h"
 
 #include "scigraphics/qt4/qt4plotmanager.h"
 
 using namespace sciAppFramework;
+
 
 struct testMainWidget : public measureMainWidget
 {
@@ -31,23 +33,25 @@ struct testMainWidget : public measureMainWidget
     {
       testOutputWidget() 
       { 
-        appendOutputWidgetItem( new simpleOutputWidgetItem( new QLabel("L1"), new QLabel("S1"), "T1" ) );
         appendOutputWidgetItem( new plotManagerOutputWidgetItem( new qt4plotManager(3), "Plot" ) );
+        appendOutputWidgetItem( new simpleOutputWidgetItem( new QLabel("L1"), new QLabel("S1"), "T1" ) );
       }
     };
     return new testOutputWidget(); 
   }
-  measurementThread* createMeasurementThread( const measurementParameters &Parameters ) { return new measurementThread(Parameters); }
+  measurementThread* createMeasurementThread( const measurementParameters &Parameters ) 
+  { 
+    struct testThread : public measurementThread
+    {
+      testThread( const measurementParameters &P ) : measurementThread(P) {}
+    };
+    return new testThread(Parameters); 
+  }
 };
 
 int main( int argc, char **argv )
 {
-  QApplication app(argc,argv);
-
-  testMainWidget Widget;
-  Widget.show();
-
-  return app.exec(); 
+  return sciAppFramework::main<testMainWidget>( argc, argv );
 }
 
 
