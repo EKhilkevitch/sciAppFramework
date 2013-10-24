@@ -3,6 +3,7 @@
 
 #include "sciAppFramework/inputWidget.h"
 #include "sciAppFramework/multiInputWidget.h"
+#include "sciAppFramework/comboMultiWidget.h"
 
 using namespace sciAppFramework;
 
@@ -38,6 +39,12 @@ int main( int argc, char **argv )
   SubWidget->addInputWidget<labelEditWidget>("EditS1","Sub edit 1",12);
   SubWidget->addInputWidget<labelEditWidget>("EditS2","Sub edit 2",13);
 
+  comboMultiWidget *ComboMultiWidget = new comboMultiWidget("Select widget:");
+  ComboMultiWidget->setSettingsName("ComboMW");
+  ComboMultiWidget->addWidget( "L1", new QLabel("Label1") );
+  ComboMultiWidget->addWidget( "L2", new QLabel("Label2\n\nText") );
+  ComboMultiWidget->addWidget( "L3", inputWidget::create<labelEditWidget>("L3I","Text") );
+
   Widget.addInputWidget( Combo );
   Widget.addInputWidget<labelEditWidget>("Edit1","This is a test input field",33);
   Widget.addInputWidget<labelEditWidget>("Edit2","This is a test input field #2",22);
@@ -51,6 +58,10 @@ int main( int argc, char **argv )
   Radio1->addItem("btn4");
   Widget.addMultiInputWidget( "SW", "Sub widget", SubWidget );
   Widget.addInputWidget<checkBoxWidget>("Check1","This is a check box",true);
+  Widget.addWidget( new QPushButton("Button") );
+  Widget.addWidget( ComboMultiWidget );
+  Widget.addLabel("This is a label #2");
+
   Widget.loadSettings();
   Widget.show();
 

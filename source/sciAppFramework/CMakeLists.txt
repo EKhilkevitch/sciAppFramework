@@ -16,6 +16,7 @@ set ( sciAppFramework_source_files
                 outputSettingsWidget.cpp
                 mainWidget.cpp          
                 okcancelDialog.cpp      
+                comboMultiWidget.cpp
                 catalogueWidget.cpp
                 waitWidget.cpp
                 utility.cpp             
@@ -29,7 +30,8 @@ qt4_wrap_cpp( sciAppFramework_moc_sources
                 outputWidget.h                  
                 outputSettingsWidget.h                
                 mainWidget.h                    
-                okcancelDialog.h                
+                okcancelDialog.h
+                comboMultiWidget.h
                 catalogueWidget.h
                 waitWidget.h
   )

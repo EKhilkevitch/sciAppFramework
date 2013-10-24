@@ -86,6 +86,18 @@ inputWidget* multiInputWidget::registerInputWidget( const QString &InputName, in
 
 // ------------------------------------------------------
 
+void  multiInputWidget::addWidgetToLayout( QWidget *Widget )
+{
+  if ( Widget == NULL )
+    return;
+  
+  Widget->setParent( this );
+  QWidgetItem *WidgetItem = new QWidgetItem(Widget);
+  layoutOperations::appendLayoutItem( this, WidgetItem, 1 );
+}
+
+// ------------------------------------------------------
+
 QGroupBox* multiInputWidget::addMultiInputWidget( const QString &Name, const QString &Label, multiInputWidget *Widget )
 {
   if ( Widget == NULL )
@@ -96,7 +108,7 @@ QGroupBox* multiInputWidget::addMultiInputWidget( const QString &Name, const QSt
   
   QGroupBox *Box = new QGroupBox( Label, this );
   Box->setLayout( Layout );
-  addWidget( Box );
+  addWidgetToLayout( Box );
   
   setupSettingsObject( Widget, Name );
 
@@ -108,6 +120,17 @@ QGroupBox* multiInputWidget::addMultiInputWidget( const QString &Name, const QSt
 
 // ------------------------------------------------------
 
+void multiInputWidget::addWidget( QWidget *Widget )
+{
+  if ( Widget == NULL )
+    return;
+
+  addWidgetToLayout( Widget );
+  setupSettingsObject( dynamic_cast<settingsObject*>(Widget) );
+}
+
+// ------------------------------------------------------
+
 void multiInputWidget::addSpacing( int Spacing )
 {
   layoutOperations::appendLayoutItem( this, new QSpacerItem( Spacing, Spacing ) );
@@ -115,18 +138,10 @@ void multiInputWidget::addSpacing( int Spacing )
 
 // ------------------------------------------------------
 
-void  multiInputWidget::addWidget( QWidget *Widget )
-{
-  if ( Widget != NULL )
-    layoutOperations::appendLayoutItem( this, new QWidgetItem(Widget), 1 );
-}
-
-// ------------------------------------------------------
-
 void multiInputWidget::addLabel( const QString &Label )
 {
-  QLabel *LabelWidget = new QLabel( Label, this );
-  addWidget( LabelWidget );
+  QLabel *LabelWidget = new QLabel( Label );
+  addWidgetToLayout( LabelWidget );
 }
 
 // ------------------------------------------------------

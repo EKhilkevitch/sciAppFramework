@@ -46,6 +46,7 @@ namespace sciAppFramework
       virtual void setVariantValue( const QVariant &Value ) = 0;
 
       template <class input> static input* create( QWidget *Parent, const QString &Name, const QString &Label, const QVariant &Value = QVariant() );
+      template <class input> static input* create( const QString &Name, const QString &Label, const QVariant &Value = QVariant() );
       template <class layoutType> static layoutType* createLayoutWithoutMargins();
 
     signals:
@@ -420,6 +421,11 @@ namespace sciAppFramework
     Input->setVariantValue( Value );
     Input->setSettingsName( Name );
     return Input;
+  }
+
+  template <class input> input* inputWidget::create( const QString &Name, const QString &Label, const QVariant &Value )
+  {
+    return create<input>( NULL, Name, Label, Value );
   }
   
   // ======================================================
