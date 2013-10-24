@@ -31,8 +31,9 @@ namespace sciAppFramework
 
       void addWidget( const QString &Name, QWidget *Widget ); 
       int count() const;
-      QWidget* currentWidget();
-      int currentIndex();
+
+      QWidget* currentWidget() const;
+      int currentIndex() const;
   };
   
   // ======================================================

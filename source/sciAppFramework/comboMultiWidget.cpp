@@ -62,14 +62,14 @@ int comboMultiWidget::count() const
 
 // ------------------------------------------------------
 
-QWidget* comboMultiWidget::currentWidget()
+QWidget* comboMultiWidget::currentWidget() const
 {
   return ComboLayout->currentWidget();
 }
 
 // ------------------------------------------------------
 
-int comboMultiWidget::currentIndex()
+int comboMultiWidget::currentIndex() const
 {
   return ComboWidget->currentIndex();
 }
