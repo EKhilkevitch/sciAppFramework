@@ -26,7 +26,11 @@ namespace sciAppFramework
 
       static unsigned NumberOfCreatedSettingsObjects;
 
+    private:
+      void initSettingsObject();
+
     public:
+      settingsObject();
       settingsObject( settingsObject *Parent, const QString &Name = QString() );
       virtual ~settingsObject();
 

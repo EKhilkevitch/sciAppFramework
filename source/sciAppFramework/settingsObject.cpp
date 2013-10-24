@@ -17,17 +17,19 @@ unsigned settingsObject::NumberOfCreatedSettingsObjects = 0;
 
 // -----------------------------------------
 
+settingsObject::settingsObject() :
+  Parent( NULL )
+{
+  initSettingsObject();
+}
+
+// -----------------------------------------
+
 settingsObject::settingsObject( settingsObject *Pnt, const QString &Name ) : 
   Parent(Pnt),
   SettingsName(Name)  
 {
-  if ( Parent != NULL )
-    Parent->Children.append(this);
-
-  if ( SettingsName.isEmpty() )
-    SettingsName = "SettingsObject_" + QString::number(NumberOfCreatedSettingsObjects);
-
-  NumberOfCreatedSettingsObjects += 1;
+  initSettingsObject();
 }
 
 // -----------------------------------------
@@ -38,6 +40,19 @@ settingsObject::~settingsObject()
     Children.front()->setSettingsParent( NULL );
 
   setSettingsParent( this );
+}
+
+// -----------------------------------------
+
+void settingsObject::initSettingsObject()
+{
+  if ( Parent != NULL )
+    Parent->Children.append(this);
+
+  if ( SettingsName.isEmpty() )
+    SettingsName = "SettingsObject_" + QString::number(NumberOfCreatedSettingsObjects);
+
+  NumberOfCreatedSettingsObjects += 1;
 }
 
 // -----------------------------------------

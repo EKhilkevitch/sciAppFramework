@@ -44,6 +44,12 @@ void comboMultiWidget::addWidget( const QString &Name, QWidget *Widget )
   settingsObject *SettingsObject = dynamic_cast<settingsObject*>(Widget);
   if ( SettingsObject != NULL )
     SettingsObject->setSettingsParent( this );
+
+  if ( ComboLayout->currentIndex() < 0 )
+  {
+    ComboWidget->setCurrentIndex( 0 );
+    ComboLayout->setCurrentIndex( 0 );
+  }
 }
 
 // ------------------------------------------------------
@@ -59,6 +65,13 @@ int comboMultiWidget::count() const
 QWidget* comboMultiWidget::currentWidget()
 {
   return ComboLayout->currentWidget();
+}
+
+// ------------------------------------------------------
+
+int comboMultiWidget::currentIndex()
+{
+  return ComboWidget->currentIndex();
 }
 
 // ======================================================
