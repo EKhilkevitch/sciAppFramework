@@ -1,5 +1,5 @@
 
-// =========================================
+// ======================================================
 
 #include "sciAppFramework/okcancelDialog.h"
 
@@ -11,7 +11,7 @@
 
 using namespace sciAppFramework;
 
-// =========================================
+// ======================================================
 
 QWidget* okcancelDialog::createButtonsWidget()
 {
@@ -30,5 +30,22 @@ QWidget* okcancelDialog::createButtonsWidget()
   return Widget;
 }
 
-// =========================================
+// ------------------------------------------------------
+
+void okcancelDialog::initWidget()
+{
+  QWidget *ButtonsWidget = createButtonsWidget();
+  QWidget *ContentWidget = createContentWidget();
+
+  Q_ASSERT( ButtonsWidget != NULL );
+  Q_ASSERT( ContentWidget != NULL );
+  
+  QBoxLayout *Layout = new QVBoxLayout();
+  Layout->addWidget( ContentWidget );
+  Layout->setSpacing( 5 );
+  Layout->addWidget( ButtonsWidget );
+  setLayout( Layout );
+}
+
+// ======================================================
 
