@@ -420,6 +420,7 @@ namespace sciAppFramework
     input *Input = new input( Label, Parent );
     Input->setVariantValue( Value );
     Input->setSettingsName( Name );
+    Input->setSettingsParent( dynamic_cast<multiSettingsObject*>(Parent) );
     return Input;
   }
 
