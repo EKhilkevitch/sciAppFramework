@@ -166,7 +166,7 @@ namespace sciAppFramework
       void setVariantValue( const QVariant &Value ) { setValue( Value.toDouble() ); }
 
       void setRange( double Min, double Max );
-      void setPintfFormat( const QString &Format ) { PrintfFormat = Format; }
+      void setPrintfFormat( const QString &Format ) { PrintfFormat = Format; }
 
       void setValue( double Value );
       double value() const { return text().toDouble(); }
