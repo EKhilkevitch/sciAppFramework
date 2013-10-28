@@ -10,19 +10,22 @@
 
 namespace sciAppFramework
 {
+
   // ======================================================
 
   template < class widget > int main( int argc, char* argv[] )
   {
-    std::setlocale( LC_NUMERIC, "C" );
-
     QApplication app(argc,argv);
+    
+    std::setlocale( LC_NUMERIC, "C" );
+    
     widget Widget;
     Widget.show();
     return app.exec();
   }
 
   // ======================================================
+  
 }
 
 // ======================================================

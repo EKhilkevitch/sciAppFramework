@@ -137,6 +137,16 @@ void labelDoubleEditWidget::setRange( double Min, double Max )
 
   DoubleValidator->setRange( Min, Max );
 }
+      
+// ------------------------------------------------------
+
+void labelDoubleEditWidget::setValue( double Value ) 
+{ 
+  if ( PrintfFormat.isEmpty() )
+    setText( QString::number(Value) );
+  else
+    setText( QString().sprintf( PrintfFormat.toLocal8Bit().data(), Value ) );
+}
 
 // ======================================================
 

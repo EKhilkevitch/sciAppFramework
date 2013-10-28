@@ -144,6 +144,9 @@ namespace sciAppFramework
     Q_OBJECT
 
     private:
+      QString PrintfFormat;
+
+    private:
       // Disable usage of this functions
       void setText( const QString& S ) { labelEditWidget::setText(S); } 
       void setValidator( QValidator *Validator ) { labelEditWidget::setValidator(Validator); }
@@ -163,8 +166,9 @@ namespace sciAppFramework
       void setVariantValue( const QVariant &Value ) { setValue( Value.toDouble() ); }
 
       void setRange( double Min, double Max );
+      void setPintfFormat( const QString &Format ) { PrintfFormat = Format; }
 
-      void setValue( double Value ) { setText( QString::number(Value) ); }
+      void setValue( double Value );
       double value() const { return text().toDouble(); }
   };
   
