@@ -117,6 +117,27 @@ QWidget* labelDoubleEditWidget::createInputWidget()
   return Edit;
 }
 
+// ------------------------------------------------------
+      
+void labelDoubleEditWidget::setRange( double Min, double Max )
+{
+  const QValidator *Validator = getLineEdit()->validator();
+  if ( Validator == NULL )
+  {
+    qDebug() << "labelDoubleEditWidget::setRange: Validator == NULL!";
+    return;
+  }
+
+  QDoubleValidator *DoubleValidator = const_cast<QDoubleValidator*>( dynamic_cast<const QDoubleValidator*>(Validator) );
+  if ( DoubleValidator == NULL )
+  {
+    qDebug() << "labelDoubleEditWidget::setRange: DoubleValidator == NULL!";
+    return;
+  }
+
+  DoubleValidator->setRange( Min, Max );
+}
+
 // ======================================================
 
 QLineEdit* labelPathEditWidget::getLineEdit()

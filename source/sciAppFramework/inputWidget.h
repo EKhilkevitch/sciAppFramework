@@ -162,6 +162,8 @@ namespace sciAppFramework
       QVariant getVariantValue() const { return value(); }
       void setVariantValue( const QVariant &Value ) { setValue( Value.toDouble() ); }
 
+      void setRange( double Min, double Max );
+
       void setValue( double Value ) { setText( QString::number(Value) ); }
       double value() const { return text().toDouble(); }
   };
