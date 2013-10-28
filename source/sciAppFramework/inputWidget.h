@@ -82,6 +82,9 @@ namespace sciAppFramework
         LabelWidget(NULL), 
         InputWidget(NULL) {}
 
+      void setInputStyleSheet( const QString &Style ) { InputWidget->setStyleSheet(Style); }
+      void setLabelStyleSheet( const QString &Style ) { LabelWidget->setStyleSheet(Style); }
+
       const QString label() const { return LabelWidget->text(); }
       void setStretchFactors( int LabelStretch, int InputStretch );
   };
