@@ -8,7 +8,15 @@ using namespace sciAppFramework;
 
 struct testCatalogueListWidget : public catalogueListWidget
 {
-  testCatalogueListWidget() { initWidget(); }
+  testCatalogueListWidget() 
+  { 
+    initWidget(); 
+  }
+      
+  QAbstractItemView::SelectionMode viewSelectionMode() const 
+  { 
+    return QAbstractItemView::MultiSelection; 
+  }
 
   QList<QPushButton*> createButtonsList()
   {

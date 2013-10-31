@@ -2,13 +2,16 @@
 
 #pragma once
 
-// =========================================
+// ======================================================
 
 #include <QWidget>
 #include <QList>
 #include <QVariant>
 
 #include <QListWidget>
+#include <QTableWidget>
+
+#include "sciAppFramework/settingsObject.h"
 
 class QAbstractItemView;
 class QListWidgetItem;
@@ -16,14 +19,14 @@ class QListWidget;
 class QPushButton;
 class QSettings;
 
-// =========================================
+// ======================================================
 
 namespace sciAppFramework
 {
 
-  // =========================================
+  // ======================================================
 
-  class catalogueWidget : public QWidget
+  class catalogueWidget : public QWidget, public settingsObject
   {
     Q_OBJECT
 
@@ -38,6 +41,10 @@ namespace sciAppFramework
       virtual QList<QPushButton*> createButtonsList();
 
       virtual bool putButtonsonTheTop() const { return true; }
+      virtual QAbstractItemView::SelectionMode viewSelectionMode() const { return QAbstractItemView::SingleSelection; }
+
+    protected:
+      void keyPressEvent( QKeyEvent *Event );
 
     protected:
       template <class V> V* itemViewTemplateCast() { return dynamic_cast<V*>(ItemView); }
@@ -51,19 +58,20 @@ namespace sciAppFramework
       void initWidget();
 
     public:
-      catalogueWidget( QWidget *Parent = NULL );
-      virtual ~catalogueWidget();
+      catalogueWidget( QWidget *Parent = NULL, const QString &SettingsName = QString() );
+      ~catalogueWidget();
 
-      virtual void loadSettings( QSettings *Settings );
-      virtual void saveSettings( QSettings *Settings );
+      void loadSettings( QSettings *Settings );
+      void saveSettings( QSettings *Settings ) const;
 
     signals:
       void selectionChanged();
+      void deleteCurrentItem();
   };
   
-  // =========================================
+  // ======================================================
   
-  template <class itemView> class catalogueItemViewTemplateWidget : public catalogueWidget
+  template <class itemView, class itemWidget> class catalogueItemViewTemplateWidget : public catalogueWidget
   {
     protected:
       void enableSelectionSignalItemView()  { connect( itemViewCast(), SIGNAL( itemSelectionChanged() ), SIGNAL(selectionChanged()) ); }
@@ -76,32 +84,67 @@ namespace sciAppFramework
       bool isItemViewInited() const { return itemViewCast() != NULL; }
 
     public:
-      catalogueItemViewTemplateWidget( QWidget *Parent = NULL ) : catalogueWidget(Parent) {}
+      catalogueItemViewTemplateWidget( QWidget *Parent = NULL, const QString &SettingsName = QString() ) : 
+        catalogueWidget(Parent,SettingsName) {}
       
       int count() const { return itemViewCast()->count(); }
+      QList<itemWidget*> selectedItems() { return itemViewCast()->selectedItems(); }
   };
   
-  // =========================================
+  // ======================================================
   
-  class catalogueListWidget : public catalogueItemViewTemplateWidget<QListWidget>
+  class catalogueListWidget : public catalogueItemViewTemplateWidget<QListWidget,QListWidgetItem>
   {
     private:
-      QAbstractItemView* createItemView();
+      QListWidget* createItemView();
 
     public:
-      catalogueListWidget( QWidget *Parent = NULL );
+      catalogueListWidget( QWidget *Parent = NULL, const QString &SettingsName = QString() );
+      virtual ~catalogueListWidget() = 0;
 
       QListWidgetItem* add( const QString &Title ) { return add(Title,QVariant(),true); }
       QListWidgetItem* add( const QString &Title, bool Selected ) { return add(Title,QVariant(),Selected); }
       QListWidgetItem* add( const QString &Title, const QVariant &Data, bool Selected );
       void clear();
+      
+      QListWidgetItem* item( int Row ) const { return itemViewCast()->item(Row); }
 
       bool isSelected( unsigned Index ) const;
       bool isSelected( const QVariant &Data ) const;
       bool isSelected( const QListWidgetItem* Item ) const;
   };
   
-  // =========================================
+  // ======================================================
+  
+  class catalogueTableWidget : public catalogueItemViewTemplateWidget<QTableWidget,QTableWidgetItem>
+  {
+    private:
+      QTableWidget* createItemView();
+
+    public:
+      catalogueTableWidget( QWidget *Parent = NULL, const QString &SettingsName = QString() );
+      virtual ~catalogueTableWidget() = 0;
+
+      void setColumnCount( int C ) { itemViewCast()->setColumnCount(C); }
+      int columnCount() const { return itemViewCast()->columnCount(); }
+      void setColumnWidth( int C, int W ) { itemViewCast()->setColumnWidth(C,W); }
+
+      void setRowCount( int R ) { itemViewCast()->setRowCount(R); }
+      int rowCount() const { return itemViewCast()->rowCount(); }
+      void setRowHeight( int R, int H ) { itemViewCast()->setRowHeight(R,H); }
+
+      QHeaderView* horizontalHeader() const { return itemViewCast()->horizontalHeader(); }
+      QHeaderView* verticalHeader() const { return itemViewCast()->verticalHeader(); }
+
+      void incrementRowCoumt() { setRowCount( rowCount() + 1 ); }
+
+      QTableWidgetItem* setItem( int Row, int Column, const QString& Title, const QVariant& Data = QVariant() );
+      QTableWidgetItem* setItem( int Row, int Column, QTableWidgetItem *Item );
+      QTableWidgetItem* item( int Row, int Column ) const { return itemViewCast()->item(Row,Column); }
+      QTableWidgetItem* takeItem( int Row, int Column ) { return itemViewCast()->takeItem(Row,Column); }
+  };
+  
+  // ======================================================
 
 }
 

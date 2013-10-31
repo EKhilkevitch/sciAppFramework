@@ -1,5 +1,5 @@
 
-// =========================================
+// ======================================================
 
 #include "sciAppFramework/catalogueWidget.h"
 
@@ -8,10 +8,12 @@
 #include <QVBoxLayout>
 #include <QAbstractItemView>
 #include <QListWidget>
+#include <QKeyEvent>
+#include <QDebug>
 
 using namespace sciAppFramework;
 
-// =========================================
+// ======================================================
 
 QWidget* catalogueWidget::createButtonsWidget()
 {
@@ -25,6 +27,18 @@ QWidget* catalogueWidget::createButtonsWidget()
   QWidget *Widget = new QWidget(this);
   Widget->setLayout(Layout);
   return Widget;
+}
+
+// -----------------------------------------
+
+void catalogueWidget::keyPressEvent( QKeyEvent *Event )
+{
+  Q_ASSERT( Event != NULL );
+
+  if ( Event->key() == Qt::Key_Delete )
+    emit deleteCurrentItem();
+
+  QWidget::keyPressEvent( Event );
 }
 
 // -----------------------------------------
@@ -44,6 +58,7 @@ void catalogueWidget::initWidget()
   ButtonsWidget = createButtonsWidget();
   ItemView = createItemView();
 
+
   QBoxLayout *Layout = new QVBoxLayout();
 
   if ( putButtonsonTheTop() )
@@ -56,6 +71,7 @@ void catalogueWidget::initWidget()
   }
   setLayout( Layout );
 
+  ItemView->setSelectionMode( viewSelectionMode() );
   enableSelectionSignalItemView();
 }
 
@@ -67,7 +83,7 @@ void catalogueWidget::loadSettings( QSettings * )
 
 // -----------------------------------------
 
-void catalogueWidget::saveSettings( QSettings * )
+void catalogueWidget::saveSettings( QSettings * ) const
 {
 }
 
@@ -80,8 +96,9 @@ void catalogueWidget::emitSelectionChanged()
 
 // -----------------------------------------
       
-catalogueWidget::catalogueWidget( QWidget *Parent ) :
+catalogueWidget::catalogueWidget( QWidget *Parent, const QString &SettingsName ) :
   QWidget(Parent),
+  settingsObject( dynamic_cast<settingsObject*>(Parent), SettingsName ),
   ButtonsWidget(NULL),
   ItemView(NULL) 
 {
@@ -95,8 +112,14 @@ catalogueWidget::~catalogueWidget()
 
 // =========================================
       
-catalogueListWidget::catalogueListWidget( QWidget *Parent ) : 
-  catalogueItemViewTemplateWidget<QListWidget>(Parent) 
+catalogueListWidget::catalogueListWidget( QWidget *Parent, const QString &SettingsName ) : 
+  catalogueItemViewTemplateWidget<QListWidget,QListWidgetItem>(Parent,SettingsName) 
+{
+}
+
+// -----------------------------------------
+
+catalogueListWidget::~catalogueListWidget()
 {
 }
 
@@ -181,12 +204,51 @@ bool catalogueListWidget::isSelected( const QListWidgetItem* Item ) const
 
 // -----------------------------------------
 
-QAbstractItemView* catalogueListWidget::createItemView()
+QListWidget* catalogueListWidget::createItemView()
 {
-  QListWidget *ListWidget = new QListWidget(this);
-  ListWidget->setSelectionMode( QAbstractItemView::MultiSelection );
-  return ListWidget;
+  return new QListWidget(this);
 }
 
-// =========================================
+// ======================================================
+
+catalogueTableWidget::catalogueTableWidget( QWidget *Parent, const QString &SettingsName ) : 
+  catalogueItemViewTemplateWidget<QTableWidget,QTableWidgetItem>(Parent,SettingsName) 
+{
+}
+
+// ------------------------------------------------------
+
+catalogueTableWidget::~catalogueTableWidget()
+{
+}
+
+// ------------------------------------------------------
+
+QTableWidget* catalogueTableWidget::createItemView()
+{
+  return new QTableWidget(this);
+}
+
+// ------------------------------------------------------
+      
+QTableWidgetItem* catalogueTableWidget::setItem( int Row, int Column, const QString& Title, const QVariant& Data )
+{
+  QTableWidgetItem *Item = new QTableWidgetItem( Title );
+  Item->setText( Title );
+  Item->setData( Qt::UserRole, Data );
+  return setItem( Row, Column, Item );
+}
+
+// ------------------------------------------------------
+      
+QTableWidgetItem* catalogueTableWidget::setItem( int Row, int Column, QTableWidgetItem *Item )
+{
+  if ( Item == NULL )
+    return NULL;
+  itemViewCast()->setItem( Row, Column, Item );
+  return Item;
+}
+
+// ======================================================
+
 
