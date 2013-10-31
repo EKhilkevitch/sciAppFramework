@@ -51,7 +51,7 @@ struct testMainWidget : public measureMainWidget
 
 int main( int argc, char **argv )
 {
-  return sciAppFramework::main<testMainWidget>( argc, argv );
+  return sciAppFramework::main<testMainWidget>( argc, argv, "Test application" );
 }
 
 
