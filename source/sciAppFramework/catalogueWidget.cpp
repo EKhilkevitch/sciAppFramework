@@ -20,6 +20,7 @@ QWidget* catalogueWidget::createButtonsWidget()
   QList<QPushButton*> Buttons = createButtonsList();
 
   QBoxLayout *Layout = new QHBoxLayout();
+  Layout->setContentsMargins( 0, 0, 0, 0 );
   
   foreach( QPushButton *Btn, Buttons )
     Layout->addWidget( Btn );
@@ -58,8 +59,8 @@ void catalogueWidget::initWidget()
   ButtonsWidget = createButtonsWidget();
   ItemView = createItemView();
 
-
   QBoxLayout *Layout = new QVBoxLayout();
+  Layout->setContentsMargins( 0, 0, 0, 0 );
 
   if ( putButtonsonTheTop() )
   {
