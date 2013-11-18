@@ -3,7 +3,11 @@
 
 // ======================================================
 
-#warning "This file exists only for backward compatibility with old programs"
+#if _WIN32
+#  pragma message( "Warning: This file exists only for backward compatibility with old programs" " (" __FILE__ ")" )
+#else
+#  warning "This file exists only for backward compatibility with old programs"
+#endif
 
 // ======================================================
 
