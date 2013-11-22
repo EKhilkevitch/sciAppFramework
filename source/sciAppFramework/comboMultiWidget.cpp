@@ -74,6 +74,13 @@ int comboMultiWidget::currentIndex() const
   return ComboWidget->currentIndex();
 }
 
+// ------------------------------------------------------
+
+QString comboMultiWidget::currentText() const
+{
+  return ComboWidget->currentText();
+}
+
 // ======================================================
 
 

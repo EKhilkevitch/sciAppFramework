@@ -34,6 +34,7 @@ namespace sciAppFramework
 
       QWidget* currentWidget() const;
       int currentIndex() const;
+      QString currentText() const;
   };
   
   // ======================================================
