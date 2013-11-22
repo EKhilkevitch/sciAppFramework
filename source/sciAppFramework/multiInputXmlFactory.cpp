@@ -5,6 +5,7 @@
 #include "sciAppFramework/multiInputXmlFactory.h"
 
 #include <QDebug>
+#include <QDomDocument>
 #include <QDomElement>
 #include <QDomNode>
 #include <QDomNamedNodeMap>
@@ -320,14 +321,15 @@ QStringList multiInputWidgetXmlFactory::modifierOfMultiInputWidget::text( const 
 
 // ======================================================
 
-multiInputWidget* multiInputWidgetXmlFactory::create( const QString &Xml )
+multiInputWidget* multiInputWidgetXmlFactory::create( const QString &Xml, QWidget *Parent )
 {
-  return multiInputWidgetXmlFactory( Xml ).create();
+  return multiInputWidgetXmlFactory( Xml ).create( Parent );
 }
 
 // ------------------------------------------------------
 
-multiInputWidgetXmlFactory::multiInputWidgetXmlFactory( const QString &Xml ) 
+multiInputWidgetXmlFactory::multiInputWidgetXmlFactory( const QString &Xml ) :
+  Doculemt( new QDomDocument ) 
 {
   initDocument( Xml );
   initModifiers();
@@ -340,6 +342,7 @@ multiInputWidgetXmlFactory::~multiInputWidgetXmlFactory()
   foreach ( modifierOfMultiInputWidget *M, Modifiers )
     delete M;
   Modifiers.clear();
+  delete Doculemt;
 }
 
 // ------------------------------------------------------
@@ -348,7 +351,7 @@ void multiInputWidgetXmlFactory::initDocument( const QString &Xml )
 {
   QString XmlErrorMessage;
   int ErrorLine = -1;
-  bool OK = Doculemt.setContent( Xml, &XmlErrorMessage, &ErrorLine );
+  bool OK = Doculemt->setContent( Xml, &XmlErrorMessage, &ErrorLine );
 
   if ( ! OK )
   {
@@ -401,7 +404,7 @@ void multiInputWidgetXmlFactory::addItemsToMultiInputWidget( multiInputWidget* W
   if ( Widget == NULL )
     return;
  
-  const QDomElement &Root = Doculemt.documentElement();
+  const QDomElement &Root = Doculemt->documentElement();
   setSettingsName( Widget, Root );
 
   for ( QDomNode Node = Root.firstChild(); ! Node.isNull(); Node = Node.nextSibling() )  

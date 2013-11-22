@@ -3,7 +3,6 @@
 
 // ======================================================
 
-#include <QDomDocument>
 #include <QMap>
 #include <QString>
 
@@ -12,6 +11,7 @@ class QWidget;
 class QDomElement;
 class QDomNode;
 class QDomNodeList;
+class QDomDocument;
 
 // ======================================================
 
@@ -43,10 +43,14 @@ namespace sciAppFramework
       };
 
     private:
-      QDomDocument Doculemt;
+      QDomDocument *Doculemt;
       QString ErrorString;
 
       QMap< QString, modifierOfMultiInputWidget* > Modifiers;
+
+    private:
+      multiInputWidgetXmlFactory( const multiInputWidgetXmlFactory& );
+      multiInputWidgetXmlFactory& operator=( const multiInputWidgetXmlFactory& );
 
     private:
       static void setSettingsName( settingsObject *SettingsObject, const QDomElement &Element );
@@ -67,7 +71,7 @@ namespace sciAppFramework
       multiInputWidget* create( QWidget *Parent = NULL ) const;
       void addItemsToMultiInputWidget( multiInputWidget* Widget ) const;
 
-      static multiInputWidget* create( const QString &Xml );
+      static multiInputWidget* create( const QString &Xml, QWidget *Parent = NULL );
   };
 
   // ======================================================
