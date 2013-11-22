@@ -68,6 +68,7 @@ int main( int argc, char **argv )
   qDebug() << "Edit1 = " << Widget.value<QString>("Edit1");
   qDebug() << "Spin1 = " << Widget.value<QString>("Spin1");
   qDebug() << "SW:EditS2 = " << Widget.value<QString>("SW:EditS2");
+  qDebug() << "Map: " << Widget.stringValues();
 
   return app.exec(); 
 }

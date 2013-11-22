@@ -7,6 +7,9 @@
 #include <QMap>
 #include <QVariant>
 
+#include <map>
+#include <string>
+
 #include "sciAppFramework/inputWidget.h"
 #include "sciAppFramework/settingsObject.h"
 
@@ -57,6 +60,10 @@ namespace sciAppFramework
 
       template <class T> T value( const QString &Name ) const;
       template <class T> T value( const QString &Name, const T& Default ) const;
+
+      QMap<QString,QVariant> variantValues() const;
+      QMap<QString,QString> stringValues() const;
+      std::map<std::string,std::string> stdStringValues() const;
 
       template <class inp> inp* input( const QString &Name );
       template <class inp> const inp* input( const QString &Name ) const;

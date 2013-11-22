@@ -171,5 +171,44 @@ void multiInputWidget::setVariantValue( const QString &Name, const QVariant &Val
     Input->setVariantValue( Value );
 }
 
+// ------------------------------------------------------
+
+QMap<QString,QVariant> multiInputWidget::variantValues() const
+{
+  QMap<QString,QVariant> Map;
+
+  foreach ( inputWidget *Input, LabelInputMap )
+  {
+    Q_ASSERT( Input != NULL );
+    QString Name = Input->settingsName();
+    QVariant Value = Input->getVariantValue();
+    Map[ Name ] = Value;
+  }
+
+  return Map;
+}
+
+// ------------------------------------------------------
+
+QMap<QString,QString> multiInputWidget::stringValues() const
+{
+  const QMap<QString,QVariant> &VariantMap = variantValues();
+  QMap<QString,QString> StringMap;
+  for ( QMap<QString,QVariant>::const_iterator i = VariantMap.begin(); i != VariantMap.end(); ++i )
+    StringMap[ i.key() ] = i.value().toString();
+  return StringMap;
+}
+
+// ------------------------------------------------------
+      
+std::map<std::string,std::string> multiInputWidget::stdStringValues() const
+{
+  const QMap<QString,QVariant> &VariantMap = variantValues();
+  std::map<std::string,std::string> StdStringMap;
+  for ( QMap<QString,QVariant>::const_iterator i = VariantMap.begin(); i != VariantMap.end(); ++i )
+    StdStringMap[ i.key().toStdString() ] = i.value().toString().toStdString();
+  return StdStringMap;
+}
+
 // ======================================================
 

@@ -294,7 +294,7 @@ namespace sciAppFramework
       QWidget* createInputWidget(); 
       
       QVariant valueToSettings() const { return currentIndex(); }
-      void setValueFromSettings( const QVariant &Value ) { setCurrentIndex( Value.toInt() ); }
+      void setValueFromSettings( const QVariant &Value ) { setCurrentIndex( qMax( 0, Value.toInt() ) ); }
       
     public:
       labelComboWidget( const QString& LabelText, QWidget *Parent = NULL ) 
