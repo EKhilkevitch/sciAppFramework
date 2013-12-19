@@ -385,6 +385,9 @@ namespace sciAppFramework
 
       void initWidget( const QString &LabelText );
 
+    private slots:
+      void emitCheckedSignal();
+
     public:
       checkBoxWidget( const QString& LabelText, QWidget *Parent = NULL ) 
         : inputWidget( Parent, LabelText ) { initWidget(LabelText); }
@@ -413,6 +416,7 @@ namespace sciAppFramework
     signals:
       void clicked();
       void stateChanged( int );
+      void checked( bool );
   };
   
   // ======================================================

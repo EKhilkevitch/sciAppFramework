@@ -358,6 +358,14 @@ void checkBoxWidget::initWidget( const QString &LabelText )
   connect( CheckBox, SIGNAL(clicked()), SIGNAL(clicked()) );
   connect( CheckBox, SIGNAL(stateChanged(int)), SIGNAL(stateChanged(int)) );
   connect( CheckBox, SIGNAL(clicked()), SIGNAL(changed()) );
+  connect( CheckBox, SIGNAL(clicked()), SLOT(emitCheckedSignal()) );
+}
+
+// ------------------------------------------------------
+      
+void checkBoxWidget::emitCheckedSignal()
+{
+  emit checked( isChecked() );
 }
 
 // ======================================================
