@@ -47,5 +47,21 @@ void okcancelDialog::initWidget()
   setLayout( Layout );
 }
 
+// ------------------------------------------------------
+      
+void okcancelDialog::accept()
+{
+  if ( acceptEnabled() )
+    QDialog::accept();
+}
+
+// ------------------------------------------------------
+
+void okcancelDialog::reject()
+{
+  if ( rejectEnabled() )
+    QDialog::reject();
+}
+
 // ======================================================
 

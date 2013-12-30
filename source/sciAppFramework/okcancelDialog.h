@@ -22,11 +22,17 @@ namespace sciAppFramework
       virtual QWidget* createButtonsWidget();
       virtual QWidget* createContentWidget() = 0;
 
+      virtual bool acceptEnabled() { return true; }
+      virtual bool rejectEnabled() { return true; }
+
     protected:
       void initWidget();
 
     public:
       okcancelDialog( QWidget *Parent = NULL ) : QDialog(Parent) {}
+
+      void accept();
+      void reject();
   };
   
   // ======================================================
