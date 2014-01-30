@@ -404,7 +404,7 @@ namespace sciAppFramework
       void setTristate( bool Set = true ) { CheckBox->setTristate(Set); }
       bool isTristate() const { return CheckBox->isTristate(); }
       bool isChecked() const { return CheckBox->isChecked(); }
-      void setChecked( bool C ) { CheckBox->setChecked(C); } 
+      void setChecked( bool C );
 
     public slots:
       void setCheckedOn() { setCheckState(Qt::Checked); }
@@ -416,7 +416,7 @@ namespace sciAppFramework
     signals:
       void clicked();
       void stateChanged( int );
-      void checked( bool );
+      void toggled( bool );
   };
   
   // ======================================================

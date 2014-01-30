@@ -355,17 +355,26 @@ void checkBoxWidget::initWidget( const QString &LabelText )
   Layout->addWidget( CheckBox );
   setLayout( Layout );
 
-  connect( CheckBox, SIGNAL(clicked()), SIGNAL(clicked()) );
   connect( CheckBox, SIGNAL(stateChanged(int)), SIGNAL(stateChanged(int)) );
-  connect( CheckBox, SIGNAL(clicked()), SIGNAL(changed()) );
+  connect( CheckBox, SIGNAL(clicked()), SIGNAL(clicked()) );
   connect( CheckBox, SIGNAL(clicked()), SLOT(emitCheckedSignal()) );
+  connect( CheckBox, SIGNAL(toggled(bool)), SLOT(emitCheckedSignal()) );
 }
+
+// ------------------------------------------------------
+
+void checkBoxWidget::setChecked( bool C ) 
+{ 
+  CheckBox->setChecked(C); 
+  emitCheckedSignal(); 
+} 
 
 // ------------------------------------------------------
       
 void checkBoxWidget::emitCheckedSignal()
 {
-  emit checked( isChecked() );
+  emit toggled( isChecked() );
+  emit changed();
 }
 
 // ======================================================
