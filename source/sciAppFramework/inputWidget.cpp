@@ -9,8 +9,8 @@
 #include <QPushButton>
 #include <QFileDialog>
 #include <QHBoxLayout>
-#include <QStackedLayout>
 #include <QVBoxLayout>
+#include <QStackedLayout>
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QGroupBox>
@@ -264,24 +264,49 @@ void labelComboWidget::setCurrentData( const QVariant& V )
 
 void radioButtonWidget::initWidget( const QString &LabelText )
 {
-  ButtonsLayout = new QVBoxLayout();
-  
-  QGroupBox *Box = new QGroupBox(LabelText,this);
-  Box->setLayout( ButtonsLayout );
+  ButtonsBox = new QGroupBox(LabelText,this);
+  ButtonsBox->setLayout( new QVBoxLayout() );
 
   QBoxLayout *Layout = createLayoutWithoutMargins<QVBoxLayout>();
-  Layout->addWidget( Box );
+  Layout->addWidget( ButtonsBox );
   setLayout( Layout );
+}
+
+// ------------------------------------------------------
+      
+void radioButtonWidget::setOrientation( Qt::Orientation O )
+{
+  QBoxLayout *Layout = NULL;
+  switch ( O )
+  {
+    case Qt::Vertical:
+      Layout = createLayoutWithoutMargins<QVBoxLayout>();
+      break;
+
+    case Qt::Horizontal:
+      Layout = createLayoutWithoutMargins<QHBoxLayout>();
+      break;
+  }
+
+  Q_ASSERT( Layout != NULL );
+
+  while ( true )
+  {
+    QLayoutItem *Child = ButtonsBox->layout()->takeAt(0);
+    if ( Child == NULL )
+      break;
+    Layout->addItem( Child );
+  }
+
+  delete ButtonsBox->layout();
+  ButtonsBox->setLayout( Layout );
 }
 
 // ------------------------------------------------------
 
 const QString radioButtonWidget::label() const
 {
-  QList<QGroupBox*> GroupBoxes = findChildren<QGroupBox*>();
-  if ( GroupBoxes.isEmpty() )
-    return QString();
-  return GroupBoxes.first()->title();
+  return ButtonsBox->title();
 }
 
 // ------------------------------------------------------
@@ -299,7 +324,7 @@ int radioButtonWidget::currentIndex() const
 void radioButtonWidget::addItem( const QString &Text, const QVariant &UserData )
 {
   QRadioButton *Button = new QRadioButton( Text, this );
-  ButtonsLayout->addWidget( Button );
+  ButtonsBox->layout()->addWidget( Button );
   RadioButtons.append( radioButtonPair(Button,UserData) );
   connect( Button, SIGNAL(clicked()), SLOT(oneOfButtonsChecked()) );
   connect( Button, SIGNAL(clicked()), SIGNAL(changed()) );
@@ -320,7 +345,7 @@ void radioButtonWidget::clear()
 
 void radioButtonWidget::setCurrentIndex( int Index )
 {
-  if ( Index < RadioButtons.size() )
+  if ( Index < RadioButtons.size() && Index >= 0 )
     RadioButtons[Index].Button->setChecked(true);
 }
 
@@ -328,7 +353,7 @@ void radioButtonWidget::setCurrentIndex( int Index )
 
 void radioButtonWidget::setCurrentData( const QVariant& V )
 {
-  for ( int i = 0; i < count(); i++ )
+  for ( int i = 0; i < RadioButtons.size(); i++ )
   {
     if ( RadioButtons[i].Data == V )
     {

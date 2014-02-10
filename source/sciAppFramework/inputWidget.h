@@ -18,7 +18,7 @@
 #include "sciAppFramework/settingsObject.h"
 
 class QSettings;
-class QBoxLayout;
+class QGroupBox;
 class QValidator;
 
 // ======================================================
@@ -332,13 +332,15 @@ namespace sciAppFramework
       {
         QRadioButton *Button;
         QVariant Data;
-        radioButtonPair() : Button(NULL) {}
-        radioButtonPair( QRadioButton *B, const QVariant &D ) : Button(B), Data(D) {}
+        radioButtonPair() : 
+          Button(NULL) {}
+        radioButtonPair( QRadioButton *B, const QVariant &D ) : 
+          Button(B), Data(D) {}
       };
 
     private:
       QList< radioButtonPair > RadioButtons;
-      QBoxLayout *ButtonsLayout;
+      QGroupBox *ButtonsBox;
 
     protected:
       QVariant valueToSettings() const { return currentIndex(); }
@@ -355,6 +357,8 @@ namespace sciAppFramework
       
       QVariant getVariantValue() const { return currentData(); }
       void setVariantValue( const QVariant &Value ) { setCurrentData( Value ); }
+
+      void setOrientation( Qt::Orientation O );
 
       const QString label() const;
 
