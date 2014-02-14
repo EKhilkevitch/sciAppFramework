@@ -5,7 +5,6 @@ find_package(Qt4 COMPONENTS QtCore QtGui QtXml REQUIRED)
 include( ${QT_USE_FILE} )
 
 if(WIN32)
-  add_definitions( -DQT_DLL )
   link_libraries( ${QT_QTMAIN_LIBRARY} )
   set( gui_type WIN32 )
 endif(WIN32)

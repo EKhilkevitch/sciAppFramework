@@ -27,6 +27,11 @@ int main( int argc, char **argv )
 {
   QApplication app(argc,argv);
 
+#if 0 // This code remove linking problem in mingw - ????
+  qt4plotManager(1);
+  plotManagerOutputWidgetItem( NULL, "P1" );
+#endif
+
   testOutputWidget OutputWidget;
   OutputWidget.show();
 
