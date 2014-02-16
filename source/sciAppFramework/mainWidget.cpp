@@ -64,7 +64,8 @@ outputSettingsWidget* mainWidget::createOutputSettingsWidget()
 void mainWidget::setupOutputWidget()
 {
   OutputWidget = createOutputWidget();
-  setCentralWidget( OutputWidget );
+  if ( OutputWidget != NULL )
+    setCentralWidget( OutputWidget );
 }
 
 // -----------------------------------------
@@ -152,7 +153,7 @@ void mainWidget::doSaveSettings( QSettings *Settings )
   
   Settings->setValue( "Size", size() );
   Settings->setValue( "Pos", pos() );   
-  Settings->setValue( "CurrentDir", CurrentDir ); 
+  Settings->setValue( "LastFileName", LastFileName ); 
 
   if ( OutputWidget != NULL )
     OutputWidget->saveSettings( Settings );
@@ -179,7 +180,7 @@ void mainWidget::doLoadSettings( QSettings *Settings )
 {
   Q_ASSERT( Settings != NULL );
 
-  CurrentDir = Settings->value("CurrentDir",QCoreApplication::applicationDirPath()).toString();
+  LastFileName = Settings->value("LastFileName",QCoreApplication::applicationDirPath()).toString();
   resize( Settings->value( "Size", size() ).toSize() );
   move( Settings->value( "Pos", pos() ).toPoint() );
   move( qMax(x(),5), qMax(y(),5) );
@@ -198,7 +199,7 @@ void mainWidget::doLoadSettings( QSettings *Settings )
 
 QString mainWidget::getSaveFileName( const QString &Filter, const QString &DefaultSuffix )
 {
-  QFileDialog Dialog( this, "Saving in file...", CurrentDir );
+  QFileDialog Dialog( this, "Saving in file...", LastFileName );
   Dialog.setFilter( Filter );
   Dialog.setDefaultSuffix( DefaultSuffix );
   Dialog.setAcceptMode( QFileDialog::AcceptSave );
@@ -213,7 +214,29 @@ QString mainWidget::getSaveFileName( const QString &Filter, const QString &Defau
     return QString();
 
   QString FileName = Files[0];
-  CurrentDir = FileName; //QFileInfo(FileName).dir().path();
+  LastFileName = FileName; 
+  return FileName;
+}
+
+// -----------------------------------------
+
+QString mainWidget::getOpenFileName( const QString &Filter )
+{
+  QFileDialog Dialog( this, "Open file...", LastFileName );
+  Dialog.setFilter( Filter );
+  Dialog.setAcceptMode( QFileDialog::AcceptOpen );
+
+  bool OK = Dialog.exec();
+  if ( ! OK )
+    return QString();
+
+  const QStringList &Files = Dialog.selectedFiles();
+
+  if ( Files.isEmpty() )
+    return QString();
+
+  QString FileName = Files[0];
+  LastFileName = FileName; 
   return FileName;
 }
 
