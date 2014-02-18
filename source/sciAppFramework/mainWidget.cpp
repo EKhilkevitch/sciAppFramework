@@ -428,4 +428,3 @@ QString measureMainWidget::getSaveImageFileName()
 
 // =========================================
 
-
