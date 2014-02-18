@@ -32,7 +32,7 @@ namespace sciAppFramework
       outputSettingsWidget *OutputSettingsWidget;
       controlWidget *ControlWidget;
 
-      QString CurrentDir;
+      QString LastFileName;
 
     private:
       static QSettings* createSettingsObject();
@@ -61,6 +61,7 @@ namespace sciAppFramework
       virtual void doLoadSettings( QSettings *Settings );
       
       QString getSaveFileName( const QString &Filter, const QString &DefaultSuffix );
+      QString getOpenFileName( const QString &Filter );
 
       virtual void showErrorMessage( const QString &Message );
 
