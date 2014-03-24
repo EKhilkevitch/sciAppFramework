@@ -4,7 +4,6 @@
 // ======================================================
 
 #include <QWidget>
-#include <QDoubleSpinBox>
 #include <QComboBox>
 #include <QFileDialog>
 #include <QRadioButton>
@@ -17,6 +16,7 @@
 class QLabel;
 class QLineEdit;
 class QSpinBox;
+class QDoubleSpinBox;
 class QSettings;
 class QGroupBox;
 class QValidator;
@@ -222,39 +222,32 @@ namespace sciAppFramework
     Q_OBJECT
     
     protected:
-      const QDoubleSpinBox* getDoubleSpinBox() const { return getInput<QDoubleSpinBox>(); }
-      QDoubleSpinBox* getDoubleSpinBox() { return getInput<QDoubleSpinBox>(); }
+      const QDoubleSpinBox* getDoubleSpinBox() const;
+      QDoubleSpinBox* getDoubleSpinBox();
       QWidget* createInputWidget(); 
 
     public:
-      labelDoubleSpinWidget( const QString& LabelText, QWidget *Parent = NULL ) 
-        : labelInputWidget(Parent,LabelText) { initWidget(LabelText); }
-      
-      labelDoubleSpinWidget( const QString& LabelText, double Value, QWidget *Parent = NULL )  
-        : labelInputWidget(Parent,LabelText) { initWidget(LabelText); setValue(Value); }
-
-      labelDoubleSpinWidget( const QString& LabelText, double Min, double Max, QWidget *Parent = NULL )  
-        : labelInputWidget(Parent,LabelText) { initWidget(LabelText); setRange(Min,Max); }
-      
-      labelDoubleSpinWidget( const QString& LabelText, double Value, double Min, double Max, QWidget *Parent = NULL )  
-        : labelInputWidget(Parent,LabelText) { initWidget(LabelText); setValue(Value); setRange(Min,Max); }
+      labelDoubleSpinWidget( const QString& LabelText, QWidget *Parent = NULL );
+      labelDoubleSpinWidget( const QString& LabelText, double Value, QWidget *Parent = NULL );
+      labelDoubleSpinWidget( const QString& LabelText, double Min, double Max, QWidget *Parent = NULL );
+      labelDoubleSpinWidget( const QString& LabelText, double Value, double Min, double Max, QWidget *Parent = NULL );
 
       QVariant getVariantValue() const { return value(); }
       void setVariantValue( const QVariant &Value ) { setValue( Value.toDouble() ); }    
 
-      double value() const { return getDoubleSpinBox()->value(); }
-      void setValue( double V ) { getDoubleSpinBox()->setValue(V); }
-      void setReadOnly( bool E ) { getDoubleSpinBox()->setReadOnly(E); };
+      double value() const;
+      void setValue( double Value );
+      void setReadOnly( bool ReadOnly );
 
-      void setRange( double Min, double Max ) { getDoubleSpinBox()->setRange(Min,Max); }
-      double minimum() const { return getDoubleSpinBox()->minimum(); }
-      double maximum() const { return getDoubleSpinBox()->maximum(); }
+      void setRange( double Min, double Max );
+      double minimum() const;
+      double maximum() const;
 
-      void setDecimals( int D ) { getDoubleSpinBox()->setDecimals(D); }
-      int decimals() const { return getDoubleSpinBox()->decimals(); }
+      void setDecimals( int Decimals );
+      int decimals() const;
 
-      void setSingleStep( double S ) { getDoubleSpinBox()->setSingleStep(S); }
-      double singleStep() const { return getDoubleSpinBox()->singleStep(); }
+      void setSingleStep( double Step );
+      double singleStep() const;
       
     signals:
       void valueChanged( double d );

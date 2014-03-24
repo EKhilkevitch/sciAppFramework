@@ -6,6 +6,8 @@
 
 #include <QLabel>
 #include <QLineEdit>
+#include <QSpinBox>
+#include <QDoubleSpinBox>
 #include <QPushButton>
 #include <QFileDialog>
 #include <QHBoxLayout>
@@ -506,6 +508,55 @@ int labelSpinWidget::minimum() const
 }
 
 // ======================================================
+      
+labelDoubleSpinWidget::labelDoubleSpinWidget( const QString& LabelText, QWidget *Parent ) : 
+  labelInputWidget(Parent,LabelText) 
+{ 
+  initWidget(LabelText); 
+}
+      
+// ------------------------------------------------------
+labelDoubleSpinWidget::labelDoubleSpinWidget( const QString& LabelText, double Value, QWidget *Parent ) :
+  labelInputWidget(Parent,LabelText) 
+{ 
+  initWidget(LabelText); 
+  setValue(Value); 
+}
+
+// ------------------------------------------------------
+
+labelDoubleSpinWidget::labelDoubleSpinWidget( const QString& LabelText, double Min, double Max, QWidget *Parent ) :
+  labelInputWidget(Parent,LabelText) 
+{ 
+  initWidget(LabelText); 
+  setRange(Min,Max); 
+}
+
+// ------------------------------------------------------
+      
+labelDoubleSpinWidget::labelDoubleSpinWidget( const QString& LabelText, double Value, double Min, double Max, QWidget *Parent ) :
+  labelInputWidget(Parent,LabelText) 
+{ 
+  initWidget(LabelText); 
+  setValue(Value); 
+  setRange(Min,Max); 
+}
+
+// ------------------------------------------------------
+
+const QDoubleSpinBox* labelDoubleSpinWidget::getDoubleSpinBox() const 
+{
+  return getInput<QDoubleSpinBox>(); 
+}
+
+// ------------------------------------------------------
+
+QDoubleSpinBox* labelDoubleSpinWidget::getDoubleSpinBox() 
+{ 
+  return getInput<QDoubleSpinBox>(); 
+}
+
+// ------------------------------------------------------
 
 QWidget* labelDoubleSpinWidget::createInputWidget()
 {
@@ -515,6 +566,76 @@ QWidget* labelDoubleSpinWidget::createInputWidget()
   connect( Spin,  SIGNAL(valueChanged(double)), SIGNAL(valueChanged(double))); 
   connect( Spin,  SIGNAL(valueChanged(double)), SIGNAL(changed()) ); 
   return Spin;
+}
+
+// ------------------------------------------------------
+      
+double labelDoubleSpinWidget::value() const 
+{ 
+  return getDoubleSpinBox()->value(); 
+}
+
+// ------------------------------------------------------
+      
+void labelDoubleSpinWidget::setValue( double Value ) 
+{ 
+  getDoubleSpinBox()->setValue(Value); 
+}
+
+// ------------------------------------------------------
+
+void labelDoubleSpinWidget::setReadOnly( bool ReadOnly ) 
+{ 
+  getDoubleSpinBox()->setReadOnly(ReadOnly); 
+}
+
+// ------------------------------------------------------
+
+void labelDoubleSpinWidget::setRange( double Min, double Max ) 
+{ 
+  getDoubleSpinBox()->setRange(Min,Max); 
+}
+
+// ------------------------------------------------------
+
+double labelDoubleSpinWidget::minimum() const 
+{ 
+  return getDoubleSpinBox()->minimum(); 
+}
+
+// ------------------------------------------------------
+
+double labelDoubleSpinWidget::maximum() const 
+{ 
+  return getDoubleSpinBox()->maximum(); 
+}
+
+// ------------------------------------------------------
+
+void labelDoubleSpinWidget::setDecimals( int Decimals ) 
+{ 
+  getDoubleSpinBox()->setDecimals( Decimals ); 
+}
+
+// ------------------------------------------------------
+
+int labelDoubleSpinWidget::decimals() const 
+{ 
+  return getDoubleSpinBox()->decimals(); 
+}
+
+// ------------------------------------------------------
+
+void labelDoubleSpinWidget::setSingleStep( double S ) 
+{ 
+  getDoubleSpinBox()->setSingleStep(S); 
+}
+
+// ------------------------------------------------------
+
+double labelDoubleSpinWidget::singleStep() const 
+{ 
+  return getDoubleSpinBox()->singleStep(); 
 }
 
 // ======================================================
