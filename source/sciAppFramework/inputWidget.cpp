@@ -30,7 +30,37 @@ inputWidget::inputWidget( QWidget *Parent, const QString &SettingsName ) :
 {
 }
 
+// ------------------------------------------------------
+      
+void inputWidget::setEnabled( int Enabled ) 
+{ 
+  QWidget::setEnabled( Enabled != 0 ); 
+}
+
+// ------------------------------------------------------
+      
+QVariant inputWidget::valueToSettings() const 
+{ 
+  return getVariantValue(); 
+}
+
+// ------------------------------------------------------
+
+void inputWidget::setValueFromSettings( const QVariant& Value ) 
+{ 
+  setVariantValue( Value ); 
+}
+
 // ======================================================
+
+labelInputWidget::labelInputWidget( QWidget *Parent, const QString &SettingsName ) : 
+  inputWidget(Parent,SettingsName), 
+  LabelWidget(NULL), 
+  InputWidget(NULL) 
+{
+}
+
+// ------------------------------------------------------
 
 void labelInputWidget::initWidget( const QString& LabelText )
 {
@@ -56,10 +86,24 @@ void labelInputWidget::initWidget( const QString& LabelText )
 
 // ------------------------------------------------------
 
+int labelInputWidget::spacingWidgth() const 
+{ 
+  return 5; 
+}
+
+// ------------------------------------------------------
+
 QLabel* labelInputWidget::createLabelWidget( const QString &LabelText )
 {
   QLabel *Label = new QLabel( LabelText, this );
   return Label;
+}
+
+// ------------------------------------------------------
+      
+const QString labelInputWidget::label() const 
+{ 
+  return LabelWidget->text(); 
 }
 
 // ------------------------------------------------------
@@ -74,8 +118,80 @@ void labelInputWidget::setStretchFactors( int LabelStretch, int InputStretch )
   }
 }
 
+// ------------------------------------------------------
+      
+void labelInputWidget::setInputStyleSheet( const QString &Style ) 
+{ 
+  InputWidget->setStyleSheet(Style); 
+}
+
+// ------------------------------------------------------
+ 
+void labelInputWidget::setLabelStyleSheet( const QString &Style ) 
+{ 
+  LabelWidget->setStyleSheet(Style); 
+}
+
 // ======================================================
     
+labelEditWidget::labelEditWidget( int, QWidget *Parent, const QString &SettingsName ) : 
+  labelInputWidget(Parent,SettingsName) 
+{
+  // Without initWidget()
+} 
+
+// ------------------------------------------------------
+
+labelEditWidget::labelEditWidget( const QString& LabelText, QWidget *Parent ) :
+  labelInputWidget(Parent,LabelText) 
+{ 
+  initWidget(LabelText); 
+}
+
+// ------------------------------------------------------
+
+labelEditWidget::labelEditWidget( const QString& LabelText, QValidator *Validator, QWidget *Parent ) :
+  labelInputWidget(Parent,LabelText) 
+{ 
+  initWidget(LabelText); 
+  setValidator(Validator); 
+}
+      
+// ------------------------------------------------------
+      
+labelEditWidget::labelEditWidget( const QString& LabelText, const QString& Text, QWidget *Parent ) :
+  labelInputWidget(Parent,LabelText) 
+{ 
+  initWidget(LabelText); 
+  setText(Text); 
+}
+
+// ------------------------------------------------------
+      
+labelEditWidget::labelEditWidget( const QString& LabelText, const QString& Text, QValidator *Validator, QWidget *Parent  ) :
+  labelInputWidget(Parent,LabelText) 
+{ 
+  initWidget(LabelText); 
+  setValidator(Validator); 
+  setText(Text); 
+}
+
+// ------------------------------------------------------
+
+QVariant labelEditWidget::getVariantValue() const 
+{ 
+  return text(); 
+}
+
+// ------------------------------------------------------
+
+void labelEditWidget::setVariantValue( const QVariant &Value ) 
+{ 
+  setText( Value.toString() ); 
+}
+
+// ------------------------------------------------------
+
 QWidget* labelEditWidget::createInputWidget()
 {
   QLineEdit *Edit = new QLineEdit(this);
@@ -95,6 +211,43 @@ QWidget* labelEditWidget::createInputWidget()
 }
 
 // ------------------------------------------------------
+
+QLineEdit* labelEditWidget::getLineEdit() 
+{ 
+  QLineEdit* Edit = getInput<QLineEdit>(); 
+  Q_ASSERT( Edit != NULL );
+  return Edit;
+}
+
+// ------------------------------------------------------
+
+const QLineEdit* labelEditWidget::getLineEdit() const 
+{ 
+  return ( const_cast< labelEditWidget* >( this ) )->getLineEdit(); 
+}
+
+// ------------------------------------------------------
+      
+QString labelEditWidget::text() const 
+{ 
+  return getLineEdit()->text(); 
+}
+
+// ------------------------------------------------------
+
+void labelEditWidget::setText( const QString& String ) 
+{ 
+  getLineEdit()->setText(String); 
+}
+
+// ------------------------------------------------------
+
+void labelEditWidget::setReadOnly( bool ReadOnly ) 
+{ 
+  getLineEdit()->setReadOnly(ReadOnly); 
+}
+
+// ------------------------------------------------------
       
 void labelEditWidget::setValidator( QValidator *Validator ) 
 { 
@@ -103,6 +256,23 @@ void labelEditWidget::setValidator( QValidator *Validator )
 }
 
 // ======================================================
+      
+labelDoubleEditWidget::labelDoubleEditWidget( const QString& LabelText, QWidget *Parent ) : 
+  labelEditWidget(0,Parent,LabelText) 
+{ 
+  initWidget(LabelText); 
+}
+
+// ------------------------------------------------------
+
+labelDoubleEditWidget::labelDoubleEditWidget( const QString& LabelText, double Value, QWidget *Parent ) :
+  labelEditWidget(0,Parent,LabelText) 
+{ 
+  initWidget(LabelText); 
+  setValue(Value); 
+}
+
+// ------------------------------------------------------
 
 QWidget* labelDoubleEditWidget::createInputWidget()
 {
@@ -148,7 +318,31 @@ void labelDoubleEditWidget::setValue( double Value )
     setText( QString().sprintf( PrintfFormat.toLocal8Bit().data(), Value ) );
 }
 
+// ------------------------------------------------------
+      
+double labelDoubleEditWidget::value() const 
+{ 
+  return text().toDouble(); 
+}
+
 // ======================================================
+      
+labelPathEditWidget::labelPathEditWidget( const QString& LabelText, QWidget *Parent )
+  : labelEditWidget(0,Parent,LabelText) 
+{ 
+  initWidget(LabelText); 
+}
+
+// ------------------------------------------------------
+
+labelPathEditWidget::labelPathEditWidget( const QString& LabelText, const QString& Text, QWidget *Parent )
+  : labelEditWidget(0,Parent,LabelText) 
+{ 
+  initWidget(LabelText); 
+  setText(Text); 
+}
+
+// ------------------------------------------------------
 
 QLineEdit* labelPathEditWidget::getLineEdit()
 {
@@ -187,6 +381,14 @@ void labelPathEditWidget::initWidget( const QString &LabelText )
 
 // ------------------------------------------------------
 
+void labelPathEditWidget::setDefaultModes() 
+{ 
+  FileMode = QFileDialog::AnyFile; 
+  AcceptMode = QFileDialog::AcceptOpen; 
+}
+
+// ------------------------------------------------------
+
 void labelPathEditWidget::setEditFromFileDialog()
 {
   //qDebug() << "File: " << text() << " path = " << QFileInfo(text()).path();
@@ -207,6 +409,50 @@ void labelPathEditWidget::setEditFromFileDialog()
 }
 
 // ======================================================
+      
+labelSpinWidget::labelSpinWidget( const QString& LabelText, QWidget *Parent ) : 
+  labelInputWidget(Parent,LabelText) 
+{ 
+  initWidget(LabelText); 
+}
+
+// ------------------------------------------------------
+      
+labelSpinWidget::labelSpinWidget( const QString& LabelText, int Value, QWidget *Parent ) : 
+  labelInputWidget(Parent,LabelText) 
+{ 
+  initWidget(LabelText); 
+  setValue(Value); 
+}
+
+// ------------------------------------------------------
+
+labelSpinWidget::labelSpinWidget( const QString& LabelText, int Min, int Max, QWidget *Parent ) : 
+  labelInputWidget(Parent,LabelText) 
+{ 
+  initWidget(LabelText); 
+  setRange(Min,Max); 
+}
+
+// ------------------------------------------------------
+      
+const QSpinBox* labelSpinWidget::getSpinBox() const 
+{ 
+  const QSpinBox *Spin = getInput<QSpinBox>();
+  Q_ASSERT( Spin != NULL );
+  return Spin;
+}
+
+// ------------------------------------------------------
+
+QSpinBox* labelSpinWidget::getSpinBox() 
+{ 
+  QSpinBox *Spin = getInput<QSpinBox>();
+  Q_ASSERT( Spin != NULL );
+  return Spin;
+}
+
+// ------------------------------------------------------
 
 QWidget* labelSpinWidget::createInputWidget()
 {
@@ -215,6 +461,48 @@ QWidget* labelSpinWidget::createInputWidget()
   connect( Spin, SIGNAL(valueChanged(int)), SIGNAL(valueChanged(int)));
   connect( Spin, SIGNAL(valueChanged(int)), SIGNAL(changed()) );
   return Spin;
+}
+
+// ------------------------------------------------------
+      
+int labelSpinWidget::value() const 
+{ 
+  return getSpinBox()->value(); 
+}
+
+// ------------------------------------------------------
+
+void labelSpinWidget::setValue( int Value ) 
+{ 
+  getSpinBox()->setValue(Value); 
+}
+
+// ------------------------------------------------------
+
+void labelSpinWidget::setReadOnly( bool ReadOnly ) 
+{ 
+  getSpinBox()->setReadOnly(ReadOnly); 
+}
+
+// ------------------------------------------------------
+
+void labelSpinWidget::setRange( int Min, int Max ) 
+{ 
+  getSpinBox()->setRange(Min,Max); 
+}
+
+// ------------------------------------------------------
+
+int labelSpinWidget::maximum() const 
+{ 
+  return getSpinBox()->maximum(); 
+}
+
+// ------------------------------------------------------
+
+int labelSpinWidget::minimum() const 
+{ 
+  return getSpinBox()->minimum(); 
 }
 
 // ======================================================

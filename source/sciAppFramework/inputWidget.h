@@ -4,11 +4,8 @@
 // ======================================================
 
 #include <QWidget>
-#include <QLineEdit>
-#include <QSpinBox>
 #include <QDoubleSpinBox>
 #include <QComboBox>
-#include <QLabel>
 #include <QFileDialog>
 #include <QRadioButton>
 #include <QCheckBox>
@@ -17,6 +14,9 @@
 
 #include "sciAppFramework/settingsObject.h"
 
+class QLabel;
+class QLineEdit;
+class QSpinBox;
 class QSettings;
 class QGroupBox;
 class QValidator;
@@ -33,8 +33,8 @@ namespace sciAppFramework
     Q_OBJECT
 
     protected:
-      QVariant valueToSettings() const { return getVariantValue(); }
-      void setValueFromSettings( const QVariant& Value ) { setVariantValue( Value ); }
+      QVariant valueToSettings() const;
+      void setValueFromSettings( const QVariant& Value );
 
     public:
       inputWidget( QWidget *Parent, const QString &SettingsName = QString() );
@@ -53,7 +53,7 @@ namespace sciAppFramework
       void changed();
 
     public slots:
-      void setEnabled( int E ) { QWidget::setEnabled( E != 0 ); }
+      void setEnabled( int Enabled );
   };
 
   // ======================================================
@@ -74,18 +74,15 @@ namespace sciAppFramework
       virtual QWidget* createInputWidget() = 0;
 
       void initWidget( const QString &LabelText );
-      int spacingWidgth() const { return 5; }
+      int spacingWidgth() const;
 
     public:
-      labelInputWidget( QWidget *Parent = NULL, const QString &SettingsName = QString() ) : 
-        inputWidget(Parent,SettingsName), 
-        LabelWidget(NULL), 
-        InputWidget(NULL) {}
+      labelInputWidget( QWidget *Parent = NULL, const QString &SettingsName = QString() );
 
-      void setInputStyleSheet( const QString &Style ) { InputWidget->setStyleSheet(Style); }
-      void setLabelStyleSheet( const QString &Style ) { LabelWidget->setStyleSheet(Style); }
+      void setInputStyleSheet( const QString &Style );
+      void setLabelStyleSheet( const QString &Style );
 
-      const QString label() const { return LabelWidget->text(); }
+      const QString label() const;
       void setStretchFactors( int LabelStretch, int InputStretch );
   };
 
@@ -96,37 +93,28 @@ namespace sciAppFramework
     Q_OBJECT
 
     protected:
-      virtual QLineEdit* getLineEdit() { return getInput<QLineEdit>(); }
-      const QLineEdit* getLineEdit() const { return ( const_cast< labelEditWidget* >( this ) )->getLineEdit(); }
+      virtual QLineEdit* getLineEdit();
+      const QLineEdit* getLineEdit() const;
 
       QWidget* createInputWidget(); 
 
     protected:
-      labelEditWidget( int, QWidget *Parent = NULL, const QString &SettingsName = QString() ) : 
-        labelInputWidget(Parent,SettingsName) {} // Without initWidget()
+      labelEditWidget( int, QWidget *Parent = NULL, const QString &SettingsName = QString() );
 
     public:
-      labelEditWidget( const QString& LabelText, QWidget *Parent = NULL ) 
-        : labelInputWidget(Parent,LabelText) { initWidget(LabelText); }
+      labelEditWidget( const QString& LabelText, QWidget *Parent = NULL );
+      labelEditWidget( const QString& LabelText, QValidator *Validator, QWidget *Parent = NULL );
+      labelEditWidget( const QString& LabelText, const QString& Text, QWidget *Parent );
+      labelEditWidget( const QString& LabelText, const QString& Text, QValidator *Validator = NULL, QWidget *Parent = NULL );
 
-      labelEditWidget( const QString& LabelText, QValidator *Validator, QWidget *Parent = NULL )  
-        : labelInputWidget(Parent,LabelText) { initWidget(LabelText); setValidator(Validator); }
-      
-      labelEditWidget( const QString& LabelText, const QString& Text, QWidget *Parent )
-        : labelInputWidget(Parent,LabelText) { initWidget(LabelText); setText(Text); }
+      QVariant getVariantValue() const;
+      void setVariantValue( const QVariant &Value );
 
-      labelEditWidget( const QString& LabelText, const QString& Text, QValidator *Validator = NULL, 
-        QWidget *Parent = NULL )
-        : labelInputWidget(Parent,LabelText) { initWidget(LabelText); setValidator(Validator); setText(Text); }
-
-      QVariant getVariantValue() const { return text(); }
-      void setVariantValue( const QVariant &Value ) { setText( Value.toString() ); }
-
-      QString text() const { return getLineEdit()->text(); }
-      void setText( const QString& String ) { getLineEdit()->setText(String); }
+      QString text() const;
+      void setText( const QString& String );
       void setValidator( QValidator *Validator );
       
-      void setReadOnly( bool E ) { getLineEdit()->setReadOnly(E); }
+      void setReadOnly( bool E );
 
     signals:
       void editingFinished();
@@ -156,11 +144,8 @@ namespace sciAppFramework
       QWidget* createInputWidget(); 
 
     public:
-      labelDoubleEditWidget( const QString& LabelText, QWidget *Parent = NULL ) : 
-        labelEditWidget(0,Parent,LabelText) { initWidget(LabelText); }
-
-      labelDoubleEditWidget( const QString& LabelText, double Value, QWidget *Parent = NULL ) :
-        labelEditWidget(0,Parent,LabelText) { initWidget(LabelText); setValue(Value); }
+      labelDoubleEditWidget( const QString& LabelText, QWidget *Parent = NULL );
+      labelDoubleEditWidget( const QString& LabelText, double Value, QWidget *Parent = NULL );
       
       QVariant getVariantValue() const { return value(); }
       void setVariantValue( const QVariant &Value ) { setValue( Value.toDouble() ); }
@@ -169,7 +154,7 @@ namespace sciAppFramework
       void setPrintfFormat( const QString &Format ) { PrintfFormat = Format; }
 
       void setValue( double Value );
-      double value() const { return text().toDouble(); }
+      double value() const;
   };
   
   // ======================================================
@@ -185,14 +170,12 @@ namespace sciAppFramework
     protected:
       virtual QLineEdit* getLineEdit();
       QWidget* createInputWidget(); 
-      void setDefaultModes() { FileMode = QFileDialog::AnyFile; AcceptMode = QFileDialog::AcceptOpen; }
+      void setDefaultModes();
       void initWidget( const QString &LabelText );
 
     public:
-      labelPathEditWidget( const QString& LabelText, QWidget *Parent = NULL )
-        : labelEditWidget(0,Parent,LabelText) { initWidget(LabelText); }
-      labelPathEditWidget( const QString& LabelText, const QString& Text, QWidget *Parent = NULL )
-        : labelEditWidget(0,Parent,LabelText) { initWidget(LabelText); setText(Text); }
+      labelPathEditWidget( const QString& LabelText, QWidget *Parent = NULL );
+      labelPathEditWidget( const QString& LabelText, const QString& Text, QWidget *Parent = NULL );
 
       void setFileMode( QFileDialog::FileMode Mode ) { FileMode = Mode; }
       void setAcceptMode( QFileDialog::AcceptMode Mode ) { AcceptMode = Mode; }
@@ -208,30 +191,25 @@ namespace sciAppFramework
     Q_OBJECT
     
     protected:
-      const QSpinBox* getSpinBox() const { return getInput<QSpinBox>(); }
-      QSpinBox* getSpinBox() { return getInput<QSpinBox>(); }
+      const QSpinBox* getSpinBox() const;
+      QSpinBox* getSpinBox();
       QWidget* createInputWidget(); 
 
     public:
-      labelSpinWidget( const QString& LabelText, QWidget *Parent = NULL ) 
-        : labelInputWidget(Parent,LabelText) { initWidget(LabelText); }
-      
-      labelSpinWidget( const QString& LabelText, int Value, QWidget *Parent = NULL ) 
-        : labelInputWidget(Parent,LabelText) { initWidget(LabelText); setValue(Value); }
-
-      labelSpinWidget( const QString& LabelText, int Min, int Max, QWidget *Parent = NULL )  
-        : labelInputWidget(Parent,LabelText) { initWidget(LabelText); setRange(Min,Max); }
+      labelSpinWidget( const QString& LabelText, QWidget *Parent = NULL );
+      labelSpinWidget( const QString& LabelText, int Value, QWidget *Parent = NULL );
+      labelSpinWidget( const QString& LabelText, int Min, int Max, QWidget *Parent = NULL );
 
       QVariant getVariantValue() const { return value(); }
       void setVariantValue( const QVariant &Value ) { setValue( Value.toInt() ); }
 
-      int value() const { return getSpinBox()->value(); }
-      void setValue( int V ) { getSpinBox()->setValue(V); }
-      void setReadOnly( bool E ) { getSpinBox()->setReadOnly(E); };
+      int value() const;
+      void setValue( int Value );
+      void setReadOnly( bool ReadOnly );
 
-      void setRange( int Min, int Max ) { getSpinBox()->setRange(Min,Max); }
-      int maximum() const { return getSpinBox()->maximum(); }
-      int minimum() const { return getSpinBox()->minimum(); }
+      void setRange( int Min, int Max );
+      int maximum() const;
+      int minimum() const;
 
     signals:
       void valueChanged( int i );
