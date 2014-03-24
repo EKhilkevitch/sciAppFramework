@@ -4,9 +4,7 @@
 // ======================================================
 
 #include <QWidget>
-#include <QComboBox>
 #include <QFileDialog>
-#include <QRadioButton>
 #include <QCheckBox>
 #include <QVariant>
 #include <QList>
@@ -17,6 +15,8 @@ class QLabel;
 class QLineEdit;
 class QSpinBox;
 class QDoubleSpinBox;
+class QComboBox;
+class QRadioButton;
 class QSettings;
 class QGroupBox;
 class QValidator;
@@ -260,31 +260,28 @@ namespace sciAppFramework
     Q_OBJECT
 
     protected:
-      const QComboBox* getComboBox() const { return getInput<QComboBox>(); }
-      QComboBox* getComboBox() { return getInput<QComboBox>(); }
+      const QComboBox* getComboBox() const;
+      QComboBox* getComboBox();
       QWidget* createInputWidget(); 
       
-      QVariant valueToSettings() const { return currentIndex(); }
-      void setValueFromSettings( const QVariant &Value ) { setCurrentIndex( qMax( 0, Value.toInt() ) ); }
+      QVariant valueToSettings() const;
+      void setValueFromSettings( const QVariant &Value );
       
     public:
-      labelComboWidget( const QString& LabelText, QWidget *Parent = NULL ) 
-        : labelInputWidget(Parent,LabelText) { initWidget(LabelText); }
-
-      labelComboWidget( const QString& LabelText, const QStringList& Items, QWidget *Parent = NULL )  
-        : labelInputWidget(Parent,LabelText) { initWidget(LabelText); addItems(Items); }
+      labelComboWidget( const QString& LabelText, QWidget *Parent = NULL );
+      labelComboWidget( const QString& LabelText, const QStringList& Items, QWidget *Parent = NULL );
 
       QVariant getVariantValue() const { return currentData(); }
       void setVariantValue( const QVariant &Value ) { setCurrentData( Value ); }    
 
-      int  currentIndex() const { return getComboBox()->currentIndex(); }
-      int  count() const { return getComboBox()->count(); }
-      QString currentText() const { return getComboBox()->currentText(); }
-      QVariant currentData() const { return getComboBox()->itemData( currentIndex() ); }
-      void addItem( const QString &Text, const QVariant &UserData = QVariant() ) { getComboBox()->addItem(Text,UserData); }
+      int  currentIndex() const;
+      int  count() const;
+      QString currentText() const;
+      QVariant currentData() const;
+      void addItem( const QString &Text, const QVariant &UserData = QVariant() );
       void addItems( const QStringList& List );
-      void clear() { getComboBox()->clear(); }
-      void setCurrentIndex( int Index ) { getComboBox()->setCurrentIndex(Index); }
+      void clear();
+      void setCurrentIndex( int Index );
       void setCurrentData( const QVariant& V );
       
     signals:
@@ -323,8 +320,7 @@ namespace sciAppFramework
       void oneOfButtonsChecked();
 
     public:
-      radioButtonWidget( const QString& LabelText, QWidget *Parent = NULL ) 
-        : inputWidget( Parent, LabelText ) { initWidget( LabelText ); }
+      radioButtonWidget( const QString& LabelText, QWidget *Parent = NULL );
       
       QVariant getVariantValue() const { return currentData(); }
       void setVariantValue( const QVariant &Value ) { setCurrentData( Value ); }
@@ -334,8 +330,8 @@ namespace sciAppFramework
       const QString label() const;
 
       int currentIndex() const;
-      int count() const { return RadioButtons.size(); }
-      QVariant currentData() const { return RadioButtons.value( currentIndex() ).Data; }
+      int count() const;
+      QVariant currentData() const;
       void addItem( const QString &Text, const QVariant &UserData = QVariant() );
       void clear();
       void setCurrentIndex( int Index );
@@ -364,29 +360,26 @@ namespace sciAppFramework
       void emitCheckedSignal();
 
     public:
-      checkBoxWidget( const QString& LabelText, QWidget *Parent = NULL ) 
-        : inputWidget( Parent, LabelText ) { initWidget(LabelText); }
-      
-      checkBoxWidget( const QString& LabelText, bool Value, QWidget *Parent = NULL ) 
-        : inputWidget( Parent, LabelText ) { initWidget(LabelText); setChecked(Value); }
+      checkBoxWidget( const QString& LabelText, QWidget *Parent = NULL );
+      checkBoxWidget( const QString& LabelText, bool Value, QWidget *Parent = NULL );
       
       QVariant getVariantValue() const { return isChecked(); }
       void setVariantValue( const QVariant &Value ) { setChecked( Value.toBool() ); }
 
-      const QString label() const { return CheckBox->text(); }
+      const QString label() const;
 
-      Qt::CheckState checkState() const { return CheckBox->checkState(); }
-      void setTristate( bool Set = true ) { CheckBox->setTristate(Set); }
-      bool isTristate() const { return CheckBox->isTristate(); }
-      bool isChecked() const { return CheckBox->isChecked(); }
-      void setChecked( bool C );
+      Qt::CheckState checkState() const;
+      void setTristate( bool Set = true );
+      bool isTristate() const;
+      bool isChecked() const;
+      void setChecked( bool Checked );
 
     public slots:
       void setCheckedOn() { setCheckState(Qt::Checked); }
       void setCheckedOff() { setCheckState(Qt::Unchecked); }
       void setCheckedPartial() { setCheckState(Qt::PartiallyChecked); }
-      void setCheckState( Qt::CheckState State ) { CheckBox->setCheckState(State); }
       void setCheckState( int State ) { setCheckState( static_cast<Qt::CheckState>(State) ); }
+      void setCheckState( Qt::CheckState State );
     
     signals:
       void clicked();

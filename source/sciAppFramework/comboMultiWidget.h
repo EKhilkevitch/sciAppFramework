@@ -13,6 +13,8 @@ class QStackedLayout;
 
 namespace sciAppFramework
 {
+  
+  // ======================================================
 
   class labelComboWidget;
 

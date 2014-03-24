@@ -8,6 +8,8 @@
 #include <QLineEdit>
 #include <QSpinBox>
 #include <QDoubleSpinBox>
+#include <QComboBox>
+#include <QRadioButton>
 #include <QPushButton>
 #include <QFileDialog>
 #include <QHBoxLayout>
@@ -640,6 +642,23 @@ double labelDoubleSpinWidget::singleStep() const
 
 // ======================================================
 
+labelComboWidget::labelComboWidget( const QString& LabelText, QWidget *Parent ) : 
+  labelInputWidget(Parent,LabelText) 
+{ 
+  initWidget(LabelText); 
+}
+
+// ------------------------------------------------------
+
+labelComboWidget::labelComboWidget( const QString& LabelText, const QStringList& Items, QWidget *Parent ) :
+  labelInputWidget(Parent,LabelText) 
+{ 
+  initWidget(LabelText); 
+  addItems(Items); 
+}
+
+// ------------------------------------------------------
+
 QWidget* labelComboWidget::createInputWidget()
 {
   QComboBox *Combo = new QComboBox(this);
@@ -652,10 +671,90 @@ QWidget* labelComboWidget::createInputWidget()
 
 // ------------------------------------------------------
 
+const QComboBox* labelComboWidget::getComboBox() const 
+{ 
+  return getInput<QComboBox>(); 
+}
+
+// ------------------------------------------------------
+      
+QComboBox* labelComboWidget::getComboBox() 
+{ 
+  QComboBox *ComboBox = getInput<QComboBox>();
+  Q_ASSERT( ComboBox != NULL );
+  return ComboBox;
+}
+
+// ------------------------------------------------------
+
+QVariant labelComboWidget::valueToSettings() const 
+{ 
+  return currentIndex(); 
+}
+
+// ------------------------------------------------------
+
+void labelComboWidget::setValueFromSettings( const QVariant &Value ) 
+{ 
+  int Index = qMax( 0, Value.toInt() );
+  setCurrentIndex( Index ); 
+}
+
+// ------------------------------------------------------
+
+int  labelComboWidget::currentIndex() const 
+{ 
+  return getComboBox()->currentIndex(); 
+}
+
+// ------------------------------------------------------
+
+int  labelComboWidget::count() const 
+{ 
+  return getComboBox()->count(); 
+}
+
+// ------------------------------------------------------
+
+QString labelComboWidget::currentText() const 
+{ 
+  return getComboBox()->currentText(); 
+}
+
+// ------------------------------------------------------
+
+QVariant labelComboWidget::currentData() const 
+{ 
+  return getComboBox()->itemData( currentIndex() ); 
+}
+
+// ------------------------------------------------------
+
+void labelComboWidget::addItem( const QString &Text, const QVariant &UserData ) 
+{ 
+  getComboBox()->addItem(Text,UserData); 
+}
+
+// ------------------------------------------------------
+
 void labelComboWidget::addItems( const QStringList& List ) 
 { 
   foreach( QString String, List ) 
     addItem( String ); 
+}
+
+// ------------------------------------------------------
+      
+void labelComboWidget::clear() 
+{ 
+  getComboBox()->clear(); 
+}
+
+// ------------------------------------------------------
+
+void labelComboWidget::setCurrentIndex( int Index ) 
+{ 
+  getComboBox()->setCurrentIndex(Index); 
 }
 
 // ------------------------------------------------------
@@ -671,6 +770,14 @@ void labelComboWidget::setCurrentData( const QVariant& V )
 
 // ======================================================
 
+radioButtonWidget::radioButtonWidget( const QString& LabelText, QWidget *Parent ) : 
+  inputWidget( Parent, LabelText ) 
+{ 
+  initWidget( LabelText ); 
+}
+
+// ------------------------------------------------------
+      
 void radioButtonWidget::initWidget( const QString &LabelText )
 {
   ButtonsBox = new QGroupBox(LabelText,this);
@@ -720,12 +827,26 @@ const QString radioButtonWidget::label() const
 
 // ------------------------------------------------------
 
+int radioButtonWidget::count() const 
+{ 
+  return RadioButtons.size(); 
+}
+
+// ------------------------------------------------------
+
 int radioButtonWidget::currentIndex() const
 {
   for ( int i = 0; i < RadioButtons.size(); i++ )
     if ( RadioButtons[i].Button->isChecked() )
       return i;
   return -1;
+}
+
+// ------------------------------------------------------
+
+QVariant radioButtonWidget::currentData() const 
+{ 
+  return RadioButtons.value( currentIndex() ).Data; 
 }
 
 // ------------------------------------------------------
@@ -781,6 +902,23 @@ void radioButtonWidget::oneOfButtonsChecked()
 
 // ======================================================
 
+checkBoxWidget::checkBoxWidget( const QString& LabelText, QWidget *Parent ) : 
+  inputWidget( Parent, LabelText ) 
+{ 
+  initWidget(LabelText); 
+}
+
+// ------------------------------------------------------
+      
+checkBoxWidget::checkBoxWidget( const QString& LabelText, bool Value, QWidget *Parent ) : 
+  inputWidget( Parent, LabelText ) 
+{ 
+  initWidget(LabelText); 
+  setChecked(Value); 
+}
+
+// ------------------------------------------------------
+
 void checkBoxWidget::initWidget( const QString &LabelText )
 {
   CheckBox = new QCheckBox( LabelText, this );
@@ -797,11 +935,53 @@ void checkBoxWidget::initWidget( const QString &LabelText )
 
 // ------------------------------------------------------
 
-void checkBoxWidget::setChecked( bool C ) 
+const QString checkBoxWidget::label() const 
 { 
-  CheckBox->setChecked(C); 
+  return CheckBox->text(); 
+}
+
+// ------------------------------------------------------
+
+Qt::CheckState checkBoxWidget::checkState() const 
+{ 
+  return CheckBox->checkState(); 
+}
+
+// ------------------------------------------------------
+
+void checkBoxWidget::setTristate( bool Set ) 
+{ 
+  CheckBox->setTristate(Set); 
+}
+
+// ------------------------------------------------------
+
+bool checkBoxWidget::isTristate() const 
+{ 
+  return CheckBox->isTristate(); 
+}
+
+// ------------------------------------------------------
+
+bool checkBoxWidget::isChecked() const 
+{ 
+  return CheckBox->isChecked(); 
+}
+
+// ------------------------------------------------------
+
+void checkBoxWidget::setChecked( bool Checked ) 
+{ 
+  CheckBox->setChecked(Checked); 
   emitCheckedSignal(); 
 } 
+
+// ------------------------------------------------------
+
+void checkBoxWidget::setCheckState( Qt::CheckState State ) 
+{ 
+  CheckBox->setCheckState(State); 
+}
 
 // ------------------------------------------------------
       
