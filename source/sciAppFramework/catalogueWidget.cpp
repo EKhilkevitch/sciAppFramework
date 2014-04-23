@@ -225,6 +225,18 @@ catalogueTableWidget::~catalogueTableWidget()
 
 // ------------------------------------------------------
 
+void catalogueTableWidget::enableSelectionSignalItemView()
+{
+  catalogueItemViewTemplateWidget<QTableWidget,QTableWidgetItem>::enableSelectionSignalItemView();
+
+  connect( itemViewCast(), SIGNAL( currentItemChanged(QTableWidgetItem*, QTableWidgetItem*) ), SIGNAL(currentChanged(QTableWidgetItem*, QTableWidgetItem*)) );
+  connect( itemViewCast(), SIGNAL(cellClicked(int,int)), SIGNAL(cellClicked(int,int)) );
+  connect( itemViewCast(), SIGNAL(cellChanged(int,int)), SIGNAL(cellChanged(int,int)) );
+  connect( itemViewCast(), SIGNAL(cellEntered(int,int)), SIGNAL(cellEntered(int,int)) );
+}
+
+// ------------------------------------------------------
+
 QTableWidget* catalogueTableWidget::createItemView()
 {
   return new QTableWidget(this);

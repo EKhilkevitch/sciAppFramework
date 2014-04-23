@@ -74,8 +74,8 @@ namespace sciAppFramework
   template <class itemView, class itemWidget> class catalogueItemViewTemplateWidget : public catalogueWidget
   {
     protected:
-      void enableSelectionSignalItemView()  { connect( itemViewCast(), SIGNAL( itemSelectionChanged() ), SIGNAL(selectionChanged()) ); }
-      void disableSelectionSignalItemView() { itemViewCast()->disconnect();  }
+      void enableSelectionSignalItemView();
+      void disableSelectionSignalItemView();
 
     protected:
       itemView* itemViewCast() { return itemViewTemplateCast<itemView>(); }
@@ -95,6 +95,8 @@ namespace sciAppFramework
   
   class catalogueListWidget : public catalogueItemViewTemplateWidget<QListWidget,QListWidgetItem>
   {
+    Q_OBJECT
+
     private:
       QListWidget* createItemView();
 
@@ -118,8 +120,13 @@ namespace sciAppFramework
   
   class catalogueTableWidget : public catalogueItemViewTemplateWidget<QTableWidget,QTableWidgetItem>
   {
+    Q_OBJECT
+
     private:
       QTableWidget* createItemView();
+      
+    protected:
+      void enableSelectionSignalItemView();
 
     public:
       catalogueTableWidget( QWidget *Parent = NULL, const QString &SettingsName = QString() );
@@ -142,7 +149,27 @@ namespace sciAppFramework
       QTableWidgetItem* setItem( int Row, int Column, QTableWidgetItem *Item );
       QTableWidgetItem* item( int Row, int Column ) const { return itemViewCast()->item(Row,Column); }
       QTableWidgetItem* takeItem( int Row, int Column ) { return itemViewCast()->takeItem(Row,Column); }
+
+    signals:
+      void currentChanged( QTableWidgetItem*, QTableWidgetItem* );
+      void cellClicked( int Row, int Column );
+      void cellChanged( int Row, int Column );
+      void cellEntered( int Row, int Column );
   };
+  
+  // ======================================================
+      
+  template <class itemView, class itemWidget> void catalogueItemViewTemplateWidget<itemView,itemWidget>::enableSelectionSignalItemView()  
+  { 
+    connect( itemViewCast(), SIGNAL( itemSelectionChanged() ), SIGNAL(selectionChanged()) ); 
+  }
+  
+  // ------------------------------------------------------
+
+  template <class itemView, class itemWidget> void catalogueItemViewTemplateWidget<itemView,itemWidget>::disableSelectionSignalItemView() 
+  { 
+    itemViewCast()->disconnect();  
+  }
   
   // ======================================================
 
