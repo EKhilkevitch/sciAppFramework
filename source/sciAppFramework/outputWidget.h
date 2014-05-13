@@ -5,8 +5,11 @@
 
 #include <QWidget>
 
-class qt4plot;
-class qt4plotManager;
+namespace scigraphics
+{
+  class qt4plotManager;
+}
+
 class QSettings;
 class QTabWidget;
 
@@ -58,10 +61,10 @@ namespace sciAppFramework
   class plotManagerOutputWidgetItem : public outputWidgetItem
   {
     private:
-      qt4plotManager *PlotManager;
+      scigraphics::qt4plotManager *PlotManager;
 
     public:
-      plotManagerOutputWidgetItem( qt4plotManager *PlotManager, const QString &Title );
+      plotManagerOutputWidgetItem( scigraphics::qt4plotManager *PlotManager, const QString &Title );
       QWidget* outputWidget();
       QWidget* outputSettingsWidget();
       void saveSettings( QSettings* );

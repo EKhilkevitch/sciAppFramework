@@ -9,7 +9,7 @@
 #include "sciAppFramework/measurementThread.h"
 #include "sciAppFramework/main.h"
 
-#include "scigraphics/qt4/qt4plotmanager.h"
+#include "scigraphics/qt4/manager.h"
 
 using namespace sciAppFramework;
 
@@ -33,7 +33,7 @@ struct testMainWidget : public measureMainWidget
     {
       testOutputWidget() 
       { 
-        appendOutputWidgetItem( new plotManagerOutputWidgetItem( new qt4plotManager(3), "Plot" ) );
+        appendOutputWidgetItem( new plotManagerOutputWidgetItem( new scigraphics::qt4plotManager(3), "Plot" ) );
         appendOutputWidgetItem( new simpleOutputWidgetItem( new QLabel("L1"), new QLabel("S1"), "T1" ) );
       }
     };

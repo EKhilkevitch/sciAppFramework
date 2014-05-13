@@ -2,7 +2,7 @@
 // =========================================
 
 #include "sciAppFramework/outputWidget.h"
-#include "scigraphics/qt4/qt4plotmanager.h"
+#include "scigraphics/qt4/manager.h"
 
 #include <QStackedLayout>
 #include <QTabWidget>
@@ -12,7 +12,7 @@ using namespace sciAppFramework;
 
 // =========================================
 
-plotManagerOutputWidgetItem::plotManagerOutputWidgetItem( qt4plotManager *PM, const QString &Title ) : 
+plotManagerOutputWidgetItem::plotManagerOutputWidgetItem( scigraphics::qt4plotManager *PM, const QString &Title ) : 
   outputWidgetItem(Title), 
   PlotManager(PM)
 {
