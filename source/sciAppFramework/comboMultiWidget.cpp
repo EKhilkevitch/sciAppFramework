@@ -3,11 +3,9 @@
 
 #include "sciAppFramework/comboMultiWidget.h"
 #include "sciAppFramework/inputWidget.h"
-#include "sciAppFramework/utility.h"
 
 #include <QVBoxLayout>
 #include <QStackedLayout>
-#include <QDebug>
 
 using namespace sciAppFramework;
 

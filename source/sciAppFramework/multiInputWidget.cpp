@@ -3,7 +3,7 @@
 
 #include "sciAppFramework/multiInputWidget.h"
 #include "sciAppFramework/inputWidget.h"
-#include "sciAppFramework/utility.h"
+#include "sciAppFramework/layoutOperations.h"
 
 #include <QVBoxLayout>
 #include <QGroupBox>

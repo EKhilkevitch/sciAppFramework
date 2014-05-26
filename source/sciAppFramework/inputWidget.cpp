@@ -2,7 +2,6 @@
 // ======================================================
 
 #include "sciAppFramework/inputWidget.h"
-#include "sciAppFramework/utility.h"
 
 #include <QLabel>
 #include <QLineEdit>
@@ -328,6 +327,20 @@ double labelDoubleEditWidget::value() const
 { 
   return text().toDouble(); 
 }
+      
+// ------------------------------------------------------
+
+QVariant labelDoubleEditWidget::getVariantValue() const 
+{ 
+  return value(); 
+}
+
+// ------------------------------------------------------
+
+void labelDoubleEditWidget::setVariantValue( const QVariant &Value ) 
+{ 
+  setValue( Value.toDouble() ); 
+}
 
 // ======================================================
       
@@ -508,6 +521,20 @@ int labelSpinWidget::minimum() const
 { 
   return getSpinBox()->minimum(); 
 }
+      
+// ------------------------------------------------------
+
+QVariant labelSpinWidget::getVariantValue() const 
+{ 
+  return value(); 
+}
+
+// ------------------------------------------------------
+
+void labelSpinWidget::setVariantValue( const QVariant &Value ) 
+{ 
+  setValue( Value.toInt() ); 
+}
 
 // ======================================================
       
@@ -638,6 +665,20 @@ void labelDoubleSpinWidget::setSingleStep( double S )
 double labelDoubleSpinWidget::singleStep() const 
 { 
   return getDoubleSpinBox()->singleStep(); 
+}
+      
+// ------------------------------------------------------
+
+QVariant labelDoubleSpinWidget::getVariantValue() const 
+{ 
+  return value(); 
+}
+
+// ------------------------------------------------------
+
+void labelDoubleSpinWidget::setVariantValue( const QVariant &Value ) 
+{ 
+  setValue( Value.toDouble() ); 
 }
 
 // ======================================================

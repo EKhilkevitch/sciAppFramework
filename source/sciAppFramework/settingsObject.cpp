@@ -2,14 +2,15 @@
 // =========================================
 
 #include <QSettings>
+#include <QVariant>
 #include <QList>
 #include <QRegExp>
 #include <QDebug>
+#include <QTemporaryFile>
 
 #include "sciAppFramework/settingsObject.h"
 
 using namespace sciAppFramework;
-
 
 // =========================================
 
@@ -75,6 +76,27 @@ QString settingsObject::normolizeToSettingsName( QString String )
   return String.replace( QRegExp("[\\s:+*=\\-]"), "_" );
 }
 
+// -----------------------------------------
+
+void settingsObject::copySettings( settingsObject *Destination ) const
+{
+  if ( Destination == NULL )
+    return;
+
+  QTemporaryFile SettingsFile;
+
+  if ( ! SettingsFile.open() )
+  {
+    qWarning() << "settingsObject::copySettings() : can not open temporary file";
+    return;
+  }
+
+  QSettings SettingsBuffer( SettingsFile.fileName(), QSettings::IniFormat );
+
+  saveSettings( &SettingsBuffer );
+  Destination->loadSettings( &SettingsBuffer );
+}
+
 // =========================================
 
 
@@ -109,7 +131,7 @@ void singleSettingsObject::loadSettings( QSettings *Settings )
   if ( Value.isValid() )
     setValueFromSettings( Value );
 }
-
+      
 // =========================================
 
 void multiSettingsObject::saveSettings( QSettings *Settings ) const

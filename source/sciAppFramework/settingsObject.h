@@ -5,9 +5,9 @@
 
 #include <QList>
 #include <QString>
-#include <QVariant>
 
 class QSettings;
+class QVariant;
 
 // =========================================
 
@@ -44,6 +44,8 @@ namespace sciAppFramework
       
       virtual void saveSettings( QSettings *Settings ) const = 0;
       virtual void loadSettings( QSettings *Settings ) = 0;
+
+      void copySettings( settingsObject *Destination ) const;
 
       static QString normolizeToSettingsName( QString String );
   };

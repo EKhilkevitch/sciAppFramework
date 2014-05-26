@@ -19,7 +19,7 @@ set ( sciAppFramework_source_files
                 comboMultiWidget.cpp
                 catalogueWidget.cpp
                 waitWidget.cpp
-                utility.cpp             
+                layoutOperations.cpp
   )
 
 qt4_wrap_cpp( sciAppFramework_moc_sources 

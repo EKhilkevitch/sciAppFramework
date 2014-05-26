@@ -6,8 +6,8 @@
 #include <QWidget>
 #include <QFileDialog>
 #include <QCheckBox>
-#include <QVariant>
 #include <QList>
+#include <QVariant>
 
 #include "sciAppFramework/settingsObject.h"
 
@@ -20,6 +20,7 @@ class QRadioButton;
 class QSettings;
 class QGroupBox;
 class QValidator;
+class QVariant;
 
 // ======================================================
 
@@ -147,8 +148,8 @@ namespace sciAppFramework
       labelDoubleEditWidget( const QString& LabelText, QWidget *Parent = NULL );
       labelDoubleEditWidget( const QString& LabelText, double Value, QWidget *Parent = NULL );
       
-      QVariant getVariantValue() const { return value(); }
-      void setVariantValue( const QVariant &Value ) { setValue( Value.toDouble() ); }
+      QVariant getVariantValue() const;
+      void setVariantValue( const QVariant &Value );
 
       void setRange( double Min, double Max );
       void setPrintfFormat( const QString &Format ) { PrintfFormat = Format; }
@@ -200,8 +201,8 @@ namespace sciAppFramework
       labelSpinWidget( const QString& LabelText, int Value, QWidget *Parent = NULL );
       labelSpinWidget( const QString& LabelText, int Min, int Max, QWidget *Parent = NULL );
 
-      QVariant getVariantValue() const { return value(); }
-      void setVariantValue( const QVariant &Value ) { setValue( Value.toInt() ); }
+      QVariant getVariantValue() const;
+      void setVariantValue( const QVariant &Value );
 
       int value() const;
       void setValue( int Value );
@@ -232,8 +233,8 @@ namespace sciAppFramework
       labelDoubleSpinWidget( const QString& LabelText, double Min, double Max, QWidget *Parent = NULL );
       labelDoubleSpinWidget( const QString& LabelText, double Value, double Min, double Max, QWidget *Parent = NULL );
 
-      QVariant getVariantValue() const { return value(); }
-      void setVariantValue( const QVariant &Value ) { setValue( Value.toDouble() ); }    
+      QVariant getVariantValue() const;
+      void setVariantValue( const QVariant &Value );
 
       double value() const;
       void setValue( double Value );

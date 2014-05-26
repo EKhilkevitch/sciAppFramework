@@ -1,11 +1,40 @@
 
-#include "sciAppFramework/utility.h"
+#include "sciAppFramework/layoutOperations.h"
 
+#include <QWidget>
 #include <QBoxLayout>
 
 using namespace sciAppFramework;
 
 // ======================================================
+
+void layoutOperations::clearLayout( QLayout *Layout )
+{
+  if ( Layout == NULL )
+    return;
+
+  while ( true )
+  {
+    QLayoutItem *Item = Layout->takeAt(0);
+    if ( Item == NULL )
+      break;
+    
+    QLayout *ItemLayout = Item->layout();
+    if ( ItemLayout != NULL )
+    {
+      clearLayout( ItemLayout );
+      delete ItemLayout;
+    }
+
+    QWidget *Widget = Item->widget();
+    if ( Widget != NULL )
+      delete Widget;
+
+    delete Item;
+  }
+}
+
+// ------------------------------------------------------
 
 void layoutOperations::appendStretch( QBoxLayout *Layout, int Stretch )
 {
