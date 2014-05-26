@@ -26,9 +26,8 @@ void layoutOperations::clearLayout( QLayout *Layout )
       delete ItemLayout;
     }
 
-    QWidget *Widget = Item->widget();
-    if ( Widget != NULL )
-      delete Widget;
+    delete Item->spacerItem();
+    delete Item->widget();
 
     delete Item;
   }
@@ -48,20 +47,23 @@ bool layoutOperations::removeLastSpacing( QBoxLayout *Layout )
 {
   if ( Layout == NULL )
     return false;
-  if ( Layout->count() <= 0 )
+
+  int Count = Layout->count();
+
+  if ( Count <= 0 )
     return false;
 
-  QLayoutItem *LastLayoutItem = Layout->itemAt( Layout->count()-1 );
+  QLayoutItem *LastLayoutItem = Layout->itemAt( Count-1 );
   if ( LastLayoutItem == NULL || LastLayoutItem->spacerItem() == NULL )
     return false;
 
-  delete Layout->takeAt( Layout->count()-1 );
+  delete Layout->takeAt( Count-1 );
   return true;
 }
 
 // ------------------------------------------------------
 
-void layoutOperations::moveContent( QBoxLayout *To, QBoxLayout *From )
+void layoutOperations::moveContent( QLayout *To, QLayout *From )
 {
   if ( To == NULL || From == NULL )
     return;
@@ -106,6 +108,19 @@ void layoutOperations::appendLayoutItem( QBoxLayout *Layout, QLayoutItem *Item, 
   
   removeLastSpacing( Layout );
   Layout->addItem( Item );
+  appendStretch( Layout, Stretch );
+}
+
+// ------------------------------------------------------
+
+// Need becouse appendLayoutItem(QBoxLayout*,QLayoutItem*) and QBoxLayout::additem() not work some times. Bug in Qt?
+void layoutOperations::appendLayoutItem( QBoxLayout *Layout, QWidget *Widget, int Stretch )
+{
+  if ( Layout == NULL || Widget == NULL )
+    return;
+  
+  removeLastSpacing( Layout );
+  Layout->addWidget( Widget );
   appendStretch( Layout, Stretch );
 }
 
