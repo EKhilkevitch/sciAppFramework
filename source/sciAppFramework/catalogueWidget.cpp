@@ -77,18 +77,6 @@ void catalogueWidget::initWidget()
 }
 
 // -----------------------------------------
-
-void catalogueWidget::loadSettings( QSettings * )
-{
-}
-
-// -----------------------------------------
-
-void catalogueWidget::saveSettings( QSettings * ) const
-{
-}
-
-// -----------------------------------------
       
 void catalogueWidget::emitSelectionChanged() 
 { 
@@ -97,9 +85,8 @@ void catalogueWidget::emitSelectionChanged()
 
 // -----------------------------------------
       
-catalogueWidget::catalogueWidget( QWidget *Parent, const QString &SettingsName ) :
+catalogueWidget::catalogueWidget( QWidget *Parent ) :
   QWidget(Parent),
-  settingsObject( dynamic_cast<settingsObject*>(Parent), SettingsName ),
   ButtonsWidget(NULL),
   ItemView(NULL) 
 {
@@ -113,8 +100,8 @@ catalogueWidget::~catalogueWidget()
 
 // =========================================
       
-catalogueListWidget::catalogueListWidget( QWidget *Parent, const QString &SettingsName ) : 
-  catalogueItemViewTemplateWidget<QListWidget,QListWidgetItem>(Parent,SettingsName) 
+catalogueListWidget::catalogueListWidget( QWidget *Parent ) : 
+  catalogueItemViewTemplateWidget<QListWidget,QListWidgetItem>(Parent) 
 {
 }
 
@@ -158,6 +145,13 @@ void catalogueListWidget::clear()
   disableSelectionSignalItemView();
   itemViewCast()->clear();
   enableSelectionSignalItemView();
+}
+
+// -----------------------------------------
+
+QListWidgetItem* catalogueListWidget::item( int Row ) const 
+{ 
+  return itemViewCast()->item(Row); 
 }
 
 // -----------------------------------------
@@ -212,8 +206,8 @@ QListWidget* catalogueListWidget::createItemView()
 
 // ======================================================
 
-catalogueTableWidget::catalogueTableWidget( QWidget *Parent, const QString &SettingsName ) : 
-  catalogueItemViewTemplateWidget<QTableWidget,QTableWidgetItem>(Parent,SettingsName) 
+catalogueTableWidget::catalogueTableWidget( QWidget *Parent ) : 
+  catalogueItemViewTemplateWidget<QTableWidget,QTableWidgetItem>(Parent) 
 {
 }
 

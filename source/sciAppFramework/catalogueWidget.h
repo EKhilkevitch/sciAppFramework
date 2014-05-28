@@ -11,8 +11,6 @@
 #include <QListWidget>
 #include <QTableWidget>
 
-#include "sciAppFramework/settingsObject.h"
-
 class QAbstractItemView;
 class QListWidgetItem;
 class QListWidget;
@@ -26,7 +24,7 @@ namespace sciAppFramework
 
   // ======================================================
 
-  class catalogueWidget : public QWidget, public settingsObject
+  class catalogueWidget : public QWidget
   {
     Q_OBJECT
 
@@ -58,11 +56,8 @@ namespace sciAppFramework
       void initWidget();
 
     public:
-      catalogueWidget( QWidget *Parent = NULL, const QString &SettingsName = QString() );
+      catalogueWidget( QWidget *Parent = NULL );
       ~catalogueWidget();
-
-      void loadSettings( QSettings *Settings );
-      void saveSettings( QSettings *Settings ) const;
 
     signals:
       void selectionChanged();
@@ -84,8 +79,8 @@ namespace sciAppFramework
       bool isItemViewInited() const { return itemViewCast() != NULL; }
 
     public:
-      catalogueItemViewTemplateWidget( QWidget *Parent = NULL, const QString &SettingsName = QString() ) : 
-        catalogueWidget(Parent,SettingsName) {}
+      catalogueItemViewTemplateWidget( QWidget *Parent = NULL ) : 
+        catalogueWidget(Parent) {}
       
       int count() const { return itemViewCast()->count(); }
       QList<itemWidget*> selectedItems() { return itemViewCast()->selectedItems(); }
@@ -101,7 +96,7 @@ namespace sciAppFramework
       QListWidget* createItemView();
 
     public:
-      catalogueListWidget( QWidget *Parent = NULL, const QString &SettingsName = QString() );
+      catalogueListWidget( QWidget *Parent = NULL );
       virtual ~catalogueListWidget() = 0;
 
       QListWidgetItem* add( const QString &Title ) { return add(Title,QVariant(),true); }
@@ -109,7 +104,7 @@ namespace sciAppFramework
       QListWidgetItem* add( const QString &Title, const QVariant &Data, bool Selected );
       void clear();
       
-      QListWidgetItem* item( int Row ) const { return itemViewCast()->item(Row); }
+      QListWidgetItem* item( int Row ) const;
 
       bool isSelected( unsigned Index ) const;
       bool isSelected( const QVariant &Data ) const;
@@ -129,7 +124,7 @@ namespace sciAppFramework
       void enableSelectionSignalItemView();
 
     public:
-      catalogueTableWidget( QWidget *Parent = NULL, const QString &SettingsName = QString() );
+      catalogueTableWidget( QWidget *Parent = NULL );
       virtual ~catalogueTableWidget() = 0;
 
       void setColumnCount( int C ) { itemViewCast()->setColumnCount(C); }
