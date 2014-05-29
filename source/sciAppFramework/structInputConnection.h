@@ -43,7 +43,7 @@ namespace sciAppFramework
       structInputConnection();
 
       void connectField( inputWidget *Input, size_t Shift, const std::type_info &Type );
-      void fillStructByInputs( void *Struct ) const;
+      void fillStructFromInputs( void *Struct ) const;
       void fillInputsFromStruct( const void *Struct ) const;
   };
   
@@ -51,7 +51,8 @@ namespace sciAppFramework
 
 #define STRUCT_INPUT_CONNECT_FIELD( Connection, InputWidget, StructType, FieldName )    \
   do {                                                                                  \
-    size_t Shift = offsetof( StructType, FieldName );                                   \
+    /* size_t Shift = offsetof( StructType, FieldName );*/                              \
+    size_t Shift = reinterpret_cast<size_t>( &( static_cast<StructType*>(NULL)->FieldName ) ); \
     const std::type_info &Type = typeid( static_cast<StructType*>(NULL)->FieldName );   \
     ( Connection )->connectField( (InputWidget), Shift, Type );                         \
   } while ( false )

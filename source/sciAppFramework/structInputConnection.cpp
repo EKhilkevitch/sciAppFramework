@@ -142,7 +142,7 @@ void structInputConnection::connectField( inputWidget *Input, size_t Shift, cons
 
 // ------------------------------------------------------
 
-void structInputConnection::fillStructByInputs( void *Struct ) const
+void structInputConnection::fillStructFromInputs( void *Struct ) const
 {
   if ( Struct == NULL )
     return;

@@ -43,7 +43,7 @@ int main( int argc, char **argv )
 
   int Result = app.exec(); 
 
-  StructInputConnection.fillStructByInputs( &Struct );
+  StructInputConnection.fillStructFromInputs( &Struct );
   qDebug() << "Struct: " << Struct.Int1 << Struct.Double << QString::fromStdString(Struct.StdString) << Struct.QtString << Struct.Int2;
   return Result;
 }

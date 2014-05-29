@@ -153,6 +153,13 @@ QListWidgetItem* catalogueListWidget::item( int Row ) const
 { 
   return itemViewCast()->item(Row); 
 }
+      
+// -----------------------------------------
+
+QListWidgetItem* catalogueListWidget::takeItem( int Row )
+{ 
+  return itemViewCast()->takeItem(Row); 
+}
 
 // -----------------------------------------
       
@@ -202,6 +209,15 @@ bool catalogueListWidget::isSelected( const QListWidgetItem* Item ) const
 QListWidget* catalogueListWidget::createItemView()
 {
   return new QListWidget(this);
+}
+
+// -----------------------------------------
+      
+void catalogueListWidget::deleteSelectedItems()
+{
+  QList<QListWidgetItem*> Selected = selectedItems();
+  foreach ( QListWidgetItem *Item, Selected )
+    delete Item;
 }
 
 // ======================================================
@@ -254,6 +270,33 @@ QTableWidgetItem* catalogueTableWidget::setItem( int Row, int Column, QTableWidg
     return NULL;
   itemViewCast()->setItem( Row, Column, Item );
   return Item;
+}
+
+// -----------------------------------------
+
+void catalogueTableWidget::deleteSelectedItems()
+{
+  QList<QTableWidgetItem*> Selected = selectedItems();
+  foreach ( QTableWidgetItem *Item, Selected )
+    delete Item;
+
+  for ( int i = 0, j = 0; true; i++, j++ )
+  {
+    while ( j < rowCount() && item( j, 0 ) == NULL )
+      j++;
+
+    if ( j >= rowCount() )
+    {
+      setRowCount( i );
+      break;
+    }
+
+    if ( i != j )
+    {
+      QTableWidgetItem *Item = takeItem( j, 0 );
+      setItem( i, 0, Item );
+    }
+  }
 }
 
 // ======================================================

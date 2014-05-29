@@ -103,12 +103,16 @@ namespace sciAppFramework
       QListWidgetItem* add( const QString &Title, bool Selected ) { return add(Title,QVariant(),Selected); }
       QListWidgetItem* add( const QString &Title, const QVariant &Data, bool Selected );
       void clear();
-      
+
       QListWidgetItem* item( int Row ) const;
+      QListWidgetItem* takeItem( int Row );
 
       bool isSelected( unsigned Index ) const;
       bool isSelected( const QVariant &Data ) const;
       bool isSelected( const QListWidgetItem* Item ) const;
+
+    public slots:
+      void deleteSelectedItems();
   };
   
   // ======================================================
@@ -150,6 +154,9 @@ namespace sciAppFramework
       void cellClicked( int Row, int Column );
       void cellChanged( int Row, int Column );
       void cellEntered( int Row, int Column );
+    
+    public slots:
+      void deleteSelectedItems();
   };
   
   // ======================================================
