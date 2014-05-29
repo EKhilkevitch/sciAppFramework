@@ -20,6 +20,7 @@ set ( sciAppFramework_source_files
                 catalogueWidget.cpp
                 waitWidget.cpp
                 layoutOperations.cpp
+                structInputConnection.cpp
   )
 
 qt4_wrap_cpp( sciAppFramework_moc_sources 

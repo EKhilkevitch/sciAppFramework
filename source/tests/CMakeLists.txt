@@ -42,6 +42,10 @@ if ( ENABLE_TESTS )
   project( testWaitWidget )
   add_executable( testWaitWidget testWaitWidget.cpp )
   target_link_libraries( testWaitWidget ${QT_LIBRARIES} ${scigraphicsQt_LIBRARY} ${scigraphics_LIBRARY} sciAppFramework )
+  
+  project( testStructInputConnection )
+  add_executable( testStructInputConnection testStructInputConnection.cpp )
+  target_link_libraries( testStructInputConnection ${QT_LIBRARIES} ${scigraphicsQt_LIBRARY} ${scigraphics_LIBRARY} sciAppFramework )
 
 endif()
 

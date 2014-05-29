@@ -27,7 +27,7 @@ class QVariant;
 namespace sciAppFramework
 {
 
-// ======================================================
+  // ======================================================
 
   class inputWidget : public QWidget, public singleSettingsObject
   {
