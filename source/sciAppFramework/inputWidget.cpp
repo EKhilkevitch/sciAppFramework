@@ -406,6 +406,13 @@ void labelPathEditWidget::setDefaultModes()
 
 // ------------------------------------------------------
 
+void labelPathEditWidget::setNameFilters( const QStringList &F ) 
+{ 
+  Filter = F.join(";;"); 
+}
+
+// ------------------------------------------------------
+
 void labelPathEditWidget::setEditFromFileDialog()
 {
   //qDebug() << "File: " << text() << " path = " << QFileInfo(text()).path();
@@ -416,6 +423,8 @@ void labelPathEditWidget::setEditFromFileDialog()
   Dialog.selectFile( text() );
   Dialog.setFileMode( FileMode );
   Dialog.setAcceptMode( AcceptMode );
+  Dialog.setDirectory( Directory );
+  Dialog.setNameFilter( Filter );
   Dialog.selectFile( text() );
   
   if ( Dialog.exec() == QDialog::Accepted )

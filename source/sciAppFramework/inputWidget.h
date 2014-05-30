@@ -165,8 +165,9 @@ namespace sciAppFramework
     Q_OBJECT
 
     private:
-      enum QFileDialog::FileMode FileMode;
-      enum QFileDialog::AcceptMode AcceptMode;
+      QFileDialog::FileMode FileMode;
+      QFileDialog::AcceptMode AcceptMode;
+      QString Directory, Filter;
 
     protected:
       virtual QLineEdit* getLineEdit();
@@ -180,6 +181,9 @@ namespace sciAppFramework
 
       void setFileMode( QFileDialog::FileMode Mode ) { FileMode = Mode; }
       void setAcceptMode( QFileDialog::AcceptMode Mode ) { AcceptMode = Mode; }
+      void setNameFilter( const QString &F ) { Filter = F; }
+      void setNameFilters( const QStringList &F );
+      void setDirectory( const QString &D ) { Directory = D; }
 
     public slots:
       void setEditFromFileDialog();
