@@ -65,6 +65,7 @@ QVariant structInputConnection::fieldProperties::valueFromStruct( const void *St
       return VALUE_FROM_STRUCT(T); \
   } while ( false )             \
 
+  RETURN_IF_TYPE( bool );
   RETURN_IF_TYPE( char );
   RETURN_IF_TYPE( short );
   RETURN_IF_TYPE( int );
@@ -105,6 +106,7 @@ void structInputConnection::fieldProperties::setValueToStruct( void *StructPoint
     }                                   \
   } while ( false )
 
+  SET_AND_RETURN_IF_TYPE( bool );
   SET_AND_RETURN_IF_TYPE( char );
   SET_AND_RETURN_IF_TYPE( short );
   SET_AND_RETURN_IF_TYPE( int );
