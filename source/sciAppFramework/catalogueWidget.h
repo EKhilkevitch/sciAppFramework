@@ -111,6 +111,9 @@ namespace sciAppFramework
       bool isSelected( const QVariant &Data ) const;
       bool isSelected( const QListWidgetItem* Item ) const;
 
+      virtual void saveListInSettings( QSettings *Settings, const QString &Name ) const;
+      virtual void loadListFromSettings( QSettings *Settings, const QString &Name );
+
     public slots:
       void deleteSelectedItems();
   };

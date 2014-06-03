@@ -9,6 +9,7 @@
 #include <QAbstractItemView>
 #include <QListWidget>
 #include <QKeyEvent>
+#include <QSettings>
 #include <QDebug>
 
 using namespace sciAppFramework;
@@ -202,6 +203,66 @@ bool catalogueListWidget::isSelected( const QListWidgetItem* Item ) const
   if ( Item == NULL )
     return false;
   return Item->isSelected();
+}
+
+// -----------------------------------------
+
+void catalogueListWidget::saveListInSettings( QSettings *Settings, const QString &Name ) const
+{
+  if ( Settings == NULL )
+    return;
+
+  Settings->beginGroup( Name );
+  for ( int Row = 0; Row < count(); ++Row )
+  {
+    QListWidgetItem *Item = item( Row );
+    if ( Item == NULL )
+      continue;
+    Settings->beginGroup( QString::number(Row) );
+    Settings->setValue( "Text", Item->text() );
+    Settings->setValue( "Data", Item->data(Qt::UserRole) );
+    Settings->endGroup();
+  }
+
+  for ( int Row = count(); true; ++Row )
+  {
+    Settings->beginGroup( QString::number(Row) );
+    if ( ! Settings->contains( "Text" ) )
+    {
+      Settings->endGroup(); 
+      break;
+    }
+    Settings->remove( "" );
+    Settings->endGroup(); 
+  }
+
+  Settings->endGroup();
+}
+
+// -----------------------------------------
+
+void catalogueListWidget::loadListFromSettings( QSettings *Settings, const QString &Name )
+{
+  if ( Settings == NULL )
+    return;
+
+  clear();
+  Settings->beginGroup( Name );
+  for ( int Row = 0; true; ++Row )
+  {
+    Settings->beginGroup( QString::number(Row) );
+    if ( ! Settings->contains( "Text" ) )
+    {
+      Settings->endGroup();
+      break;
+    }
+    QString Text = Settings->value( "Text" ).toString();
+    QVariant Data = Settings->value( "Data" );
+    Settings->endGroup();
+    add( Text, Data, false );
+  } 
+  Settings->endGroup();
+
 }
 
 // -----------------------------------------
