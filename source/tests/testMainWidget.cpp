@@ -17,7 +17,9 @@ using namespace sciAppFramework;
 struct testMainWidget : public measureMainWidget
 {
   testMainWidget() { initWidget(); }
-      
+  
+  QString appTitle() const { return "Test application"; }
+
   controlWidget* createControlWidget() 
   { 
     struct testControlWidget : public measureControlWidget
@@ -51,7 +53,7 @@ struct testMainWidget : public measureMainWidget
 
 int main( int argc, char **argv )
 {
-  return sciAppFramework::main<testMainWidget>( argc, argv, "Test application" );
+  return sciAppFramework::main<testMainWidget>( argc, argv );
 }
 
 

@@ -109,8 +109,9 @@ void mainWidget::setupControlWidget()
 
 void mainWidget::setupThisWindow()
 {
-  setWindowTitle( appTitle() );
+  QApplication::setApplicationName( appTitle() );
   QApplication::setWindowIcon( appIcon() );
+  setWindowTitle( QApplication::applicationName() );
 }
 
 // -----------------------------------------

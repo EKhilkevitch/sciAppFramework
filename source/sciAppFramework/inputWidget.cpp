@@ -324,7 +324,7 @@ void labelDoubleEditWidget::setValue( double Value )
 // ------------------------------------------------------
       
 double labelDoubleEditWidget::value() const 
-{ 
+{
   return text().toDouble(); 
 }
       
