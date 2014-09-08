@@ -9,6 +9,7 @@
 #include <QDoubleSpinBox>
 #include <QComboBox>
 #include <QRadioButton>
+#include <QCheckBox>
 #include <QPushButton>
 #include <QFileDialog>
 #include <QHBoxLayout>

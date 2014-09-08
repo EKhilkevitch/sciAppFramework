@@ -12,6 +12,13 @@
 using namespace sciAppFramework;
 
 // ======================================================
+      
+okcancelDialog::okcancelDialog( QWidget *Parent ) : 
+  QDialog(Parent) 
+{
+}
+
+// ------------------------------------------------------
 
 QWidget* okcancelDialog::createButtonsWidget()
 {

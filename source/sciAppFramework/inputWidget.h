@@ -5,7 +5,6 @@
 
 #include <QWidget>
 #include <QFileDialog>
-#include <QCheckBox>
 #include <QList>
 #include <QVariant>
 
@@ -16,6 +15,7 @@ class QLineEdit;
 class QSpinBox;
 class QDoubleSpinBox;
 class QComboBox;
+class QCheckBox;
 class QRadioButton;
 class QSettings;
 class QGroupBox;
