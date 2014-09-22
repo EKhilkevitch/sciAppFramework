@@ -60,7 +60,7 @@ namespace sciAppFramework
       void initModifiers();
 
     public:
-      multiInputWidgetXmlFactory( const QString &Xml );
+      explicit multiInputWidgetXmlFactory( const QString &Xml );
       ~multiInputWidgetXmlFactory();
 
       bool isError() const { return ! ErrorString.isEmpty(); }

@@ -37,7 +37,7 @@ namespace sciAppFramework
       QBoxLayout* createBoxLayout();
 
     public:
-      multiInputWidget( QWidget *Parent = NULL, const QString &SettingsName = QString() );
+      explicit multiInputWidget( QWidget *Parent = NULL, const QString &SettingsName = QString() );
 
       void setupSettingsObject( settingsObject *Object, const QString &Name = QString() );
       inputWidget* registerInputWidget( inputWidget *Input ); 

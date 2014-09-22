@@ -29,7 +29,7 @@ namespace sciAppFramework
       QStackedLayout *ComboLayout;
 
     public:
-      comboMultiWidget( const QString &ComboLabel, QWidget *Parent = NULL, const QString &SettingsName = QString() );
+      explicit comboMultiWidget( const QString &ComboLabel, QWidget *Parent = NULL, const QString &SettingsName = QString() );
 
       void addWidget( const QString &Name, QWidget *Widget ); 
       int count() const;

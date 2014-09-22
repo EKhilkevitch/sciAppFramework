@@ -38,7 +38,7 @@ namespace sciAppFramework
       void setValueFromSettings( const QVariant& Value );
 
     public:
-      inputWidget( QWidget *Parent, const QString &SettingsName = QString() );
+      explicit inputWidget( QWidget *Parent, const QString &SettingsName = QString() );
       virtual ~inputWidget() {}
    
       virtual const QString label() const = 0;
@@ -78,7 +78,7 @@ namespace sciAppFramework
       int spacingWidgth() const;
 
     public:
-      labelInputWidget( QWidget *Parent = NULL, const QString &SettingsName = QString() );
+      explicit labelInputWidget( QWidget *Parent = NULL, const QString &SettingsName = QString() );
 
       void setInputStyleSheet( const QString &Style );
       void setLabelStyleSheet( const QString &Style );
@@ -103,7 +103,7 @@ namespace sciAppFramework
       labelEditWidget( int, QWidget *Parent = NULL, const QString &SettingsName = QString() );
 
     public:
-      labelEditWidget( const QString& LabelText, QWidget *Parent = NULL );
+      explicit labelEditWidget( const QString& LabelText, QWidget *Parent = NULL );
       labelEditWidget( const QString& LabelText, QValidator *Validator, QWidget *Parent = NULL );
       labelEditWidget( const QString& LabelText, const QString& Text, QWidget *Parent );
       labelEditWidget( const QString& LabelText, const QString& Text, QValidator *Validator = NULL, QWidget *Parent = NULL );
@@ -145,7 +145,7 @@ namespace sciAppFramework
       QWidget* createInputWidget(); 
 
     public:
-      labelDoubleEditWidget( const QString& LabelText, QWidget *Parent = NULL );
+      explicit  labelDoubleEditWidget( const QString& LabelText, QWidget *Parent = NULL );
       labelDoubleEditWidget( const QString& LabelText, double Value, QWidget *Parent = NULL );
       
       QVariant getVariantValue() const;
@@ -176,7 +176,7 @@ namespace sciAppFramework
       void initWidget( const QString &LabelText );
 
     public:
-      labelPathEditWidget( const QString& LabelText, QWidget *Parent = NULL );
+      explicit labelPathEditWidget( const QString& LabelText, QWidget *Parent = NULL );
       labelPathEditWidget( const QString& LabelText, const QString& Text, QWidget *Parent = NULL );
 
       void setFileMode( QFileDialog::FileMode Mode ) { FileMode = Mode; }
@@ -201,7 +201,7 @@ namespace sciAppFramework
       QWidget* createInputWidget(); 
 
     public:
-      labelSpinWidget( const QString& LabelText, QWidget *Parent = NULL );
+      explicit labelSpinWidget( const QString& LabelText, QWidget *Parent = NULL );
       labelSpinWidget( const QString& LabelText, int Value, QWidget *Parent = NULL );
       labelSpinWidget( const QString& LabelText, int Min, int Max, QWidget *Parent = NULL );
 
@@ -232,7 +232,7 @@ namespace sciAppFramework
       QWidget* createInputWidget(); 
 
     public:
-      labelDoubleSpinWidget( const QString& LabelText, QWidget *Parent = NULL );
+      explicit labelDoubleSpinWidget( const QString& LabelText, QWidget *Parent = NULL );
       labelDoubleSpinWidget( const QString& LabelText, double Value, QWidget *Parent = NULL );
       labelDoubleSpinWidget( const QString& LabelText, double Min, double Max, QWidget *Parent = NULL );
       labelDoubleSpinWidget( const QString& LabelText, double Value, double Min, double Max, QWidget *Parent = NULL );
@@ -273,7 +273,7 @@ namespace sciAppFramework
       void setValueFromSettings( const QVariant &Value );
       
     public:
-      labelComboWidget( const QString& LabelText, QWidget *Parent = NULL );
+      explicit labelComboWidget( const QString& LabelText, QWidget *Parent = NULL );
       labelComboWidget( const QString& LabelText, const QStringList& Items, QWidget *Parent = NULL );
 
       QVariant getVariantValue() const { return currentData(); }
@@ -325,7 +325,7 @@ namespace sciAppFramework
       void oneOfButtonsChecked();
 
     public:
-      radioButtonWidget( const QString& LabelText, QWidget *Parent = NULL );
+      explicit radioButtonWidget( const QString& LabelText, QWidget *Parent = NULL );
       
       QVariant getVariantValue() const { return currentData(); }
       void setVariantValue( const QVariant &Value ) { setCurrentData( Value ); }
@@ -365,7 +365,7 @@ namespace sciAppFramework
       void emitCheckedSignal();
 
     public:
-      checkBoxWidget( const QString& LabelText, QWidget *Parent = NULL );
+      explicit checkBoxWidget( const QString& LabelText, QWidget *Parent = NULL );
       checkBoxWidget( const QString& LabelText, bool Value, QWidget *Parent = NULL );
       
       QVariant getVariantValue() const { return isChecked(); }
