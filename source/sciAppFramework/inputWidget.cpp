@@ -278,6 +278,34 @@ labelDoubleEditWidget::labelDoubleEditWidget( const QString& LabelText, double V
 
 // ------------------------------------------------------
 
+QDoubleValidator* labelDoubleEditWidget::doubleValidator()
+{
+  return const_cast<QDoubleValidator*>( const_cast<const labelDoubleEditWidget*>(this)->doubleValidator() );
+}
+
+// ------------------------------------------------------
+
+const QDoubleValidator* labelDoubleEditWidget::doubleValidator() const
+{
+  const QValidator *Validator = getLineEdit()->validator();
+  if ( Validator == NULL )
+  {
+    qDebug() << "labelDoubleEditWidget::setRange: Validator == NULL!";
+    return NULL;
+  }
+
+  const QDoubleValidator *DoubleValidator = dynamic_cast<const QDoubleValidator*>(Validator);
+  if ( DoubleValidator == NULL )
+  {
+    qDebug() << "labelDoubleEditWidget::setRange: DoubleValidator == NULL!";
+    return NULL;
+  }
+
+  return DoubleValidator;
+}
+
+// ------------------------------------------------------
+
 QWidget* labelDoubleEditWidget::createInputWidget()
 {
   QWidget *Input = labelEditWidget::createInputWidget();
@@ -292,24 +320,32 @@ QWidget* labelDoubleEditWidget::createInputWidget()
 }
 
 // ------------------------------------------------------
+
+double labelDoubleEditWidget::minimum() const
+{
+  const QDoubleValidator *Validator = doubleValidator();
+  if ( Validator == NULL )
+    return std::numeric_limits<double>::min();
+  return Validator->bottom();
+}
+
+// ------------------------------------------------------
+
+double labelDoubleEditWidget::maximum() const
+{
+  const QDoubleValidator *Validator = doubleValidator();
+  if ( Validator == NULL )
+    return std::numeric_limits<double>::max();
+  return Validator->top();
+}
+
+// ------------------------------------------------------
       
 void labelDoubleEditWidget::setRange( double Min, double Max )
 {
-  const QValidator *Validator = getLineEdit()->validator();
-  if ( Validator == NULL )
-  {
-    qDebug() << "labelDoubleEditWidget::setRange: Validator == NULL!";
-    return;
-  }
-
-  QDoubleValidator *DoubleValidator = const_cast<QDoubleValidator*>( dynamic_cast<const QDoubleValidator*>(Validator) );
-  if ( DoubleValidator == NULL )
-  {
-    qDebug() << "labelDoubleEditWidget::setRange: DoubleValidator == NULL!";
-    return;
-  }
-
-  DoubleValidator->setRange( Min, Max );
+  QDoubleValidator *Validator = doubleValidator();
+  if ( Validator != NULL )
+    Validator->setRange( Min, Max );
 }
       
 // ------------------------------------------------------

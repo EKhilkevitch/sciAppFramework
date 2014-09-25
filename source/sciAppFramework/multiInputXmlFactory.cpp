@@ -58,6 +58,8 @@ namespace
   
   class doubleEditModifier : public inputModifier<labelDoubleEditWidget>
   {
+    protected:
+      void setUpInput( labelDoubleEditWidget *Input, const QDomElement &Element ) const;
     public:
       QString tag() const { return "double"; }
   };
@@ -195,6 +197,21 @@ namespace
       Input->setAcceptMode( QFileDialog::AcceptSave );
     else
       qWarning() << "pathEditModifier::setUpInput: invalid accept mode";
+  }
+  
+  // ------------------------------------------------------ 
+      
+  void doubleEditModifier::setUpInput( labelDoubleEditWidget *Input, const QDomElement &Element ) const
+  {
+    Q_ASSERT( Input != NULL );
+    
+    bool OkMin = false, OkMax = false;
+    double MinValue = text( Element, "min" ).value( 0 ).toDouble( &OkMin );
+    double MaxValue = text( Element, "max" ).value( 0 ).toDouble( &OkMax );
+
+    if ( ! OkMin )      MinValue = Input->minimum();
+    if ( ! OkMax )      MaxValue = Input->maximum();
+    Input->setRange( MinValue, MaxValue );
   }
   
   // ------------------------------------------------------ 

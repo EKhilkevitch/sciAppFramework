@@ -20,6 +20,7 @@ class QRadioButton;
 class QSettings;
 class QGroupBox;
 class QValidator;
+class QDoubleValidator;
 class QVariant;
 
 // ======================================================
@@ -141,6 +142,9 @@ namespace sciAppFramework
       void setValidator( QValidator *Validator ) { labelEditWidget::setValidator(Validator); }
       QString text() const { return labelEditWidget::text(); }
 
+      QDoubleValidator* doubleValidator();
+      const QDoubleValidator* doubleValidator() const;
+
     protected:
       QWidget* createInputWidget(); 
 
@@ -150,6 +154,9 @@ namespace sciAppFramework
       
       QVariant getVariantValue() const;
       void setVariantValue( const QVariant &Value );
+
+      double minimum() const;
+      double maximum() const;
 
       void setRange( double Min, double Max );
       void setPrintfFormat( const QString &Format ) { PrintfFormat = Format; }
