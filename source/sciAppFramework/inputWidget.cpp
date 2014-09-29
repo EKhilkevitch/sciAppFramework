@@ -549,9 +549,26 @@ void labelSpinWidget::setReadOnly( bool ReadOnly )
 
 // ------------------------------------------------------
 
-void labelSpinWidget::setRange( int Min, int Max ) 
+labelSpinWidget& labelSpinWidget::setRange( int Min, int Max ) 
 { 
   getSpinBox()->setRange(Min,Max); 
+  return *this;
+}
+
+// ------------------------------------------------------
+
+labelSpinWidget& labelSpinWidget::setMinimum( int Min ) 
+{ 
+  getSpinBox()->setMinimum(Min); 
+  return *this;
+}
+
+// ------------------------------------------------------
+
+labelSpinWidget& labelSpinWidget::setMaximum( int Max ) 
+{ 
+  getSpinBox()->setMaximum(Max); 
+  return *this;
 }
 
 // ------------------------------------------------------
@@ -666,9 +683,26 @@ void labelDoubleSpinWidget::setReadOnly( bool ReadOnly )
 
 // ------------------------------------------------------
 
-void labelDoubleSpinWidget::setRange( double Min, double Max ) 
+labelDoubleSpinWidget& labelDoubleSpinWidget::setRange( double Min, double Max ) 
 { 
   getDoubleSpinBox()->setRange(Min,Max); 
+  return *this;
+}
+
+// ------------------------------------------------------
+
+labelDoubleSpinWidget& labelDoubleSpinWidget::setMinimum( double Min )
+{
+  getDoubleSpinBox()->setMinimum( Min );
+  return *this;
+}
+
+// ------------------------------------------------------
+
+labelDoubleSpinWidget& labelDoubleSpinWidget::setMaximum( double Max )
+{
+  getDoubleSpinBox()->setMaximum( Max );
+  return *this;
 }
 
 // ------------------------------------------------------
@@ -687,9 +721,10 @@ double labelDoubleSpinWidget::maximum() const
 
 // ------------------------------------------------------
 
-void labelDoubleSpinWidget::setDecimals( int Decimals ) 
+labelDoubleSpinWidget& labelDoubleSpinWidget::setDecimals( int Decimals ) 
 { 
   getDoubleSpinBox()->setDecimals( Decimals ); 
+  return *this;
 }
 
 // ------------------------------------------------------

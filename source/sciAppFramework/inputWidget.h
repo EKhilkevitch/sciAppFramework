@@ -219,7 +219,10 @@ namespace sciAppFramework
       void setValue( int Value );
       void setReadOnly( bool ReadOnly );
 
-      void setRange( int Min, int Max );
+      labelSpinWidget& setRange( int Min, int Max );
+      labelSpinWidget& setMinimum( int Min );
+      labelSpinWidget& setMaximum( int Max );
+
       int maximum() const;
       int minimum() const;
 
@@ -251,11 +254,13 @@ namespace sciAppFramework
       void setValue( double Value );
       void setReadOnly( bool ReadOnly );
 
-      void setRange( double Min, double Max );
+      labelDoubleSpinWidget& setRange( double Min, double Max );
+      labelDoubleSpinWidget& setMinimum( double Min );
+      labelDoubleSpinWidget& setMaximum( double Max );
+      labelDoubleSpinWidget& setDecimals( int Decimals );
+
       double minimum() const;
       double maximum() const;
-
-      void setDecimals( int Decimals );
       int decimals() const;
 
       void setSingleStep( double Step );
