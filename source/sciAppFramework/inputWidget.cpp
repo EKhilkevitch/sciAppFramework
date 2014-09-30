@@ -852,17 +852,19 @@ QVariant labelComboWidget::currentData() const
 
 // ------------------------------------------------------
 
-void labelComboWidget::addItem( const QString &Text, const QVariant &UserData ) 
+labelComboWidget& labelComboWidget::addItem( const QString &Text, const QVariant &UserData ) 
 { 
   getComboBox()->addItem(Text,UserData); 
+  return *this;
 }
 
 // ------------------------------------------------------
 
-void labelComboWidget::addItems( const QStringList& List ) 
+labelComboWidget& labelComboWidget::addItems( const QStringList& List ) 
 { 
   foreach( QString String, List ) 
     addItem( String ); 
+  return *this;
 }
 
 // ------------------------------------------------------
@@ -874,20 +876,22 @@ void labelComboWidget::clear()
 
 // ------------------------------------------------------
 
-void labelComboWidget::setCurrentIndex( int Index ) 
+labelComboWidget& labelComboWidget::setCurrentIndex( int Index ) 
 { 
   getComboBox()->setCurrentIndex(Index); 
+  return *this;
 }
 
 // ------------------------------------------------------
       
-void labelComboWidget::setCurrentData( const QVariant& V ) 
+labelComboWidget& labelComboWidget::setCurrentData( const QVariant& V ) 
 { 
   for ( int i = 0; i < count(); i++ ) 
   { 
     if (getComboBox()->itemData(i) == V ) 
       setCurrentIndex(i); 
   } 
+  return *this;
 }
 
 // ======================================================
@@ -912,10 +916,10 @@ void radioButtonWidget::initWidget( const QString &LabelText )
 
 // ------------------------------------------------------
       
-void radioButtonWidget::setOrientation( Qt::Orientation O )
+void radioButtonWidget::setOrientation( Qt::Orientation Orientation )
 {
   QBoxLayout *Layout = NULL;
-  switch ( O )
+  switch ( Orientation )
   {
     case Qt::Vertical:
       Layout = createLayoutWithoutMargins<QVBoxLayout>();
@@ -973,7 +977,7 @@ QVariant radioButtonWidget::currentData() const
 
 // ------------------------------------------------------
 
-void radioButtonWidget::addItem( const QString &Text, const QVariant &UserData )
+radioButtonWidget& radioButtonWidget::addItem( const QString &Text, const QVariant &UserData )
 {
   QRadioButton *Button = new QRadioButton( Text, this );
   ButtonsBox->layout()->addWidget( Button );
@@ -982,6 +986,7 @@ void radioButtonWidget::addItem( const QString &Text, const QVariant &UserData )
   connect( Button, SIGNAL(clicked()), SIGNAL(changed()) );
   if ( RadioButtons.size() == 1 )
     Button->setChecked(true);
+  return *this;
 }
 
 // ------------------------------------------------------
@@ -995,24 +1000,26 @@ void radioButtonWidget::clear()
 
 // ------------------------------------------------------
 
-void radioButtonWidget::setCurrentIndex( int Index )
+radioButtonWidget& radioButtonWidget::setCurrentIndex( int Index )
 {
   if ( Index < RadioButtons.size() && Index >= 0 )
     RadioButtons[Index].Button->setChecked(true);
+  return *this;
 }
 
 // ------------------------------------------------------
 
-void radioButtonWidget::setCurrentData( const QVariant& V )
+radioButtonWidget& radioButtonWidget::setCurrentData( const QVariant& Value )
 {
   for ( int i = 0; i < RadioButtons.size(); i++ )
   {
-    if ( RadioButtons[i].Data == V )
+    if ( RadioButtons[i].Data == Value )
     {
       setCurrentIndex(i);
       break;
     }
   }
+  return *this;
 }
 
 // ------------------------------------------------------

@@ -295,11 +295,11 @@ namespace sciAppFramework
       int  count() const;
       QString currentText() const;
       QVariant currentData() const;
-      void addItem( const QString &Text, const QVariant &UserData = QVariant() );
-      void addItems( const QStringList& List );
+      labelComboWidget& addItem( const QString &Text, const QVariant &UserData = QVariant() );
+      labelComboWidget& addItems( const QStringList& List );
       void clear();
-      void setCurrentIndex( int Index );
-      void setCurrentData( const QVariant& V );
+      labelComboWidget& setCurrentIndex( int Index );
+      labelComboWidget& setCurrentData( const QVariant& V );
       
     signals:
       void currentIndexChanged( int i );
@@ -342,17 +342,17 @@ namespace sciAppFramework
       QVariant getVariantValue() const { return currentData(); }
       void setVariantValue( const QVariant &Value ) { setCurrentData( Value ); }
 
-      void setOrientation( Qt::Orientation O );
+      void setOrientation( Qt::Orientation Orientation );
 
       const QString label() const;
 
       int currentIndex() const;
       int count() const;
       QVariant currentData() const;
-      void addItem( const QString &Text, const QVariant &UserData = QVariant() );
+      radioButtonWidget& addItem( const QString &Text, const QVariant &UserData = QVariant() );
       void clear();
-      void setCurrentIndex( int Index );
-      void setCurrentData( const QVariant& V );
+      radioButtonWidget& setCurrentIndex( int Index );
+      radioButtonWidget& setCurrentData( const QVariant& V );
 
     signals:
       void currentIndexChanged( int i );
