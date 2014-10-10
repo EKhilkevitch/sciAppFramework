@@ -15,7 +15,6 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QStackedLayout>
-#include <QFileDialog>
 #include <QFileInfo>
 #include <QGroupBox>
 #include <QDoubleValidator>
@@ -454,6 +453,10 @@ void labelPathEditWidget::setEditFromFileDialog()
 {
   //qDebug() << "File: " << text() << " path = " << QFileInfo(text()).path();
 
+/* 
+ * This code not working on Release build with icc on Win32 
+ */
+#if __unix__ || _MSC_VER >= 1700
   QString CurrDir = QFileInfo( text().length() > 0 ? text() : "." ).path();
 
   QFileDialog Dialog( this );
@@ -463,12 +466,43 @@ void labelPathEditWidget::setEditFromFileDialog()
   Dialog.setDirectory( Directory );
   Dialog.setNameFilter( Filter );
   Dialog.selectFile( text() );
+  Dialog.setOption( QFileDialog::DontUseNativeDialog, false );
   
   if ( Dialog.exec() == QDialog::Accepted )
   {
     setText( Dialog.selectedFiles().value(0,"") );
     emit changed();
   }
+#else
+  QWidget *Parent = this;
+  const QString Selected = text();
+  const QString Caption = QString();
+  const QString Directory = this->Directory;
+  const QString Filter = this->Filter;
+  QFileDialog::Options Options = 0;
+  
+  QString FileName;
+  if ( FileMode == QFileDialog::DirectoryOnly )
+  {
+    Options |= QFileDialog::ShowDirsOnly;
+    if ( AcceptMode == QFileDialog::AcceptOpen )
+      FileName = QFileDialog::getExistingDirectory( Parent, Caption, Selected, Options );
+    else 
+      FileName = QFileDialog::getSaveFileName( Parent, Caption, Selected, Filter, NULL, Options );
+  } else {
+    if ( AcceptMode == QFileDialog::AcceptOpen )
+      FileName = QFileDialog::getOpenFileName( Parent, Caption, Selected, Filter );
+    else 
+      FileName = QFileDialog::getSaveFileName( Parent, Caption, Selected, Filter );
+  }
+
+  if ( FileName.isEmpty() )
+    return;
+    
+  setText( FileName );
+  emit changed();
+#endif
+
 }
 
 // ======================================================
