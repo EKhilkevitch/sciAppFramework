@@ -5,8 +5,9 @@
 #include "sciAppFramework/inputWidget.h"
 
 #include <QVBoxLayout>
-#include <QStackedLayout>
+#include <QStackedWidget>
 #include <QScrollArea>
+#include <QDebug>
 
 using namespace sciAppFramework;
 
@@ -16,62 +17,42 @@ comboMultiWidget::comboMultiWidget( const QString &ComboLabel, QWidget *Parent, 
   QWidget( Parent ),
   multiSettingsObject( dynamic_cast<multiSettingsObject*>(Parent), settingsObject::normolizeToSettingsName(SettingsName) ),
   ComboWidget( NULL ),
-  ComboLayout( NULL )
+  StackedWidget( NULL )
 {
   ComboWidget = inputWidget::create<labelComboWidget>( this, "Combo", ComboLabel, 0 );
-  recreateComboLayout();
+  StackedWidget = new QStackedWidget( this );
+  StackedWidget->layout()->setAlignment( Qt::AlignTop );
+  connect( ComboWidget, SIGNAL(currentIndexChanged(int)), StackedWidget, SLOT(setCurrentIndex(int)) );
 
   QVBoxLayout *Layout = new QVBoxLayout();
   Layout->addWidget( ComboWidget );
   Layout->addSpacing( 5 );
-  Layout->addLayout( ComboLayout );
+  Layout->addWidget( StackedWidget );
   setLayout( Layout );
-}
-
-// ------------------------------------------------------
-
-void comboMultiWidget::recreateComboLayout()
-{
-  Q_ASSERT( ComboWidget != NULL );
-
-  QStackedLayout *NewLayout = new QStackedLayout();
-  connect( ComboWidget, SIGNAL(currentIndexChanged(int)), NewLayout, SLOT(setCurrentIndex(int)) );
-
-  if ( ComboLayout != NULL )
-  {
-    while ( true )
-    {
-      QLayoutItem *Item = ComboLayout->takeAt(0);
-      if ( Item == NULL )
-        break;
-      NewLayout->addItem( Item );
-    }
-  }
-
-  delete ComboLayout;
-  ComboLayout = NewLayout;
 }
 
 // ------------------------------------------------------
       
 void comboMultiWidget::addWidget( const QString &Name, QWidget *Widget )
 {
-  Q_ASSERT( ComboWidget->count() == ComboLayout->count() );
+  Q_ASSERT( ComboWidget != NULL );
+  Q_ASSERT( StackedWidget != NULL );
+  Q_ASSERT( ComboWidget->count() == StackedWidget->count() );
 
   if ( Widget == NULL )
     return;
 
   ComboWidget->addItem( Name );
-  ComboLayout->addWidget( Widget );
+  StackedWidget->addWidget( Widget );
 
   settingsObject *SettingsObject = dynamic_cast<settingsObject*>(Widget);
   if ( SettingsObject != NULL )
     SettingsObject->setSettingsParent( this );
 
-  if ( ComboLayout->currentIndex() < 0 )
+  if ( StackedWidget->currentIndex() < 0 )
   {
     ComboWidget->setCurrentIndex( 0 );
-    ComboLayout->setCurrentIndex( 0 );
+    StackedWidget->setCurrentIndex( 0 );
   }
 }
 
@@ -80,36 +61,25 @@ void comboMultiWidget::addWidget( const QString &Name, QWidget *Widget )
 void comboMultiWidget::setScrollArea( bool Scroll )
 {
   Q_ASSERT( layout()->count() > 0 );
-
-  QScrollArea *ScrollArea = NULL;
-  ScrollArea = dynamic_cast<QScrollArea*>( layout()->itemAt(layout()->count()-1)->widget() );
+  QScrollArea *ScrollArea = dynamic_cast<QScrollArea*>( layout()->itemAt(layout()->count()-1)->widget() );
 
   if ( ( ScrollArea != NULL ) == Scroll )
     return;
     
-  recreateComboLayout();
-
   if ( Scroll )
   {
     Q_ASSERT( ScrollArea == NULL );
-
-    QWidget *Widget = new QWidget(this);
-    Widget->setLayout( ComboLayout );
     
+    layout()->removeWidget( StackedWidget );
     ScrollArea = new QScrollArea(this);
-    ScrollArea->setWidget( Widget );
-
+    ScrollArea->setWidget( StackedWidget );
+    ScrollArea->setWidgetResizable( true );
     layout()->addWidget( ScrollArea );
   } else {
-    Q_ASSERT( ScrollArea != NULL );
-    delete layout()->takeAt( layout()->count()-1 );
-
-    QBoxLayout *BoxLayout = dynamic_cast<QBoxLayout*>( layout() );
-    Q_ASSERT( BoxLayout != NULL );
-    BoxLayout->addLayout( ComboLayout );
-    
-    delete ScrollArea->takeWidget();
+    layout()->removeWidget( ScrollArea );
+    ScrollArea->takeWidget();
     delete ScrollArea;
+    layout()->addWidget( StackedWidget );
   }
 }
 
@@ -117,7 +87,7 @@ void comboMultiWidget::setScrollArea( bool Scroll )
 
 int comboMultiWidget::count() const
 {
-  Q_ASSERT( ComboWidget->count() == ComboLayout->count() );
+  Q_ASSERT( ComboWidget->count() == StackedWidget->count() );
   return ComboWidget->count();
 }
 
@@ -125,7 +95,7 @@ int comboMultiWidget::count() const
 
 QWidget* comboMultiWidget::currentWidget() const
 {
-  return ComboLayout->currentWidget();
+  return StackedWidget->currentWidget();
 }
 
 // ------------------------------------------------------

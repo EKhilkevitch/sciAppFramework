@@ -7,7 +7,7 @@
 
 #include "sciAppFramework/settingsObject.h"
 
-class QStackedLayout;
+class QStackedWidget;
 
 // ======================================================
 
@@ -26,11 +26,8 @@ namespace sciAppFramework
 
     private:
       labelComboWidget *ComboWidget;
-      QStackedLayout *ComboLayout;
+      QStackedWidget *StackedWidget;
       
-    private:
-      void recreateComboLayout();
-
     public:
       explicit comboMultiWidget( const QString &ComboLabel, QWidget *Parent = NULL, const QString &SettingsName = QString() );
 

@@ -40,9 +40,10 @@ int main( int argc, char **argv )
   SubWidget->addInputWidget<labelEditWidget>("EditS2","Sub edit 2",13);
 
   comboMultiWidget *ComboMultiWidget = new comboMultiWidget("Select widget:");
+  ComboMultiWidget->setScrollArea( true );
   ComboMultiWidget->setSettingsName("ComboMW");
   ComboMultiWidget->addWidget( "L1", new QLabel("Label1") );
-  ComboMultiWidget->addWidget( "L2", new QLabel("Label2\n\nText") );
+  ComboMultiWidget->addWidget( "L2", new QLabel("Label2\n\n\n\n\n\n\n\nText") );
   ComboMultiWidget->addWidget( "L3", inputWidget::create<labelEditWidget>("L3I","Text") );
 
   Widget.addInputWidget( Combo );
