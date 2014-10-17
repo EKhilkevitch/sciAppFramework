@@ -6,6 +6,7 @@
 
 #include <QVBoxLayout>
 #include <QStackedLayout>
+#include <QScrollArea>
 
 using namespace sciAppFramework;
 
