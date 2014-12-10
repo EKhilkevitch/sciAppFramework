@@ -4,11 +4,12 @@
 #include "sciAppFramework/multiInputWidget.h"
 #include "sciAppFramework/multiInputXmlFactory.h"
 
-#include <QDebug>
 #include <QDomDocument>
 #include <QDomElement>
 #include <QDomNode>
 #include <QDomNamedNodeMap>
+#include <QRegExp>
+#include <QDebug>
 
 using namespace sciAppFramework;
 
@@ -187,7 +188,14 @@ namespace
   {
     Q_ASSERT( Input != NULL );
 
-    const QString &AcceptMode = text( Element, "mode" ).value(0);
+    QString AcceptMode = text( Element, "mode" ).value(0);
+
+    QRegExp DirMode( "dir$" );
+    if ( AcceptMode.contains( DirMode ) )
+    {
+      Input->setFileMode( QFileDialog::DirectoryOnly );
+      AcceptMode.replace( DirMode, "" );
+    }
 
     if ( AcceptMode.isEmpty() )
       /* do nothing */;
