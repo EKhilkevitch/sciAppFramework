@@ -72,6 +72,7 @@ namespace sciAppFramework
       void addItemsToMultiInputWidget( multiInputWidget* Widget ) const;
 
       static multiInputWidget* create( const QString &Xml, QWidget *Parent = NULL );
+      static QString xmlRootName( const QString &Xml );
   };
 
   // ======================================================

@@ -456,6 +456,28 @@ void multiInputWidgetXmlFactory::addNextItemToMultiInputWidget( multiInputWidget
 
   Mod->addToMultiInputWidget( Widget, Element );
 }
+      
+// ------------------------------------------------------
+
+QString multiInputWidgetXmlFactory::xmlRootName( const QString &Xml )
+{
+  QDomDocument Doculemt;
+  
+  QString XmlErrorMessage;
+  int ErrorLine = -1;
+  bool OK = Doculemt.setContent( Xml, &XmlErrorMessage, &ErrorLine );
+
+  if ( ! OK )
+  {
+    qWarning() << "multiInputWidgetXmlFactory::xmlRootName: invalid xml string, " << XmlErrorMessage << " line " << ErrorLine;
+    return QString();
+  }
+
+  const QDomElement &Root = Doculemt.documentElement();
+  QString TagName = Root.tagName();
+
+  return TagName;
+}
 
 // ======================================================
 
