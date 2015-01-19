@@ -37,6 +37,7 @@ const QString Xml =
 "  <double name=\"DoubleName\"><label>Double edit</label><min>2.5</min><max>10.2e6</max></double>\n"
 "  <path name=\"Path\"><label>Save dialog</label><mode>save</mode></path>\n"
 "  <path name=\"PathDir\"><label>Directory dialog</label><mode>opendir</mode></path>\n"
+"  <spacing><value>15</value></spacing>\n"
 "  <combo name=\"ComboName\"><label>Combo</label><item data=\"1\">First item</item><item data=\"2\">Second item</item></combo>\n"
 "  <check name=\"CheckName\"><label>Check</label><value>0</value></check>"
 "</testInput>\n"

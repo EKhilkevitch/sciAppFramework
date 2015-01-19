@@ -123,6 +123,20 @@ void layoutOperations::appendLayoutItem( QBoxLayout *Layout, QWidget *Widget, in
   Layout->addWidget( Widget );
   appendStretch( Layout, Stretch );
 }
+    
+// ------------------------------------------------------
+
+void layoutOperations::insertLayoutItem( int Index, QWidget *Widget, QLayoutItem *Item, int Stretch )
+{
+  if ( Widget == NULL )
+    return;
+
+  QBoxLayout *Layout = dynamic_cast<QBoxLayout*>( Widget->layout() );
+  if ( Layout == NULL )
+    return;
+
+  Layout->insertWidget( Index, Widget, Stretch );
+}
 
 // ======================================================
 

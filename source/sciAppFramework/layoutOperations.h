@@ -25,6 +25,7 @@ namespace sciAppFramework
     void appendLayoutItem( QWidget *Widget, QLayoutItem *Item, int Stretch = 0 );
     void appendLayoutItem( QBoxLayout *Layout, QLayoutItem *Item, int Stretch = 0 );
     void appendLayoutItem( QBoxLayout *Layout, QWidget *Widget, int Stretch = 0 );
+    void insertLayoutItem( int Index, QWidget *Widget, QLayoutItem *Item, int Stretch = 0 );
   };
   
   // ======================================================

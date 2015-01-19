@@ -49,6 +49,7 @@ namespace sciAppFramework
       QGroupBox* addMultiInputWidget( const QString &Name, const QString &Label, multiInputWidget *Widget );
 
       void addWidgetToLayout( QWidget *Widget );
+      void insertWidgetToLayout( int Index, QWidget *Widget );
 
       void addSpacing( int Spacing );
       void addWidget( QWidget *Widget );

@@ -98,6 +98,18 @@ void  multiInputWidget::addWidgetToLayout( QWidget *Widget )
 
 // ------------------------------------------------------
 
+void multiInputWidget::insertWidgetToLayout( int Index, QWidget *Widget )
+{
+  if ( Widget == NULL )
+    return;
+  
+  Widget->setParent( this );
+  QWidgetItem *WidgetItem = new QWidgetItem(Widget);
+  layoutOperations::insertLayoutItem( Index, this, WidgetItem, 1 );
+}
+
+// ------------------------------------------------------
+
 QGroupBox* multiInputWidget::addMultiInputWidget( const QString &Name, const QString &Label, multiInputWidget *Widget )
 {
   if ( Widget == NULL )

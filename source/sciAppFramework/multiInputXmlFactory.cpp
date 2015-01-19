@@ -29,6 +29,15 @@ namespace
 
   // ------------------------------------------------------
   
+  class spacingModifier : public multiInputWidgetXmlFactory::modifierOfMultiInputWidget
+  {
+    public:
+      QString tag() const { return "spacing"; }
+      void addToMultiInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const;
+  };
+  
+  // ------------------------------------------------------
+  
   template <class input> class inputModifier : public multiInputWidgetXmlFactory::modifierOfMultiInputWidget
   {
     private:
@@ -136,6 +145,18 @@ namespace
 
     foreach( QString Text, text( Element, "text" ) )
       Widget->addLabel( Text );
+  }
+  
+  // ------------------------------------------------------
+  
+  void spacingModifier::addToMultiInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const
+  {
+    if ( Widget == NULL || Element.tagName() != tag() ) 
+      return;
+    
+    int SpacingValue = text( Element, "value" ).value( 0 ).toInt();
+    if ( SpacingValue > 0 )
+      Widget->addSpacing( SpacingValue );
   }
   
   // ------------------------------------------------------
@@ -390,6 +411,7 @@ void multiInputWidgetXmlFactory::initDocument( const QString &Xml )
 void multiInputWidgetXmlFactory::initModifiers()
 {
   addModifierOfMultiInputWidget( new labelModifier() );
+  addModifierOfMultiInputWidget( new spacingModifier() );
   addModifierOfMultiInputWidget( new editModifier() );
   addModifierOfMultiInputWidget( new doubleEditModifier() );
   addModifierOfMultiInputWidget( new pathEditModifier() );
