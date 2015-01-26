@@ -488,7 +488,8 @@ void labelPathEditWidget::setEditFromFileDialog()
     if ( AcceptMode == QFileDialog::AcceptOpen )
       FileName = QFileDialog::getExistingDirectory( Parent, Caption, Selected, Options );
     else 
-      FileName = QFileDialog::getSaveFileName( Parent, Caption, Selected, Filter, NULL, Options );
+      FileName = QFileDialog::getExistingDirectory( Parent, Caption, Selected, Options );
+      //FileName = QFileDialog::getSaveFileName( Parent, Caption, Selected, Filter, NULL, Options );
   } else {
     if ( AcceptMode == QFileDialog::AcceptOpen )
       FileName = QFileDialog::getOpenFileName( Parent, Caption, Selected, Filter );
