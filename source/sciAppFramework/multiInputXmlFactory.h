@@ -42,11 +42,21 @@ namespace sciAppFramework
           virtual ~modifierOfMultiInputWidget() {}
       };
 
-    private:
-      QDomDocument *Doculemt;
-      QString ErrorString;
+      friend class modifierOfMultiInputWidget;
 
-      QMap< QString, modifierOfMultiInputWidget* > Modifiers;
+      typedef QMap< QString, modifierOfMultiInputWidget* > modifierOfMultiInputWidgetMap;
+      
+    private:
+      QString ErrorString;
+      QDomDocument *Doculemt;
+      modifierOfMultiInputWidgetMap *Modifiers;
+
+    private:
+      static modifierOfMultiInputWidgetMap* createModifiersMap();
+      static void deleteModifiersMap( modifierOfMultiInputWidgetMap *ModifiersMap );
+      static void addModifierOfMultiInputWidget( modifierOfMultiInputWidget *Mod, modifierOfMultiInputWidgetMap *ModifiersMap );
+      
+      static QDomDocument* createDomDocument( const QString &Xml, QString *ErrorString = NULL );
 
     private:
       multiInputWidgetXmlFactory( const multiInputWidgetXmlFactory& );
@@ -66,7 +76,6 @@ namespace sciAppFramework
       bool isError() const { return ! ErrorString.isEmpty(); }
       const QString& errorMessage() const { return ErrorString; }
 
-      void addModifierOfMultiInputWidget( modifierOfMultiInputWidget *Mod );
 
       multiInputWidget* create( QWidget *Parent = NULL ) const;
       void addItemsToMultiInputWidget( multiInputWidget* Widget ) const;

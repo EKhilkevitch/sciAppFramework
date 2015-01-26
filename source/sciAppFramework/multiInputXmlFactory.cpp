@@ -38,6 +38,15 @@ namespace
   
   // ------------------------------------------------------
   
+  class tabModifier : public multiInputWidgetXmlFactory::modifierOfMultiInputWidget
+  {
+    public:
+      QString tag() const { return "tabs"; }
+      void addToMultiInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const;
+  };
+  
+  // ------------------------------------------------------
+  
   template <class input> class inputModifier : public multiInputWidgetXmlFactory::modifierOfMultiInputWidget
   {
     private:
@@ -157,6 +166,25 @@ namespace
     int SpacingValue = text( Element, "value" ).value( 0 ).toInt();
     if ( SpacingValue > 0 )
       Widget->addSpacing( SpacingValue );
+  }
+  
+  // ------------------------------------------------------
+  
+  void tabModifier::addToMultiInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const
+  {
+    if ( Widget == NULL ) 
+      return;
+
+#if 0
+    multiInputWidgetXmlFactory::modifierOfMultiInputWidgetMap *Modifiers = createModifiersMap();
+    
+    multiInputWidget *SubWidget = new multiInputWidget(Widget);
+    for ( QDomNode Node = Root.firstChild(); ! Node.isNull(); Node = Node.nextSibling() )  
+      addNextItemToMultiInputWidget( Widget, Node.toElement() );
+    Widget->addTabMultiInputWidget(  );
+#endif
+    //for ( QDomNode Node = Root.firstChild(); ! Node.isNull(); Node = Node.nextSibling() )  
+    //  addNextItemToMultiInputWidget( Widget, Node.toElement() );
   }
   
   // ------------------------------------------------------
@@ -375,64 +403,92 @@ multiInputWidget* multiInputWidgetXmlFactory::create( const QString &Xml, QWidge
 // ------------------------------------------------------
 
 multiInputWidgetXmlFactory::multiInputWidgetXmlFactory( const QString &Xml ) :
-  Doculemt( new QDomDocument ) 
+  ErrorString(),
+  Doculemt( createDomDocument(Xml,&ErrorString) ),
+  Modifiers( createModifiersMap() )
 {
-  initDocument( Xml );
-  initModifiers();
 }
 
 // ------------------------------------------------------
 
 multiInputWidgetXmlFactory::~multiInputWidgetXmlFactory()
 {
-  foreach ( modifierOfMultiInputWidget *M, Modifiers )
-    delete M;
-  Modifiers.clear();
+  deleteModifiersMap( Modifiers );
   delete Doculemt;
 }
 
 // ------------------------------------------------------
 
-void multiInputWidgetXmlFactory::initDocument( const QString &Xml )
+multiInputWidgetXmlFactory::modifierOfMultiInputWidgetMap* multiInputWidgetXmlFactory::createModifiersMap()
 {
+
+  QList< modifierOfMultiInputWidget* > Mods;
+  Mods << 
+    new labelModifier() <<
+    new spacingModifier() <<
+    new editModifier() <<
+    new doubleEditModifier() <<
+    new pathEditModifier() <<
+    new spinModifier() << 
+    new doubleSpinModifier() <<
+    new comboModifier() <<
+    new radioModifier() << 
+    new checkModifier();
+
+  modifierOfMultiInputWidgetMap *ModifiersMap = new modifierOfMultiInputWidgetMap();
+
+  for ( int i = 0; i < Mods.size(); i++ )
+    addModifierOfMultiInputWidget( Mods[i], ModifiersMap );
+
+  return ModifiersMap;
+}
+
+// ------------------------------------------------------
+      
+void multiInputWidgetXmlFactory::deleteModifiersMap( modifierOfMultiInputWidgetMap *ModifiersMap )
+{
+  if ( ModifiersMap == NULL )
+    return;
+
+  foreach ( modifierOfMultiInputWidget *Mod, *ModifiersMap )
+    delete Mod;
+  ModifiersMap->clear();
+  delete ModifiersMap;
+}
+
+// ------------------------------------------------------
+
+QDomDocument* multiInputWidgetXmlFactory::createDomDocument( const QString &Xml, QString *ErrorString )
+{
+  QDomDocument *Result = new QDomDocument();
+
   QString XmlErrorMessage;
   int ErrorLine = -1;
-  bool OK = Doculemt->setContent( Xml, &XmlErrorMessage, &ErrorLine );
+  bool OK = Result->setContent( Xml, &XmlErrorMessage, &ErrorLine );
 
   if ( ! OK )
   {
-    this->ErrorString = XmlErrorMessage + "(Line: " + QString::number(ErrorLine) + ")";
+    if ( ErrorString != NULL )
+      *ErrorString = XmlErrorMessage + "(Line: " + QString::number(ErrorLine) + ")";
     qWarning() << "multiInputWidgetXmlFactory: invalid xml string, " << ErrorString;
+    delete Result;
+    Result = NULL;
   }
+
+  return Result;
 }
 
 // ------------------------------------------------------
 
-void multiInputWidgetXmlFactory::initModifiers()
+void multiInputWidgetXmlFactory::addModifierOfMultiInputWidget( modifierOfMultiInputWidget *Mod, modifierOfMultiInputWidgetMap *ModifiersMap )
 {
-  addModifierOfMultiInputWidget( new labelModifier() );
-  addModifierOfMultiInputWidget( new spacingModifier() );
-  addModifierOfMultiInputWidget( new editModifier() );
-  addModifierOfMultiInputWidget( new doubleEditModifier() );
-  addModifierOfMultiInputWidget( new pathEditModifier() );
-  addModifierOfMultiInputWidget( new spinModifier() );
-  addModifierOfMultiInputWidget( new doubleSpinModifier() );
-  addModifierOfMultiInputWidget( new comboModifier() );
-  addModifierOfMultiInputWidget( new radioModifier() );
-  addModifierOfMultiInputWidget( new checkModifier() );
-}
-
-// ------------------------------------------------------
-
-void multiInputWidgetXmlFactory::addModifierOfMultiInputWidget( modifierOfMultiInputWidget *Mod )
-{
-  if ( Mod == NULL )
+  if ( Mod == NULL || ModifiersMap == NULL )
     return;
 
   QString Tag = Mod->tag();
 
-  delete Modifiers.value( Tag, NULL );
-  Modifiers[ Tag ] = Mod;
+  delete ModifiersMap->value( Tag, NULL );
+  ModifiersMap->insert( Tag, Mod );
 }
 
 // ------------------------------------------------------
@@ -477,7 +533,7 @@ void multiInputWidgetXmlFactory::addNextItemToMultiInputWidget( multiInputWidget
 
   QString TagName = Element.tagName();
 
-  modifierOfMultiInputWidget *Mod = Modifiers[ TagName ];
+  modifierOfMultiInputWidget *Mod = Modifiers->value( TagName, NULL ) ;
   if ( Mod == NULL )
   {
     qWarning() << "addNextItemToMultiInputWidget: invalid tag " << TagName;
