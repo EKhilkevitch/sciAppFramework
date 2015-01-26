@@ -162,24 +162,6 @@ QTabWidget* multiInputWidget::addTabMultiInputWidget( const QString &Name, const
   TabWidget->addTab( TabPage, Label );
 
   return TabWidget;
-
-#if 0
-  QTabWidget *TabWidget = dynamic_cast<QTabWidget*>( layoutOperations::lastWidgetAfterSpacing(this) );
-
-  QBoxLayout *Layout = inputWidget::createLayoutWithoutMargins<QVBoxLayout>();
-  Layout->addWidget( Widget );
-  
-  QGroupBox *Box = new QGroupBox( Label, this );
-  Box->setLayout( Layout );
-  addWidgetToLayout( Box );
-  
-  setupSettingsObject( Widget, Name );
-
-  for ( labelInputMap::iterator i = Widget->LabelInputMap.begin(); i != Widget->LabelInputMap.end(); ++i )
-    registerInputWidget( Name + ":" + i.key(), i.value() );
-
-  return Box;
-#endif
 }
 
 // ------------------------------------------------------

@@ -40,10 +40,15 @@ namespace
   
   class tabModifier : public multiInputWidgetXmlFactory::modifierOfMultiInputWidget
   {
+    private:
+      static int TabsCount;
+
     public:
-      QString tag() const { return "tabs"; }
+      QString tag() const { return "tab"; }
       void addToMultiInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const;
   };
+
+  int tabModifier::TabsCount = 0;
   
   // ------------------------------------------------------
   
@@ -175,16 +180,17 @@ namespace
     if ( Widget == NULL ) 
       return;
 
-#if 0
-    multiInputWidgetXmlFactory::modifierOfMultiInputWidgetMap *Modifiers = createModifiersMap();
+    multiInputWidgetXmlFactory::modifierOfMultiInputWidgetMap *Modifiers = multiInputWidgetXmlFactory::createModifiersMap();
+    
+    const QString &Name  = attribute( Element, "name", tag() + QString::number(++TabsCount) );
+    const QString &Label = text( Element, "label" ).join(" ");
     
     multiInputWidget *SubWidget = new multiInputWidget(Widget);
-    for ( QDomNode Node = Root.firstChild(); ! Node.isNull(); Node = Node.nextSibling() )  
-      addNextItemToMultiInputWidget( Widget, Node.toElement() );
-    Widget->addTabMultiInputWidget(  );
-#endif
-    //for ( QDomNode Node = Root.firstChild(); ! Node.isNull(); Node = Node.nextSibling() )  
-    //  addNextItemToMultiInputWidget( Widget, Node.toElement() );
+    for ( QDomNode Node = Element.firstChild(); ! Node.isNull(); Node = Node.nextSibling() )  
+      multiInputWidgetXmlFactory::addNextItemToMultiInputWidget( SubWidget, *Modifiers, Node.toElement() );
+    Widget->addTabMultiInputWidget( Name, Label, SubWidget );
+
+    multiInputWidgetXmlFactory::deleteModifiersMap( Modifiers );
   }
   
   // ------------------------------------------------------
@@ -426,6 +432,7 @@ multiInputWidgetXmlFactory::modifierOfMultiInputWidgetMap* multiInputWidgetXmlFa
   Mods << 
     new labelModifier() <<
     new spacingModifier() <<
+    new tabModifier() <<
     new editModifier() <<
     new doubleEditModifier() <<
     new pathEditModifier() <<
@@ -511,7 +518,7 @@ void multiInputWidgetXmlFactory::addItemsToMultiInputWidget( multiInputWidget* W
   setSettingsName( Widget, Root );
 
   for ( QDomNode Node = Root.firstChild(); ! Node.isNull(); Node = Node.nextSibling() )  
-    addNextItemToMultiInputWidget( Widget, Node.toElement() );
+    addNextItemToMultiInputWidget( Widget, *Modifiers, Node.toElement() );
 
 }
 
@@ -527,13 +534,13 @@ void multiInputWidgetXmlFactory::setSettingsName( settingsObject *SettingsObject
 
 // ------------------------------------------------------
 
-void multiInputWidgetXmlFactory::addNextItemToMultiInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const
+void multiInputWidgetXmlFactory::addNextItemToMultiInputWidget( multiInputWidget *Widget, const modifierOfMultiInputWidgetMap &ModifiersMap, const QDomElement &Element ) 
 {
   Q_ASSERT( Widget != NULL );
 
   QString TagName = Element.tagName();
 
-  modifierOfMultiInputWidget *Mod = Modifiers->value( TagName, NULL ) ;
+  modifierOfMultiInputWidget *Mod = ModifiersMap.value( TagName, NULL ) ;
   if ( Mod == NULL )
   {
     qWarning() << "addNextItemToMultiInputWidget: invalid tag " << TagName;

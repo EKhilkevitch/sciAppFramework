@@ -52,23 +52,12 @@ namespace sciAppFramework
       modifierOfMultiInputWidgetMap *Modifiers;
 
     private:
-      static modifierOfMultiInputWidgetMap* createModifiersMap();
-      static void deleteModifiersMap( modifierOfMultiInputWidgetMap *ModifiersMap );
-      static void addModifierOfMultiInputWidget( modifierOfMultiInputWidget *Mod, modifierOfMultiInputWidgetMap *ModifiersMap );
-      
-      static QDomDocument* createDomDocument( const QString &Xml, QString *ErrorString = NULL );
-
-    private:
       multiInputWidgetXmlFactory( const multiInputWidgetXmlFactory& );
       multiInputWidgetXmlFactory& operator=( const multiInputWidgetXmlFactory& );
 
-    private:
-      static void setSettingsName( settingsObject *SettingsObject, const QDomElement &Element );
-      void addNextItemToMultiInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const;
-
-      void initDocument( const QString &Xml );
-      void initModifiers();
-
+    private: 
+      static QDomDocument* createDomDocument( const QString &Xml, QString *ErrorString = NULL );
+      
     public:
       explicit multiInputWidgetXmlFactory( const QString &Xml );
       ~multiInputWidgetXmlFactory();
@@ -82,6 +71,12 @@ namespace sciAppFramework
 
       static multiInputWidget* create( const QString &Xml, QWidget *Parent = NULL );
       static QString xmlRootName( const QString &Xml );
+      
+      static modifierOfMultiInputWidgetMap* createModifiersMap();
+      static void deleteModifiersMap( modifierOfMultiInputWidgetMap *ModifiersMap );
+      static void addModifierOfMultiInputWidget( modifierOfMultiInputWidget *Mod, modifierOfMultiInputWidgetMap *ModifiersMap );
+      static void addNextItemToMultiInputWidget( multiInputWidget *Widget, const modifierOfMultiInputWidgetMap &ModifiersMap, const QDomElement &Element );
+      static void setSettingsName( settingsObject *SettingsObject, const QDomElement &Element );
   };
 
   // ======================================================
