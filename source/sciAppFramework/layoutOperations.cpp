@@ -43,7 +43,7 @@ void layoutOperations::appendStretch( QBoxLayout *Layout, int Stretch )
 
 // ------------------------------------------------------
 
-bool layoutOperations::removeLastSpacing( QBoxLayout *Layout )
+bool layoutOperations::removeLastSpacing( QLayout *Layout )
 {
   if ( Layout == NULL )
     return false;
@@ -59,6 +59,31 @@ bool layoutOperations::removeLastSpacing( QBoxLayout *Layout )
 
   delete Layout->takeAt( Count-1 );
   return true;
+}
+
+// ------------------------------------------------------
+
+QWidget* layoutOperations::lastWidgetAfterSpacing( QLayout* Layout )
+{
+  if ( Layout == NULL )
+    return NULL;
+
+  int Count = Layout->count();
+
+  if ( Count <= 0 )
+    return NULL;
+
+  QLayoutItem *LastLayoutItem = Layout->itemAt( Count-1 );
+  if ( LastLayoutItem == NULL )
+    return NULL;
+
+  if ( LastLayoutItem->spacerItem() != NULL && Count > 1 )
+    LastLayoutItem = Layout->itemAt( Count-2 );
+
+  if ( LastLayoutItem == NULL )
+    return NULL;
+
+  return LastLayoutItem->widget();
 }
 
 // ------------------------------------------------------
