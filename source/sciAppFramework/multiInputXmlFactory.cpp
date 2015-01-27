@@ -38,17 +38,41 @@ namespace
   
   // ------------------------------------------------------
   
-  class tabModifier : public multiInputWidgetXmlFactory::modifierOfMultiInputWidget
+  class groupModifier : public multiInputWidgetXmlFactory::modifierOfMultiInputWidget
   {
     private:
-      static int TabsCount;
+      static int GroupsCount;
+
+    protected:
+      virtual void addSubMultiWidget( multiInputWidget *Parent, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const = 0;
 
     public:
-      QString tag() const { return "tab"; }
       void addToMultiInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const;
   };
 
-  int tabModifier::TabsCount = 0;
+  int groupModifier::GroupsCount = 0;
+  
+  // ------------------------------------------------------
+  
+  class tabModifier : public groupModifier
+  {
+    protected:
+      void addSubMultiWidget( multiInputWidget *Parent, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const;
+
+    public:
+      QString tag() const { return "tab"; }
+  };
+  
+  // ------------------------------------------------------
+  
+  class boxModifier : public groupModifier
+  {
+    protected:
+      void addSubMultiWidget( multiInputWidget *Parent, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const;
+
+    public:
+      QString tag() const { return "box"; }
+  };
   
   // ------------------------------------------------------
   
@@ -175,22 +199,38 @@ namespace
   
   // ------------------------------------------------------
   
-  void tabModifier::addToMultiInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const
+  void groupModifier::addToMultiInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const
   {
     if ( Widget == NULL ) 
       return;
 
     multiInputWidgetXmlFactory::modifierOfMultiInputWidgetMap *Modifiers = multiInputWidgetXmlFactory::createModifiersMap();
     
-    const QString &Name  = attribute( Element, "name", tag() + QString::number(++TabsCount) );
+    const QString &Name  = attribute( Element, "name", tag() + QString::number(++GroupsCount) );
     const QString &Label = text( Element, "label" ).join(" ");
     
     multiInputWidget *SubWidget = new multiInputWidget(Widget);
     for ( QDomNode Node = Element.firstChild(); ! Node.isNull(); Node = Node.nextSibling() )  
       multiInputWidgetXmlFactory::addNextItemToMultiInputWidget( SubWidget, *Modifiers, Node.toElement() );
-    Widget->addTabMultiInputWidget( Name, Label, SubWidget );
+    addSubMultiWidget( Widget, Name, Label, SubWidget );
 
     multiInputWidgetXmlFactory::deleteModifiersMap( Modifiers );
+  }
+  
+  // ------------------------------------------------------
+ 
+  void tabModifier::addSubMultiWidget( multiInputWidget *Parent, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const
+  {
+    Q_ASSERT( Parent != NULL );
+    Parent->addTabMultiInputWidget( Name, Label, SubWidget );
+  }
+  
+  // ------------------------------------------------------
+  
+  void boxModifier::addSubMultiWidget( multiInputWidget *Parent, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const
+  {
+    Q_ASSERT( Parent != NULL );
+    Parent->addBoxMultiInputWidget( Name, Label, SubWidget );
   }
   
   // ------------------------------------------------------
@@ -433,6 +473,7 @@ multiInputWidgetXmlFactory::modifierOfMultiInputWidgetMap* multiInputWidgetXmlFa
     new labelModifier() <<
     new spacingModifier() <<
     new tabModifier() <<
+    new boxModifier() <<
     new editModifier() <<
     new doubleEditModifier() <<
     new pathEditModifier() <<
