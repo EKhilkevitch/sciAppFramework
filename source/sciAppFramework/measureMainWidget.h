@@ -19,6 +19,8 @@ namespace sciAppFramework
 
   class measureMainWidget : public mainWidget
   {
+    Q_OBJECT
+
     private:
       measurementThread *MeasurementThread;
       QTimer *MeasurementTimer;

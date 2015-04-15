@@ -33,6 +33,7 @@ qt4_wrap_cpp( sciAppFramework_moc_sources
                 measureControlWidget.h                 
                 outputWidget.h                  
                 outputSettingsWidget.h                
+                measureMainWidget.h
                 okcancelDialog.h
                 comboMultiWidget.h
                 catalogueWidget.h
