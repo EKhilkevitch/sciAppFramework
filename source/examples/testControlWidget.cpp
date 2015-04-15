@@ -1,7 +1,7 @@
 
 #include <QtGui>
 
-#include "sciAppFramework/controlWidget.h"
+#include "sciAppFramework/measureControlWidget.h"
 #include "sciAppFramework/multiInputWidget.h"
 #include "sciAppFramework/inputWidget.h"
 

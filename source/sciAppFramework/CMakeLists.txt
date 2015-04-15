@@ -11,10 +11,12 @@ set ( sciAppFramework_source_files
                 multiInputWidget.cpp    
                 multiInputXmlFactory.cpp
                 measurementThread.cpp   
-                controlWidget.cpp       
+                controlWidget.cpp
+                measureControlWidget.cpp
                 outputWidget.cpp        
                 outputSettingsWidget.cpp
-                mainWidget.cpp          
+                mainWidget.cpp
+                measureMainWidget.cpp
                 okcancelDialog.cpp      
                 comboMultiWidget.cpp
                 catalogueWidget.cpp
@@ -28,9 +30,9 @@ qt4_wrap_cpp( sciAppFramework_moc_sources
                 multiInputWidget.h              
                 measurementThread.h             
                 controlWidget.h                 
+                measureControlWidget.h                 
                 outputWidget.h                  
                 outputSettingsWidget.h                
-                mainWidget.h                    
                 okcancelDialog.h
                 comboMultiWidget.h
                 catalogueWidget.h

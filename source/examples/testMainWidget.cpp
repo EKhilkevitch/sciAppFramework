@@ -3,8 +3,8 @@
 
 #include "sciAppFramework/inputWidget.h"
 #include "sciAppFramework/multiInputWidget.h"
-#include "sciAppFramework/mainWidget.h"
-#include "sciAppFramework/controlWidget.h"
+#include "sciAppFramework/measureMainWidget.h"
+#include "sciAppFramework/measureControlWidget.h"
 #include "sciAppFramework/outputWidget.h"
 #include "sciAppFramework/measurementThread.h"
 #include "sciAppFramework/main.h"
