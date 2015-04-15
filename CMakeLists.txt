@@ -44,5 +44,5 @@ if ( WIN32 )
 endif()
 
 add_subdirectory( ./source/sciAppFramework/ )
-add_subdirectory( ./source/tests/ )
+add_subdirectory( ./source/examples/ )
 

@@ -9,8 +9,10 @@ if(WIN32)
   set( gui_type WIN32 )
 endif(WIN32)
 
-if ( ENABLE_TESTS )
-
+if ( ENABLE_EXAMPLES )
+  
+  message( "Examples enabled" )
+  
   project( testControlWidget )
   add_executable( testControlWidget testControlWidget.cpp )
   target_link_libraries( testControlWidget ${QT_LIBRARIES} ${scigraphicsQt_LIBRARY} ${scigraphics_LIBRARY} sciAppFramework )
@@ -47,5 +49,7 @@ if ( ENABLE_TESTS )
   add_executable( testStructInputConnection testStructInputConnection.cpp )
   target_link_libraries( testStructInputConnection ${QT_LIBRARIES} ${scigraphicsQt_LIBRARY} ${scigraphics_LIBRARY} sciAppFramework )
 
+else()
+  message( "Examples disabed (use -DENABLE_EXAMPLES=1)" )
 endif()
 
