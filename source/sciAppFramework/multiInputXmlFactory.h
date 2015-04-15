@@ -42,23 +42,22 @@ namespace sciAppFramework
           virtual ~modifierOfMultiInputWidget() {}
       };
 
-    private:
-      QDomDocument *Doculemt;
-      QString ErrorString;
+      friend class modifierOfMultiInputWidget;
 
-      QMap< QString, modifierOfMultiInputWidget* > Modifiers;
+      typedef QMap< QString, modifierOfMultiInputWidget* > modifierOfMultiInputWidgetMap;
+      
+    private:
+      QString ErrorString;
+      QDomDocument *Doculemt;
+      modifierOfMultiInputWidgetMap *Modifiers;
 
     private:
       multiInputWidgetXmlFactory( const multiInputWidgetXmlFactory& );
       multiInputWidgetXmlFactory& operator=( const multiInputWidgetXmlFactory& );
 
-    private:
-      static void setSettingsName( settingsObject *SettingsObject, const QDomElement &Element );
-      void addNextItemToMultiInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const;
-
-      void initDocument( const QString &Xml );
-      void initModifiers();
-
+    private: 
+      static QDomDocument* createDomDocument( const QString &Xml, QString *ErrorString = NULL );
+      
     public:
       explicit multiInputWidgetXmlFactory( const QString &Xml );
       ~multiInputWidgetXmlFactory();
@@ -66,12 +65,18 @@ namespace sciAppFramework
       bool isError() const { return ! ErrorString.isEmpty(); }
       const QString& errorMessage() const { return ErrorString; }
 
-      void addModifierOfMultiInputWidget( modifierOfMultiInputWidget *Mod );
 
       multiInputWidget* create( QWidget *Parent = NULL ) const;
       void addItemsToMultiInputWidget( multiInputWidget* Widget ) const;
 
       static multiInputWidget* create( const QString &Xml, QWidget *Parent = NULL );
+      static QString xmlRootName( const QString &Xml );
+      
+      static modifierOfMultiInputWidgetMap* createModifiersMap();
+      static void deleteModifiersMap( modifierOfMultiInputWidgetMap *ModifiersMap );
+      static void addModifierOfMultiInputWidget( modifierOfMultiInputWidget *Mod, modifierOfMultiInputWidgetMap *ModifiersMap );
+      static void addNextItemToMultiInputWidget( multiInputWidget *Widget, const modifierOfMultiInputWidgetMap &ModifiersMap, const QDomElement &Element );
+      static void setSettingsName( settingsObject *SettingsObject, const QDomElement &Element );
   };
 
   // ======================================================

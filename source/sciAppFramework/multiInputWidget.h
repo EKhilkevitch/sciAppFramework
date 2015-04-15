@@ -17,6 +17,7 @@ class QSettings;
 class QLayout;
 class QBoxLayout;
 class QGroupBox;
+class QTabWidget;
 
 // ======================================================
 
@@ -36,6 +37,9 @@ namespace sciAppFramework
     private:
       QBoxLayout* createBoxLayout();
 
+    private:
+      void putSubwidgetOnLayout( const QString &Name, QLayout *Layout, multiInputWidget *Widget );
+
     public:
       explicit multiInputWidget( QWidget *Parent = NULL, const QString &SettingsName = QString() );
 
@@ -46,9 +50,11 @@ namespace sciAppFramework
       inputWidget* addInputWidget( inputWidget *Input );
       template <class inp> inp* addInputWidget( const QString &Name, const QString &Label, const QVariant &Value = QVariant() );
       
-      QGroupBox* addMultiInputWidget( const QString &Name, const QString &Label, multiInputWidget *Widget );
+      QGroupBox* addBoxMultiInputWidget( const QString &Name, const QString &Label, multiInputWidget *Widget );
+      QTabWidget* addTabMultiInputWidget( const QString &Name, const QString &Label, multiInputWidget *Widget );
 
       void addWidgetToLayout( QWidget *Widget );
+      void insertWidgetToLayout( int Index, QWidget *Widget );
 
       void addSpacing( int Spacing );
       void addWidget( QWidget *Widget );

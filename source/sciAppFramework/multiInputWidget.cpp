@@ -7,6 +7,7 @@
 
 #include <QVBoxLayout>
 #include <QGroupBox>
+#include <QTabWidget>
 #include <QLabel>
 #include <QDebug>
 
@@ -98,24 +99,69 @@ void  multiInputWidget::addWidgetToLayout( QWidget *Widget )
 
 // ------------------------------------------------------
 
-QGroupBox* multiInputWidget::addMultiInputWidget( const QString &Name, const QString &Label, multiInputWidget *Widget )
+void multiInputWidget::insertWidgetToLayout( int Index, QWidget *Widget )
+{
+  if ( Widget == NULL )
+    return;
+  
+  Widget->setParent( this );
+  QWidgetItem *WidgetItem = new QWidgetItem(Widget);
+  layoutOperations::insertLayoutItem( Index, this, WidgetItem, 1 );
+}
+
+// ------------------------------------------------------
+
+void multiInputWidget::putSubwidgetOnLayout( const QString &Name, QLayout *Layout, multiInputWidget *Widget )
+{
+  if ( Layout == NULL || Widget == NULL )
+    return;
+
+  Layout->addWidget( Widget );
+  
+  setupSettingsObject( Widget, Name );
+  for ( labelInputMap::iterator i = Widget->LabelInputMap.begin(); i != Widget->LabelInputMap.end(); ++i )
+    registerInputWidget( Name + ":" + i.key(), i.value() );
+}
+
+// ------------------------------------------------------
+
+QGroupBox* multiInputWidget::addBoxMultiInputWidget( const QString &Name, const QString &Label, multiInputWidget *Widget )
 {
   if ( Widget == NULL )
     return NULL;
 
   QBoxLayout *Layout = inputWidget::createLayoutWithoutMargins<QVBoxLayout>();
-  Layout->addWidget( Widget );
-  
+  putSubwidgetOnLayout( Name, Layout, Widget );
+
   QGroupBox *Box = new QGroupBox( Label, this );
   Box->setLayout( Layout );
   addWidgetToLayout( Box );
-  
-  setupSettingsObject( Widget, Name );
-
-  for ( labelInputMap::iterator i = Widget->LabelInputMap.begin(); i != Widget->LabelInputMap.end(); ++i )
-    registerInputWidget( Name + ":" + i.key(), i.value() );
 
   return Box;
+}
+
+// ------------------------------------------------------
+
+QTabWidget* multiInputWidget::addTabMultiInputWidget( const QString &Name, const QString &Label, multiInputWidget *Widget )
+{
+  if ( Widget == NULL )
+    return NULL;
+  
+  QBoxLayout *Layout = inputWidget::createLayoutWithoutMargins<QVBoxLayout>();
+  putSubwidgetOnLayout( Name, Layout, Widget );
+
+  QTabWidget *TabWidget = dynamic_cast<QTabWidget*>( layoutOperations::lastWidgetAfterSpacing(layout()) );
+  if ( TabWidget == NULL )
+  {
+    TabWidget = new QTabWidget(this);
+    addWidgetToLayout( TabWidget );
+  }
+
+  QWidget *TabPage = new QWidget( this );
+  TabPage->setLayout( Layout );
+  TabWidget->addTab( TabPage, Label );
+
+  return TabWidget;
 }
 
 // ------------------------------------------------------

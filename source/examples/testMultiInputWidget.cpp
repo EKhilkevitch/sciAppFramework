@@ -35,10 +35,6 @@ int main( int argc, char **argv )
   Combo->addItem("Item1");
   Combo->addItem("Item2");
 
-  multiInputWidget *SubWidget = new multiInputWidget();
-  SubWidget->addInputWidget<labelEditWidget>("EditS1","Sub edit 1",12);
-  SubWidget->addInputWidget<labelEditWidget>("EditS2","Sub edit 2",13);
-
   comboMultiWidget *ComboMultiWidget = new comboMultiWidget("Select widget:");
   ComboMultiWidget->setScrollArea( true );
   ComboMultiWidget->setSettingsName("ComboMW");
@@ -57,11 +53,24 @@ int main( int argc, char **argv )
   Radio1->addItem("btn2");
   Radio1->addItem("btn3");
   Radio1->addItem("btn4");
-  Widget.addMultiInputWidget( "SW", "Sub widget", SubWidget );
-  Widget.addInputWidget<checkBoxWidget>("Check1","This is a check box",true);
+
+  multiInputWidget *SubWidget = new multiInputWidget();
+  SubWidget->addInputWidget<labelEditWidget>("EditS1","Sub edit 1",12);
+  SubWidget->addInputWidget<labelEditWidget>("EditS2","Sub edit 2",13);
+  Widget.addBoxMultiInputWidget( "SW", "Sub widget", SubWidget );
+
+  multiInputWidget *SubWidgetTab1 = new multiInputWidget();
+  SubWidgetTab1->addInputWidget<labelEditWidget>("EditT1","Sub edit 1",12);
+  SubWidgetTab1->addInputWidget<labelEditWidget>("EditT2","Sub edit 2",13);
+  multiInputWidget *SubWidgetTab2 = new multiInputWidget();
+  SubWidgetTab2->addInputWidget<labelEditWidget>("EditT3","Sub edit 3",12);
+  Widget.addTabMultiInputWidget( "ST1", "Tab widget 1", SubWidgetTab1 );
+  Widget.addTabMultiInputWidget( "ST2", "Tab widget 2", SubWidgetTab2 );
+
+  Widget.addInputWidget<checkBoxWidget>( "Check1","This is a check box", true );
   Widget.addWidget( new QPushButton("Button") );
   Widget.addWidget( ComboMultiWidget );
-  Widget.addLabel("This is a label #2");
+  Widget.addLabel( "This is a label #2" );
 
   Widget.loadSettings();
   Widget.show();
