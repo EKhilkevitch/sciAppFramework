@@ -12,6 +12,7 @@
 
 class QLabel;
 class QLineEdit;
+class QTextEdit;
 class QSpinBox;
 class QDoubleSpinBox;
 class QComboBox;
@@ -116,7 +117,7 @@ namespace sciAppFramework
       void setText( const QString& String );
       void setValidator( QValidator *Validator );
       
-      void setReadOnly( bool E );
+      void setReadOnly( bool ReadOnly );
 
     signals:
       void editingFinished();
@@ -195,7 +196,7 @@ namespace sciAppFramework
     public slots:
       void setEditFromFileDialog();
   };
-
+  
   // ======================================================
 
   class labelSpinWidget : public labelInputWidget
@@ -208,9 +209,9 @@ namespace sciAppFramework
       QWidget* createInputWidget(); 
 
     public:
-      explicit labelSpinWidget( const QString& LabelText, QWidget *Parent = NULL );
-      labelSpinWidget( const QString& LabelText, int Value, QWidget *Parent = NULL );
-      labelSpinWidget( const QString& LabelText, int Min, int Max, QWidget *Parent = NULL );
+      explicit labelSpinWidget( const QString &LabelText, QWidget *Parent = NULL );
+      labelSpinWidget( const QString &LabelText, int Value, QWidget *Parent = NULL );
+      labelSpinWidget( const QString &LabelText, int Min, int Max, QWidget *Parent = NULL );
 
       QVariant getVariantValue() const;
       void setVariantValue( const QVariant &Value );
@@ -368,9 +369,10 @@ namespace sciAppFramework
       QCheckBox *CheckBox;
     
     protected:
-      QVariant valueToSettings() const { return isChecked(); }
-      void setValueFromSettings( const QVariant &Value ) { setChecked( Value.toBool() ); }
+      QVariant valueToSettings() const;
+      void setValueFromSettings( const QVariant &Value );
 
+    private:
       void initWidget( const QString &LabelText );
 
     private slots:
@@ -380,8 +382,8 @@ namespace sciAppFramework
       explicit checkBoxWidget( const QString& LabelText, QWidget *Parent = NULL );
       checkBoxWidget( const QString& LabelText, bool Value, QWidget *Parent = NULL );
       
-      QVariant getVariantValue() const { return isChecked(); }
-      void setVariantValue( const QVariant &Value ) { setChecked( Value.toBool() ); }
+      QVariant getVariantValue() const;
+      void setVariantValue( const QVariant &Value );
 
       const QString label() const;
 
@@ -404,6 +406,38 @@ namespace sciAppFramework
       void toggled( bool );
   };
   
+  // ======================================================
+  
+  class multilineEditWidget : public inputWidget
+  {
+    Q_OBJECT
+
+    private:
+      QLabel *Label;
+      QTextEdit *TextEdit;
+
+    protected:
+      QVariant valueToSettings() const;
+      void setValueFromSettings( const QVariant &Value );
+     
+    private:
+      void initWidget( const QString &LabelText );
+
+    public:
+      explicit multilineEditWidget( const QString &LabelText, QWidget *Parent = NULL );
+      multilineEditWidget( const QString &LabelText, const QString &Text, QWidget *Parent = NULL );
+
+      QVariant getVariantValue() const;
+      void setVariantValue( const QVariant &Value );
+      
+      const QString label() const;
+
+      const QString text() const;
+      void setText( const QString &String );
+      
+      void setReadOnly( bool ReadOnly );
+  };
+
   // ======================================================
   
   template <class layoutType> layoutType* inputWidget::createLayoutWithoutMargins()

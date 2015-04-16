@@ -47,12 +47,14 @@ int main( int argc, char **argv )
   Widget.addInputWidget<labelEditWidget>("Edit2","This is a test input field #2",22);
   Widget.addInputWidget<labelPathEditWidget>("Path1","This is a test path field");
   Widget.addInputWidget<labelSpinWidget>("Spin1","This is a test spin",12);
+  Widget.addInputWidget<multilineEditWidget>( "MultiEdit", "Multiline edit", "This text is\nmultiline" );
   Widget.addLabel("This is a label");
   radioButtonWidget *Radio1 = Widget.addInputWidget<radioButtonWidget>("Radio1","A lot of radio buttons");
   Radio1->addItem("btn1");
   Radio1->addItem("btn2");
   Radio1->addItem("btn3");
   Radio1->addItem("btn4");
+
 
   multiInputWidget *SubWidget = new multiInputWidget();
   SubWidget->addInputWidget<labelEditWidget>("EditS1","Sub edit 1",12);

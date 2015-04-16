@@ -5,6 +5,7 @@
 
 #include <QLabel>
 #include <QLineEdit>
+#include <QTextEdit>
 #include <QSpinBox>
 #include <QDoubleSpinBox>
 #include <QComboBox>
@@ -508,10 +509,10 @@ void labelPathEditWidget::setEditFromFileDialog()
 
 // ======================================================
       
-labelSpinWidget::labelSpinWidget( const QString& LabelText, QWidget *Parent ) : 
+labelSpinWidget::labelSpinWidget( const QString &LabelText, QWidget *Parent ) : 
   labelInputWidget(Parent,LabelText) 
 { 
-  initWidget(LabelText); 
+  initWidget( LabelText ); 
 }
 
 // ------------------------------------------------------
@@ -1099,6 +1100,34 @@ void checkBoxWidget::initWidget( const QString &LabelText )
 
 // ------------------------------------------------------
 
+QVariant checkBoxWidget::valueToSettings() const 
+{ 
+  return isChecked(); 
+}
+
+// ------------------------------------------------------
+
+void checkBoxWidget::setValueFromSettings( const QVariant &Value ) 
+{ 
+  setChecked( Value.toBool() ); 
+}
+
+// ------------------------------------------------------
+
+QVariant checkBoxWidget::getVariantValue() const 
+{ 
+  return isChecked(); 
+}
+
+// ------------------------------------------------------
+
+void checkBoxWidget::setVariantValue( const QVariant &Value ) 
+{ 
+  setChecked( Value.toBool() ); 
+}
+
+// ------------------------------------------------------
+
 const QString checkBoxWidget::label() const 
 { 
   return CheckBox->text(); 
@@ -1153,6 +1182,92 @@ void checkBoxWidget::emitCheckedSignal()
 {
   emit toggled( isChecked() );
   emit changed();
+}
+
+// ======================================================
+
+multilineEditWidget::multilineEditWidget( const QString &LabelText, QWidget *Parent ) :
+  inputWidget( Parent, LabelText ) 
+{ 
+  initWidget( LabelText ); 
+}
+
+// ------------------------------------------------------
+
+multilineEditWidget::multilineEditWidget( const QString &LabelText, const QString &Text, QWidget *Parent ) : 
+  inputWidget( Parent, LabelText ) 
+{
+  initWidget( LabelText ); 
+  setText( Text );
+}
+
+// ------------------------------------------------------
+
+void multilineEditWidget::initWidget( const QString &LabelText )
+{
+  Label = new QLabel( LabelText, this );
+  TextEdit = new QTextEdit( this );
+
+  QBoxLayout *Layout = createLayoutWithoutMargins<QVBoxLayout>();
+  Layout->addWidget( Label );
+  Layout->addWidget( TextEdit );
+  setLayout( Layout );
+}
+
+// ------------------------------------------------------
+
+QVariant multilineEditWidget::valueToSettings() const
+{
+  return text();
+}
+
+// ------------------------------------------------------
+
+void multilineEditWidget::setValueFromSettings( const QVariant &Value )
+{
+  setText( Value.toString() );
+}
+
+// ------------------------------------------------------
+
+QVariant multilineEditWidget::getVariantValue() const
+{
+  return text();
+}
+
+// ------------------------------------------------------
+
+void multilineEditWidget::setVariantValue( const QVariant &Value )
+{
+  setText( Value.toString() );
+}
+
+// ------------------------------------------------------
+
+const QString multilineEditWidget::label() const
+{
+  return Label->text();
+}
+
+// ------------------------------------------------------
+
+const QString multilineEditWidget::text() const
+{
+  return TextEdit->toPlainText();
+}
+
+// ------------------------------------------------------
+
+void multilineEditWidget::setText( const QString &String )
+{
+  TextEdit->setPlainText( String );
+}
+
+// ------------------------------------------------------
+
+void multilineEditWidget::setReadOnly( bool ReadOnly )
+{
+  TextEdit->setReadOnly( ReadOnly );
 }
 
 // ======================================================
