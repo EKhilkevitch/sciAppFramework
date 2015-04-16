@@ -951,6 +951,49 @@ void radioButtonWidget::initWidget( const QString &LabelText )
 }
 
 // ------------------------------------------------------
+
+radioButtonWidget::radioButtonPair::radioButtonPair() : 
+  Button(NULL) 
+{
+}
+
+// ------------------------------------------------------
+
+radioButtonWidget::radioButtonPair::radioButtonPair( QRadioButton *B, const QVariant &D ) : 
+  Button(B), 
+  Data(D) 
+{
+}
+
+// ------------------------------------------------------
+
+QVariant radioButtonWidget::valueToSettings() const 
+{ 
+  return currentIndex(); 
+}
+
+// ------------------------------------------------------
+
+void radioButtonWidget::setValueFromSettings( const QVariant &Value ) 
+{ 
+  setCurrentIndex( Value.toInt() ); 
+}
+      
+// ------------------------------------------------------
+
+QVariant radioButtonWidget::getVariantValue() const 
+{ 
+  return currentData(); 
+}
+
+// ------------------------------------------------------
+
+void radioButtonWidget::setVariantValue( const QVariant &Value ) 
+{ 
+  setCurrentData( Value ); 
+}
+
+// ------------------------------------------------------
       
 void radioButtonWidget::setOrientation( Qt::Orientation Orientation )
 {

@@ -4,6 +4,7 @@
 #include "sciAppFramework/multiInputWidget.h"
 #include "sciAppFramework/inputWidget.h"
 #include "sciAppFramework/layoutOperations.h"
+#include "sciAppFramework/stackedSelectorWidget.h"
 
 #include <QVBoxLayout>
 #include <QGroupBox>

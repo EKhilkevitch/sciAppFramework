@@ -272,7 +272,7 @@ namespace sciAppFramework
   };
 
   // ======================================================
-
+  
   class labelComboWidget : public labelInputWidget
   {
     Q_OBJECT
@@ -303,7 +303,7 @@ namespace sciAppFramework
       labelComboWidget& setCurrentData( const QVariant& V );
       
     signals:
-      void currentIndexChanged( int i );
+      void currentIndexChanged( int Index );
       void currentIndexChanged( const QString& );
   };
 
@@ -318,10 +318,9 @@ namespace sciAppFramework
       {
         QRadioButton *Button;
         QVariant Data;
-        radioButtonPair() : 
-          Button(NULL) {}
-        radioButtonPair( QRadioButton *B, const QVariant &D ) : 
-          Button(B), Data(D) {}
+
+        radioButtonPair();
+        radioButtonPair( QRadioButton *Button, const QVariant &Data );
       };
 
     private:
@@ -329,8 +328,8 @@ namespace sciAppFramework
       QGroupBox *ButtonsBox;
 
     protected:
-      QVariant valueToSettings() const { return currentIndex(); }
-      void setValueFromSettings( const QVariant &Value ) { setCurrentIndex( Value.toInt() ); }
+      QVariant valueToSettings() const;
+      void setValueFromSettings( const QVariant &Value );
 
       void initWidget( const QString &LabelText );
 
@@ -338,10 +337,10 @@ namespace sciAppFramework
       void oneOfButtonsChecked();
 
     public:
-      explicit radioButtonWidget( const QString& LabelText, QWidget *Parent = NULL );
+      explicit radioButtonWidget( const QString &LabelText, QWidget *Parent = NULL );
       
-      QVariant getVariantValue() const { return currentData(); }
-      void setVariantValue( const QVariant &Value ) { setCurrentData( Value ); }
+      QVariant getVariantValue() const;
+      void setVariantValue( const QVariant &Value );
 
       void setOrientation( Qt::Orientation Orientation );
 
@@ -353,10 +352,10 @@ namespace sciAppFramework
       radioButtonWidget& addItem( const QString &Text, const QVariant &UserData = QVariant() );
       void clear();
       radioButtonWidget& setCurrentIndex( int Index );
-      radioButtonWidget& setCurrentData( const QVariant& V );
+      radioButtonWidget& setCurrentData( const QVariant &Value );
 
     signals:
-      void currentIndexChanged( int i );
+      void currentIndexChanged( int Index );
   };
   
   // ======================================================

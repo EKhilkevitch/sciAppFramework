@@ -3,7 +3,7 @@
 
 #include "sciAppFramework/inputWidget.h"
 #include "sciAppFramework/multiInputWidget.h"
-#include "sciAppFramework/comboMultiWidget.h"
+#include "sciAppFramework/stackedSelectorWidget.h"
 
 using namespace sciAppFramework;
 

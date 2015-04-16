@@ -25,6 +25,11 @@ namespace sciAppFramework
 {
 
   // ======================================================
+  
+  class comboMultiWidget;
+  class radioMultiWidget;
+  
+  // ======================================================
 
   class multiInputWidget : public QWidget, public multiSettingsObject
   {
@@ -52,6 +57,7 @@ namespace sciAppFramework
       
       QGroupBox* addBoxMultiInputWidget( const QString &Name, const QString &Label, multiInputWidget *Widget );
       QTabWidget* addTabMultiInputWidget( const QString &Name, const QString &Label, multiInputWidget *Widget );
+      radioMultiWidget* addRadioMultiInputWidget( const QString &Name, const QString &Label, multiInputWidget *Widget );
 
       void addWidgetToLayout( QWidget *Widget );
       void insertWidgetToLayout( int Index, QWidget *Widget );
