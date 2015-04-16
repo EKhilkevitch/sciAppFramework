@@ -111,16 +111,20 @@ void multiInputWidget::insertWidgetToLayout( int Index, QWidget *Widget )
 
 // ------------------------------------------------------
 
-void multiInputWidget::putSubwidgetOnLayout( const QString &Name, QLayout *Layout, multiInputWidget *Widget )
+void multiInputWidget::addSubwidgetInputsToMap( const QString &Name, multiInputWidget *Widget )
 {
-  if ( Layout == NULL || Widget == NULL )
+  if ( Widget == NULL )
     return;
-
-  Layout->addWidget( Widget );
   
-  setupSettingsObject( Widget, Name );
+  if ( ! Name.isEmpty() )
+    setupSettingsObject( Widget, Name );
+
   for ( labelInputMap::iterator i = Widget->LabelInputMap.begin(); i != Widget->LabelInputMap.end(); ++i )
-    registerInputWidget( Name + ":" + i.key(), i.value() );
+  {
+    const QString FullName = Name.isEmpty() ? i.key() : Name + ":" + i.key();
+    inputWidget *Value = i.value();
+    registerInputWidget( FullName, Value );
+  }
 }
 
 // ------------------------------------------------------
@@ -131,7 +135,8 @@ QGroupBox* multiInputWidget::addBoxMultiInputWidget( const QString &Name, const 
     return NULL;
 
   QBoxLayout *Layout = inputWidget::createLayoutWithoutMargins<QVBoxLayout>();
-  putSubwidgetOnLayout( Name, Layout, Widget );
+  Layout->addWidget( Widget );
+  addSubwidgetInputsToMap( Name, Widget );
 
   QGroupBox *Box = new QGroupBox( Label, this );
   Box->setLayout( Layout );
@@ -148,7 +153,8 @@ QTabWidget* multiInputWidget::addTabMultiInputWidget( const QString &Name, const
     return NULL;
   
   QBoxLayout *Layout = inputWidget::createLayoutWithoutMargins<QVBoxLayout>();
-  putSubwidgetOnLayout( Name, Layout, Widget );
+  Layout->addWidget( Widget );
+  addSubwidgetInputsToMap( Name, Widget );
 
   QTabWidget *TabWidget = dynamic_cast<QTabWidget*>( layoutOperations::lastWidgetAfterSpacing(layout()) );
   if ( TabWidget == NULL )

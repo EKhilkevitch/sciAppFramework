@@ -38,7 +38,7 @@ namespace sciAppFramework
       QBoxLayout* createBoxLayout();
 
     private:
-      void putSubwidgetOnLayout( const QString &Name, QLayout *Layout, multiInputWidget *Widget );
+      void addSubwidgetInputsToMap( const QString &Name, multiInputWidget *Widget );
 
     public:
       explicit multiInputWidget( QWidget *Parent = NULL, const QString &SettingsName = QString() );
