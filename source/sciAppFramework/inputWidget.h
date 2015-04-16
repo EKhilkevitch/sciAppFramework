@@ -159,10 +159,12 @@ namespace sciAppFramework
       double minimum() const;
       double maximum() const;
 
-      void setRange( double Min, double Max );
-      void setPrintfFormat( const QString &Format ) { PrintfFormat = Format; }
+      labelDoubleEditWidget& setRange( double Min, double Max );
+      labelDoubleEditWidget& setMinimum( double Min );
+      labelDoubleEditWidget& setMaximum( double Max );
+      labelDoubleEditWidget& setPrintfFormat( const QString &Format );
 
-      void setValue( double Value );
+      labelDoubleEditWidget& setValue( double Value );
       double value() const;
   };
   
@@ -296,7 +298,8 @@ namespace sciAppFramework
       int  count() const;
       QString currentText() const;
       QVariant currentData() const;
-      labelComboWidget& addItem( const QString &Text, const QVariant &UserData = QVariant() );
+      labelComboWidget& addItem( const QString &Text );
+      labelComboWidget& addItem( const QString &Text, const QVariant &UserData );
       labelComboWidget& addItems( const QStringList& List );
       void clear();
       labelComboWidget& setCurrentIndex( int Index );
@@ -342,7 +345,8 @@ namespace sciAppFramework
       QVariant getVariantValue() const;
       void setVariantValue( const QVariant &Value );
 
-      void setOrientation( Qt::Orientation Orientation );
+      radioButtonWidget& setOrientation( Qt::Orientation Orientation );
+      radioButtonWidget& setLayoutSpacing( int Spacing );
 
       const QString label() const;
 
@@ -434,7 +438,8 @@ namespace sciAppFramework
       const QString text() const;
       void setText( const QString &String );
       
-      void setReadOnly( bool ReadOnly );
+      multilineEditWidget& setReadOnly( bool ReadOnly );
+      multilineEditWidget& setLayoutSpacing( int Spacing );
   };
 
   // ======================================================

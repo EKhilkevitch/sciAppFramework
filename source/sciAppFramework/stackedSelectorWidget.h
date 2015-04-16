@@ -30,10 +30,11 @@ namespace sciAppFramework
       explicit stackedSelectorWidget( const QString &Label, QWidget *Parent, const QString &SettingsName );
       virtual ~stackedSelectorWidget() {};
       
-      void addWidget( const QString &Name, QWidget *Widget ); 
+      stackedSelectorWidget& addWidget( const QString &Name, QWidget *Widget ); 
       int count() const;
       
-      void setScrollArea( bool Scroll );
+      stackedSelectorWidget& setScrollArea( bool Scroll );
+      stackedSelectorWidget& setLabel( const QString &Label );
 
       QWidget* currentWidget() const;
       int currentIndex() const;
@@ -78,14 +79,14 @@ namespace sciAppFramework
 
   // ------------------------------------------------------
         
-  template <class selectorWidget> void stackedSelectorWidget<selectorWidget>::addWidget( const QString &Name, QWidget *Widget )
+  template <class selectorWidget> stackedSelectorWidget<selectorWidget>& stackedSelectorWidget<selectorWidget>::addWidget( const QString &Name, QWidget *Widget )
   {
     Q_ASSERT( SelectorWidget != NULL );
     Q_ASSERT( StackedWidget != NULL );
     Q_ASSERT( SelectorWidget->count() == StackedWidget->count() );
 
     if ( Widget == NULL )
-      return;
+      return *this;
 
     SelectorWidget->addItem( Name );
     StackedWidget->addWidget( Widget );
@@ -99,17 +100,19 @@ namespace sciAppFramework
       SelectorWidget->setCurrentIndex( 0 );
       StackedWidget->setCurrentIndex( 0 );
     }
+
+    return *this;
   }
 
   // ------------------------------------------------------
         
-  template <class selectorWidget> void stackedSelectorWidget<selectorWidget>::setScrollArea( bool Scroll )
+  template <class selectorWidget> stackedSelectorWidget<selectorWidget>& stackedSelectorWidget<selectorWidget>::setScrollArea( bool Scroll )
   {
     Q_ASSERT( layout()->count() > 0 );
     QScrollArea *ScrollArea = dynamic_cast<QScrollArea*>( layout()->itemAt(layout()->count()-1)->widget() );
 
     if ( ( ScrollArea != NULL ) == Scroll )
-      return;
+      return *this;
       
     if ( Scroll )
     {
@@ -126,8 +129,18 @@ namespace sciAppFramework
       delete ScrollArea;
       layout()->addWidget( StackedWidget );
     }
+
+    return *this;
   }
 
+  // ------------------------------------------------------
+  
+  template <class selectorWidget> stackedSelectorWidget<selectorWidget>& stackedSelectorWidget<selectorWidget>::setLabel( const QString &Label )
+  {
+    SelectorWidget->setLabel( Label );
+    return *this;
+  }
+  
   // ------------------------------------------------------
 
   template <class selectorWidget> int stackedSelectorWidget<selectorWidget>::count() const

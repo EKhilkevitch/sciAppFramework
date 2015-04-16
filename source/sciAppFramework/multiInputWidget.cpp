@@ -173,6 +173,31 @@ QTabWidget* multiInputWidget::addTabMultiInputWidget( const QString &Name, const
 
 // ------------------------------------------------------
 
+radioMultiWidget* multiInputWidget::addRadioMultiInputWidget( const QString &Name, const QString &Label, multiInputWidget *Widget )
+{
+  if ( Widget == NULL )
+    return NULL;
+  
+  QBoxLayout *Layout = inputWidget::createLayoutWithoutMargins<QVBoxLayout>();
+  Layout->addWidget( Widget );
+  addSubwidgetInputsToMap( Name, Widget );
+
+  radioMultiWidget *RadioWidget = dynamic_cast<radioMultiWidget*>( layoutOperations::lastWidgetAfterSpacing(layout()) );
+  if ( RadioWidget == NULL )
+  {
+    RadioWidget = new radioMultiWidget( "", this, Name );
+    addWidgetToLayout( RadioWidget );
+  }
+
+  QWidget *Page = new QWidget( this );
+  Page->setLayout( Layout );
+  RadioWidget->addWidget( Label, Page );
+
+  return RadioWidget;
+}
+
+// ------------------------------------------------------
+
 void multiInputWidget::addWidget( QWidget *Widget )
 {
   if ( Widget == NULL )
@@ -195,6 +220,15 @@ void multiInputWidget::addLabel( const QString &Label )
 {
   QLabel *LabelWidget = new QLabel( Label );
   addWidgetToLayout( LabelWidget );
+}
+
+// ------------------------------------------------------
+
+void multiInputWidget::setLayoutSpacing( int Spacing )
+{
+  QBoxLayout *Layout = dynamic_cast<QBoxLayout*>( layout() );
+  if ( Layout != NULL )
+    Layout->setSpacing( Spacing );
 }
 
 // ------------------------------------------------------

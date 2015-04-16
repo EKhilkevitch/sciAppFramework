@@ -67,6 +67,8 @@ namespace sciAppFramework
       void addLayout( QLayout *Layout );
       void addLabel( const QString &Label );
 
+      void setLayoutSpacing( int Spacing );
+
       QVariant getVariantValue( const QString &Name ) const;
       void setVariantValue( const QString &Name, const QVariant &Value );
 

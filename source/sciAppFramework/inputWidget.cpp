@@ -341,21 +341,52 @@ double labelDoubleEditWidget::maximum() const
 
 // ------------------------------------------------------
       
-void labelDoubleEditWidget::setRange( double Min, double Max )
+labelDoubleEditWidget& labelDoubleEditWidget::setRange( double Min, double Max )
 {
   QDoubleValidator *Validator = doubleValidator();
   if ( Validator != NULL )
     Validator->setRange( Min, Max );
+  return *this;
 }
       
 // ------------------------------------------------------
 
-void labelDoubleEditWidget::setValue( double Value ) 
+labelDoubleEditWidget& labelDoubleEditWidget::setMinimum( double Min )
+{
+  QDoubleValidator *Validator = doubleValidator();
+  if ( Validator != NULL )
+    Validator->setBottom( Min );
+  return *this;
+}
+
+// ------------------------------------------------------
+
+labelDoubleEditWidget& labelDoubleEditWidget::setMaximum( double Max )
+{
+  QDoubleValidator *Validator = doubleValidator();
+  if ( Validator != NULL )
+    Validator->setTop( Max );
+  return *this;
+}
+
+// ------------------------------------------------------
+      
+labelDoubleEditWidget& labelDoubleEditWidget::setPrintfFormat( const QString &Format ) 
+{ 
+  PrintfFormat = Format;
+  return *this;
+}
+
+// ------------------------------------------------------
+
+labelDoubleEditWidget& labelDoubleEditWidget::setValue( double Value ) 
 { 
   if ( PrintfFormat.isEmpty() )
     setText( QString::number(Value) );
   else
     setText( QString().sprintf( PrintfFormat.toLocal8Bit().data(), Value ) );
+
+  return *this;
 }
 
 // ------------------------------------------------------
@@ -888,6 +919,13 @@ QVariant labelComboWidget::currentData() const
 
 // ------------------------------------------------------
 
+labelComboWidget& labelComboWidget::addItem( const QString &Text ) 
+{
+  return addItem( Text, QVariant(Text) );
+}
+
+// ------------------------------------------------------
+
 labelComboWidget& labelComboWidget::addItem( const QString &Text, const QVariant &UserData ) 
 { 
   getComboBox()->addItem(Text,UserData); 
@@ -995,7 +1033,7 @@ void radioButtonWidget::setVariantValue( const QVariant &Value )
 
 // ------------------------------------------------------
       
-void radioButtonWidget::setOrientation( Qt::Orientation Orientation )
+radioButtonWidget& radioButtonWidget::setOrientation( Qt::Orientation Orientation )
 {
   QBoxLayout *Layout = NULL;
   switch ( Orientation )
@@ -1021,6 +1059,18 @@ void radioButtonWidget::setOrientation( Qt::Orientation Orientation )
 
   delete ButtonsBox->layout();
   ButtonsBox->setLayout( Layout );
+
+  return *this;
+}
+
+// ------------------------------------------------------
+      
+radioButtonWidget& radioButtonWidget::setLayoutSpacing( int Spacing )
+{
+  QBoxLayout *Layout = dynamic_cast<QBoxLayout*>( layout() );
+  if ( Layout != NULL )
+    Layout->setSpacing( Spacing );
+  return *this;
 }
 
 // ------------------------------------------------------
@@ -1131,7 +1181,7 @@ void checkBoxWidget::initWidget( const QString &LabelText )
 {
   CheckBox = new QCheckBox( LabelText, this );
 
-  QBoxLayout *Layout = createLayoutWithoutMargins<QVBoxLayout>();
+  QLayout *Layout = createLayoutWithoutMargins<QStackedLayout>();
   Layout->addWidget( CheckBox );
   setLayout( Layout );
 
@@ -1308,9 +1358,20 @@ void multilineEditWidget::setText( const QString &String )
 
 // ------------------------------------------------------
 
-void multilineEditWidget::setReadOnly( bool ReadOnly )
+multilineEditWidget& multilineEditWidget::setReadOnly( bool ReadOnly )
 {
   TextEdit->setReadOnly( ReadOnly );
+  return *this;
+}
+      
+// ------------------------------------------------------
+
+multilineEditWidget& multilineEditWidget::setLayoutSpacing( int Spacing )
+{
+  QBoxLayout *Layout = dynamic_cast<QBoxLayout*>( layout() );
+  if ( Layout != NULL )
+    Layout->setSpacing( Spacing );
+  return *this;
 }
 
 // ======================================================

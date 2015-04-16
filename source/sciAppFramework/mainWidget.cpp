@@ -240,6 +240,20 @@ QString mainWidget::getOpenFileName( const QString &Filter )
 }
 
 // -----------------------------------------
+
+void mainWidget::setControlWidgetInCorners( bool OnCorners )
+{
+  if ( OnCorners )
+  {
+    setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
+    setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
+  } else {
+    setCorner(Qt::BottomLeftCorner, Qt::TopDockWidgetArea);
+    setCorner(Qt::BottomRightCorner, Qt::BottomDockWidgetArea);
+  }
+}
+
+// -----------------------------------------
       
 void mainWidget::showErrorMessage( const QString &Message )
 {
