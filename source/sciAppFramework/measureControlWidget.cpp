@@ -51,14 +51,21 @@ QWidget* measureControlWidget::createControlButtonsWidget()
   makePauseContinueButtonsLayout();
 
   QBoxLayout *Layout = new QHBoxLayout();
+  Layout->setContentsMargins( 0, 0, 0, 0 );
   if ( enableStartStopButtons() )
     Layout->addLayout( StartStopLayout );
   if ( enablePauseContinueButtons() )
     Layout->addLayout( PauseContLayout );
 
   QWidget *Widget = new QWidget(this);
-  Widget->setMinimumHeight(60);
-  Widget->setMaximumHeight(60);
+  
+  int Height = buttonsWidgetHeight();
+  if ( Height > 0 )
+  {
+    Widget->setMinimumHeight(Height);
+    Widget->setMaximumHeight(Height);
+  }
+
   Widget->setLayout(Layout);
   return Widget;
 }
@@ -73,6 +80,7 @@ QWidget* measureControlWidget::createSaveButtonsWidget()
     return new QWidget(this);
 
   QBoxLayout *Layout = new QHBoxLayout();
+  Layout->setContentsMargins( 0, 0, 0, 0 );
 
   foreach( QString NameAndText, ButtonsNameAndText )
   {
@@ -83,8 +91,14 @@ QWidget* measureControlWidget::createSaveButtonsWidget()
   }
 
   QWidget *Widget = new QWidget(this);
-  Widget->setMinimumHeight(60);
-  Widget->setMaximumHeight(60);
+  
+  int Height = buttonsWidgetHeight();
+  if ( Height > 0 )
+  {
+    Widget->setMinimumHeight(Height);
+    Widget->setMaximumHeight(Height);
+  }
+  
   Widget->setLayout(Layout);
   return Widget;
 

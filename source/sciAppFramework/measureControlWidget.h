@@ -47,6 +47,8 @@ namespace sciAppFramework
       virtual QString continueButtonText() const { return "Continue"; }
       virtual QStringList saveButtonsTextAndNames() const;
 
+      virtual int buttonsWidgetHeight() const { return 60; }
+
     private:
       void makeStartStopButtonsLayout();
       void makePauseContinueButtonsLayout();
