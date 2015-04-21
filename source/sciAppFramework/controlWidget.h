@@ -27,19 +27,18 @@ namespace sciAppFramework
       multiInputWidget *ParametersWidget;
 
     private:
-      virtual QWidget* createBtnWidget();
-      virtual multiInputWidget* createMultiInputWidget();
-
       QWidget* createParametersWidget();
 
     protected:
-      multiInputWidget& getParameters() { return *ParametersWidget; }
+      virtual QWidget* createBtnWidget();
+      virtual multiInputWidget* createMultiInputWidget();
+
+      multiInputWidget& getParameters();
     
-    protected:
       void initWidget();
 
     public:
-      controlWidget( QWidget *Parent = NULL );
+      explicit controlWidget( QWidget *Parent = NULL );
       virtual ~controlWidget() = 0;
 
       void saveSettings( QSettings* );

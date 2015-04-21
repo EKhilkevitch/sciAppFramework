@@ -56,6 +56,13 @@ QWidget* controlWidget::createParametersWidget()
 }
 
 // -----------------------------------------
+      
+multiInputWidget& controlWidget::getParameters() 
+{ 
+  return *ParametersWidget; 
+}
+
+// -----------------------------------------
 
 multiInputWidget* controlWidget::createMultiInputWidget()
 {

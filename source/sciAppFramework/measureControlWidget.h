@@ -35,7 +35,7 @@ namespace sciAppFramework
       void doContinue();
       void doSave();
      
-    private:
+    protected:
       QWidget* createBtnWidget();
 
       virtual bool enableStartStopButtons() const { return true; }
@@ -47,6 +47,7 @@ namespace sciAppFramework
       virtual QString continueButtonText() const { return "Continue"; }
       virtual QStringList saveButtonsTextAndNames() const;
 
+    private:
       void makeStartStopButtonsLayout();
       void makePauseContinueButtonsLayout();
       QWidget* createControlButtonsWidget();
@@ -61,7 +62,7 @@ namespace sciAppFramework
       static void setEnableLayout( QLayout *Layout, bool Enable );
     
     public:
-      measureControlWidget( QWidget *Parent = NULL );
+      explicit measureControlWidget( QWidget *Parent = NULL );
       virtual ~measureControlWidget() = 0;
 
       virtual void prepareToStart();
