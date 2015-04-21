@@ -38,15 +38,13 @@ void measurementThread::start()
 
 void measurementThread::run()
 {
-  double WaitTime = parameter<double>( waitTimeSecondsName() );
-
   prepareForMeasurement();
 
   while ( ! needToStopMeasurement() )
   {
     incrementCountOfMeasurements();
     doMeasurement();
-    waitForTime( WaitTime );
+    waitForTime( timeForWaitingBetweenMeasurements() );
     if ( needToPauseMeasurement() )
       waitForPause();
   }
@@ -176,6 +174,20 @@ void measurementThread::stopAndCleanOnDestruction()
 void measurementThread::incrementCountOfMeasurements() 
 { 
   CountOfMeasurements += 1; 
+}
+
+// -----------------------------------------
+      
+unsigned measurementThread::countOfMeasurements() const
+{
+  return CountOfMeasurements;
+}
+
+// -----------------------------------------
+      
+double measurementThread::timeForWaitingBetweenMeasurements() const
+{
+  return parameter<double>( waitTimeSecondsName() );
 }
 
 // -----------------------------------------

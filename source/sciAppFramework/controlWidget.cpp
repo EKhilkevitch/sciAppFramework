@@ -9,6 +9,7 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QGroupBox>
+#include <QDebug>
 
 using namespace sciAppFramework;
 

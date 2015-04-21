@@ -67,6 +67,8 @@ namespace sciAppFramework
 
       void incrementCountOfMeasurements();
 
+      virtual double timeForWaitingBetweenMeasurements() const;
+
       void waitWhileRunning( unsigned MaxWaitTimeMs = 1000 );
       void stopAndCleanOnDestruction();
 
@@ -79,12 +81,12 @@ namespace sciAppFramework
       virtual int maxCountOfMeasurements() const;
 
     public:
-      measurementThread( const measurementParameters &P );
+      explicit measurementThread( const measurementParameters &Parameters );
       virtual ~measurementThread() = 0;
       
       bool isExistNewData() const { return ExistNewData; }
 
-      unsigned countOfMeasurements() const { return CountOfMeasurements; }
+      unsigned countOfMeasurements() const;
 
       bool isError() const { return ErrorOccurs; }
       QString errorString() const;
@@ -100,26 +102,31 @@ namespace sciAppFramework
   };
 
   // =========================================
-  
       
   template <class T> T measurementThread::parameter( const QString &Name ) const 
   { 
     return Parameters.getVariantValue(Name).value<T>(); 
   }
+
+  // -----------------------------------------
       
   template <class T> T measurementThread::parameter( const QString &Name, const T &Default ) const
   { 
     QVariant Value = Parameters.getVariantValue(Name);
     return ( Value.isValid() && Value.canConvert<T>() ) ? Value.value<T>() : Default; 
   }
+  
+  // -----------------------------------------
       
   template <class T> T measurementThread::returnLockedValue( const T &Value ) const
   {
     DataMutex.lock();
-    T CopyOfValue = Value;
+    T CopyOfValue( Value );
     DataMutex.unlock();
     return CopyOfValue;
   }
+  
+  // -----------------------------------------
 
   template <class T> void measurementThread::copyLockedValue( T *To, const T &From ) const
   {
