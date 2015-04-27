@@ -260,5 +260,19 @@ void measurementThread::cleanAfterMeasurement()
   ProcessMutex.unlock();
 }
 
+// -----------------------------------------
+      
+void measurementThread::lockDataMutex() const
+{
+  DataMutex.lock();
+}
+
+// -----------------------------------------
+
+void measurementThread::unlockDataMutex() const
+{
+  DataMutex.unlock();
+}
+
 // =========================================
 

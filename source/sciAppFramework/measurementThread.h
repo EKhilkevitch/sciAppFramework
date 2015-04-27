@@ -31,7 +31,8 @@ namespace sciAppFramework
     private:
       const measurementParameters &Parameters;
 
-      mutable QMutex ProcessMutex, DataMutex;
+      mutable QMutex ProcessMutex;
+      mutable QMutex DataMutex;
       
       volatile bool NeedToStop;
       volatile bool NeedToPause;
@@ -62,6 +63,9 @@ namespace sciAppFramework
       virtual void clean();
       
       void waitForTime( double WaitTime );
+
+      void lockDataMutex() const;
+      void unlockDataMutex() const;
 
       void setExistNewData() { ExistNewData = true; }
       void clearExistNewData() const { ExistNewData = false; }
@@ -121,9 +125,9 @@ namespace sciAppFramework
       
   template <class T> T measurementThread::returnLockedValue( const T &Value ) const
   {
-    DataMutex.lock();
+    lockDataMutex();
     T CopyOfValue( Value );
-    DataMutex.unlock();
+    unlockDataMutex();
     return CopyOfValue;
   }
   
@@ -134,9 +138,9 @@ namespace sciAppFramework
     if ( To == NULL )
       return;
 
-    DataMutex.lock();
+    lockDataMutex();
     *To = From;
-    DataMutex.unlock();
+    unlockDataMutex();
   }
   
   // =========================================
