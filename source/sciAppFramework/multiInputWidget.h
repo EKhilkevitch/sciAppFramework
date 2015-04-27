@@ -36,7 +36,7 @@ namespace sciAppFramework
     Q_OBJECT
 
     private:
-      typedef QMap<QString,inputWidget*>  labelInputMap;
+      typedef QMap<QString,inputWidget*> labelInputMap;
       labelInputMap LabelInputMap;
 
     private:

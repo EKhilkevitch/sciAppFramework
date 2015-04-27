@@ -187,11 +187,12 @@ radioMultiWidget* multiInputWidget::addRadioMultiInputWidget( const QString &Nam
   {
     RadioWidget = new radioMultiWidget( "", this, Name );
     addWidgetToLayout( RadioWidget );
+    registerInputWidget( Name, RadioWidget->selector() );
   }
 
   QWidget *Page = new QWidget( this );
   Page->setLayout( Layout );
-  RadioWidget->addWidget( Label, Page );
+  RadioWidget->addWidget( Label, QVariant(Name), Page );
 
   return RadioWidget;
 }
@@ -264,11 +265,10 @@ QMap<QString,QVariant> multiInputWidget::variantValues() const
 {
   QMap<QString,QVariant> Map;
 
-  foreach ( inputWidget *Input, LabelInputMap )
+  for ( labelInputMap::const_iterator i = LabelInputMap.begin(); i != LabelInputMap.end(); ++i )
   {
-    Q_ASSERT( Input != NULL );
-    QString Name = Input->settingsName();
-    QVariant Value = Input->getVariantValue();
+    const QString &Name = i.key();
+    const QVariant &Value = i.value()->getVariantValue();
     Map[ Name ] = Value;
   }
 

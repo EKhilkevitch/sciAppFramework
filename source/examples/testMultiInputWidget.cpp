@@ -65,20 +65,31 @@ int main( int argc, char **argv )
   SubWidgetTab1->addInputWidget<labelEditWidget>("EditT1","Sub edit 1",12);
   SubWidgetTab1->addInputWidget<labelEditWidget>("EditT2","Sub edit 2",13);
   multiInputWidget *SubWidgetTab2 = new multiInputWidget();
-  SubWidgetTab2->addInputWidget<labelEditWidget>("EditT3","Sub edit 3",12);
+  SubWidgetTab2->addInputWidget<labelEditWidget>("EditT3","Sub edit 3",14);
   Widget.addTabMultiInputWidget( "ST1", "Tab widget 1", SubWidgetTab1 );
   Widget.addTabMultiInputWidget( "ST2", "Tab widget 2", SubWidgetTab2 );
+  Widget.addWidget( ComboMultiWidget );
 
   Widget.addInputWidget<checkBoxWidget>( "Check1","This is a check box", true );
   Widget.addWidget( new QPushButton("Button") );
-  Widget.addWidget( ComboMultiWidget );
   Widget.addLabel( "This is a label #2" );
+
+  multiInputWidget *SubWidgetRb1 = new multiInputWidget();
+  SubWidgetRb1->addInputWidget<labelSpinWidget>( "SpinR1", "Spin 1", 7 );
+  SubWidgetRb1->addInputWidget<labelSpinWidget>( "SpinR2", "Spin 2", 8 );
+  SubWidgetRb1->addInputWidget<labelSpinWidget>( "SpinR3", "Spin 3", 9 );
+  multiInputWidget *SubWidgetRb2 = new multiInputWidget();
+  SubWidgetRb2->addInputWidget<labelSpinWidget>( "SpinR4", "Spin 3", 10 );
+  Widget.addRadioMultiInputWidget( "RB1", "Radio Button 1", SubWidgetRb1 );
+  Widget.addRadioMultiInputWidget( "RB2", "Radio Button 2", SubWidgetRb2 );
 
   Widget.loadSettings();
   Widget.show();
 
   qDebug() << "Edit1 = " << Widget.value<QString>("Edit1");
   qDebug() << "Spin1 = " << Widget.value<QString>("Spin1");
+  qDebug() << "RB1:SpinR2 = " << Widget.value<QString>("RB1:SpinR2");
+  qDebug() << "RB1 = " << Widget.value<QString>("RB1");
   qDebug() << "SW:EditS2 = " << Widget.value<QString>("SW:EditS2");
   qDebug() << "Map: " << Widget.stringValues();
 

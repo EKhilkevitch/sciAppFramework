@@ -31,10 +31,13 @@ namespace sciAppFramework
       virtual ~stackedSelectorWidget() {};
       
       stackedSelectorWidget& addWidget( const QString &Name, QWidget *Widget ); 
+      stackedSelectorWidget& addWidget( const QString &Name, const QVariant &Value, QWidget *Widget ); 
       int count() const;
       
       stackedSelectorWidget& setScrollArea( bool Scroll );
       stackedSelectorWidget& setLabel( const QString &Label );
+
+      selectorWidget* selector();
 
       QWidget* currentWidget() const;
       int currentIndex() const;
@@ -79,7 +82,7 @@ namespace sciAppFramework
 
   // ------------------------------------------------------
         
-  template <class selectorWidget> stackedSelectorWidget<selectorWidget>& stackedSelectorWidget<selectorWidget>::addWidget( const QString &Name, QWidget *Widget )
+  template <class selectorWidget> stackedSelectorWidget<selectorWidget>& stackedSelectorWidget<selectorWidget>::addWidget( const QString &Name, const QVariant &Value, QWidget *Widget )
   {
     Q_ASSERT( SelectorWidget != NULL );
     Q_ASSERT( StackedWidget != NULL );
@@ -88,7 +91,7 @@ namespace sciAppFramework
     if ( Widget == NULL )
       return *this;
 
-    SelectorWidget->addItem( Name );
+    SelectorWidget->addItem( Name, Value );
     StackedWidget->addWidget( Widget );
 
     settingsObject *SettingsObject = dynamic_cast<settingsObject*>(Widget);
@@ -104,6 +107,14 @@ namespace sciAppFramework
     return *this;
   }
 
+  // ------------------------------------------------------
+  
+  template <class selectorWidget> stackedSelectorWidget<selectorWidget>& stackedSelectorWidget<selectorWidget>::addWidget( const QString &Name, QWidget *Widget )
+  {
+    int Count = SelectorWidget->count();
+    return addWidget( Name, Count, Widget );
+  }
+  
   // ------------------------------------------------------
         
   template <class selectorWidget> stackedSelectorWidget<selectorWidget>& stackedSelectorWidget<selectorWidget>::setScrollArea( bool Scroll )
@@ -141,6 +152,13 @@ namespace sciAppFramework
     return *this;
   }
   
+  // ------------------------------------------------------
+  
+  template <class selectorWidget> selectorWidget* stackedSelectorWidget<selectorWidget>::selector()
+  {
+    return SelectorWidget;
+  }
+
   // ------------------------------------------------------
 
   template <class selectorWidget> int stackedSelectorWidget<selectorWidget>::count() const
