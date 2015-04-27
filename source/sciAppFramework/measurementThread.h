@@ -47,7 +47,6 @@ namespace sciAppFramework
       void resetError();
       void setErrorNoLock( const QString &String );
       void setError( const QString &String );
-      void waitForTime( double WaitTime );
       void waitForPause();
       void doMeasurement();
       void prepareForMeasurement();
@@ -61,6 +60,8 @@ namespace sciAppFramework
       virtual void prepare();
       virtual void measure();
       virtual void clean();
+      
+      void waitForTime( double WaitTime );
 
       void setExistNewData() { ExistNewData = true; }
       void clearExistNewData() const { ExistNewData = false; }
