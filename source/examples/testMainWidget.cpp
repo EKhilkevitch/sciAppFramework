@@ -41,11 +41,11 @@ struct testMainWidget : public measureMainWidget
     };
     return new testOutputWidget(); 
   }
-  measurementThread* createMeasurementThread( const measurementParameters &Parameters ) 
+  measurementThread* createMeasurementThread( const measurementParameters *Parameters ) 
   { 
     struct testThread : public measurementThread
     {
-      testThread( const measurementParameters &P ) : measurementThread(P) {}
+      testThread( const measurementParameters *P ) : measurementThread(P) {}
     };
     return new testThread(Parameters); 
   }

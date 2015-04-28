@@ -1,12 +1,12 @@
 
-
 #pragma once
 
 // =========================================
 
 #include <QThread>
 #include <QMutex>
-#include <QVariant>
+
+#include "sciAppFramework/measurementParameters.h"
 
 // =========================================
 
@@ -15,21 +15,12 @@ namespace sciAppFramework
 
   // =========================================
 
-  class measurementParameters 
-  {
-    public:
-      virtual QVariant getVariantValue( const QString &Name ) const = 0;
-      virtual ~measurementParameters() {}
-  };
-
-  // =========================================
-
   class measurementThread : public QThread
   {
     Q_OBJECT
 
     private:
-      const measurementParameters &Parameters;
+      const measurementParameters *Parameters;
 
       mutable QMutex ProcessMutex;
       mutable QMutex DataMutex;
@@ -86,7 +77,7 @@ namespace sciAppFramework
       virtual int maxCountOfMeasurements() const;
 
     public:
-      explicit measurementThread( const measurementParameters &Parameters );
+      explicit measurementThread( const measurementParameters *Parameters );
       virtual ~measurementThread() = 0;
       
       bool isExistNewData() const { return ExistNewData; }
@@ -96,8 +87,8 @@ namespace sciAppFramework
       bool isError() const { return ErrorOccurs; }
       QString errorString() const;
 
-      static QString waitTimeSecondsName() { return "WaitTimeSeconds"; }
-      static QString maxCountOfMeasurementsName() { return "MaxCountOfMeasurements"; }
+      static QString waitTimeSecondsName();
+      static QString maxCountOfMeasurementsName();
 
     public slots:
       void start();
@@ -110,15 +101,14 @@ namespace sciAppFramework
       
   template <class T> T measurementThread::parameter( const QString &Name ) const 
   { 
-    return Parameters.getVariantValue(Name).value<T>(); 
+    return Parameters->value<T>( Name ); 
   }
 
   // -----------------------------------------
       
   template <class T> T measurementThread::parameter( const QString &Name, const T &Default ) const
-  { 
-    QVariant Value = Parameters.getVariantValue(Name);
-    return ( Value.isValid() && Value.canConvert<T>() ) ? Value.value<T>() : Default; 
+  {
+    return Parameters->value<T>( Name, Default );
   }
   
   // -----------------------------------------

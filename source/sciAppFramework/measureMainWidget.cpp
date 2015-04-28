@@ -63,7 +63,7 @@ void measureMainWidget::setupMeasurementThread()
   const measureControlWidget *ControlWidget = mainControlWidget<measureControlWidget>();
   if ( ControlWidget == NULL )
     return;
-  MeasurementThread = createMeasurementThread( *ControlWidget );
+  MeasurementThread = createMeasurementThread( ControlWidget );
 }
 
 // -----------------------------------------

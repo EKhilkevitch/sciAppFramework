@@ -1,9 +1,8 @@
 
-
 // =========================================
 
 #include "sciAppFramework/measurementThread.h"
-#include <stdexcept>
+#include <exception>
 
 #include <QTime>
 
@@ -11,9 +10,11 @@ using namespace sciAppFramework;
 
 // =========================================
 
-measurementThread::measurementThread( const measurementParameters &P ) :
+measurementThread::measurementThread( const measurementParameters *P ) :
   Parameters(P)
 {
+  Q_ASSERT( Parameters != NULL );
+
   resetFlags();
   resetError();
 }
@@ -272,6 +273,20 @@ void measurementThread::lockDataMutex() const
 void measurementThread::unlockDataMutex() const
 {
   DataMutex.unlock();
+}
+      
+// -----------------------------------------
+
+QString measurementThread::waitTimeSecondsName() 
+{ 
+  return "WaitTimeSeconds"; 
+}
+
+// -----------------------------------------
+
+QString measurementThread::maxCountOfMeasurementsName() 
+{ 
+  return "MaxCountOfMeasurements"; 
 }
 
 // =========================================

@@ -4,7 +4,7 @@
 // =========================================
 
 #include "sciAppFramework/controlWidget.h"
-#include "sciAppFramework/measurementThread.h"
+#include "sciAppFramework/measurementParameters.h"
 
 class QLayout;
 class QStackedLayout;
@@ -62,6 +62,9 @@ namespace sciAppFramework
       
     protected:
       static void setEnableLayout( QLayout *Layout, bool Enable );
+      
+    protected:
+      QVariant getVariantValue( const QString &Name ) const;
     
     public:
       explicit measureControlWidget( QWidget *Parent = NULL );
@@ -72,7 +75,6 @@ namespace sciAppFramework
       virtual void prepareToPause();
       virtual void prepareToContinue();
       
-      QVariant getVariantValue( const QString &Name ) const;
 
     signals:
       void start();

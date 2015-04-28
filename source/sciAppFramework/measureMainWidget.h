@@ -31,7 +31,7 @@ namespace sciAppFramework
       virtual void setupMeasurementTimer();
       virtual void processMeasurementError();
       
-      virtual measurementThread* createMeasurementThread( const measurementParameters &Parameters ) { return NULL; }
+      virtual measurementThread* createMeasurementThread( const measurementParameters *Parameters ) { return NULL; }
       virtual void outputMeasurementData() { }
       virtual void saveMeasurementData( const QString &DataName ) { }
       virtual void saveMeasurementScreen();

@@ -10,7 +10,8 @@ set ( sciAppFramework_source_files
                 inputWidget.cpp         
                 multiInputWidget.cpp    
                 multiInputXmlFactory.cpp
-                measurementThread.cpp   
+                measurementParameters.cpp
+                measurementThread.cpp
                 controlWidget.cpp
                 measureControlWidget.cpp
                 outputWidget.cpp        
