@@ -44,6 +44,8 @@ namespace sciAppFramework
 
     private:
       void addSubwidgetInputsToMap( const QString &Name, multiInputWidget *Widget );
+      template <class selectorWidget> selectorWidget* addSelectorInputWidget( const QString &SelectorName, const QString &SelectorLabel, 
+        const QString &Name, const QString &Label, multiInputWidget *Widget );
 
     public:
       explicit multiInputWidget( QWidget *Parent = NULL, const QString &SettingsName = QString() );
@@ -57,7 +59,8 @@ namespace sciAppFramework
       
       QGroupBox* addBoxMultiInputWidget( const QString &Name, const QString &Label, multiInputWidget *Widget );
       QTabWidget* addTabMultiInputWidget( const QString &Name, const QString &Label, multiInputWidget *Widget );
-      radioMultiWidget* addRadioMultiInputWidget( const QString &Name, const QString &Label, multiInputWidget *Widget );
+      radioMultiWidget* addRadioMultiInputWidget( const QString &SelectorName, const QString &SelectorLabel, const QString &Name, const QString &Label, multiInputWidget *Widget );
+      comboMultiWidget* addComboMultiInputWidget( const QString &SelectorName, const QString &SelectorLabel, const QString &Name, const QString &Label, multiInputWidget *Widget );
 
       void addWidgetToLayout( QWidget *Widget );
       void insertWidgetToLayout( int Index, QWidget *Widget );

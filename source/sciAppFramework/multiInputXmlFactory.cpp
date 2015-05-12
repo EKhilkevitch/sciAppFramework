@@ -44,7 +44,8 @@ namespace
       static int GroupsCount;
 
     protected:
-      virtual void addSubMultiWidget( multiInputWidget *Parent, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const = 0;
+      virtual void addSubMultiWidget( multiInputWidget *Parent, const QString &SelectorName, const QString &SelectorLabel, 
+        const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const = 0;
 
     public:
       void addToMultiInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const;
@@ -57,7 +58,7 @@ namespace
   class tabModifier : public groupModifier
   {
     protected:
-      void addSubMultiWidget( multiInputWidget *Parent, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const;
+      void addSubMultiWidget( multiInputWidget *Parent, const QString &SelectorName, const QString &SelectorLabel, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const;
 
     public:
       QString tag() const { return "tab"; }
@@ -68,10 +69,21 @@ namespace
   class boxModifier : public groupModifier
   {
     protected:
-      void addSubMultiWidget( multiInputWidget *Parent, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const;
+      void addSubMultiWidget( multiInputWidget *Parent, const QString &SelectorName, const QString &SelectorLabel, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const;
 
     public:
       QString tag() const { return "box"; }
+  };
+  
+  // ------------------------------------------------------
+  
+  class comboboxModifier : public groupModifier
+  {
+    protected:
+      void addSubMultiWidget( multiInputWidget *Parent, const QString &SelectorName, const QString &SelectorLabel, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const;
+
+    public:
+      QString tag() const { return "combobox"; }
   };
   
   // ------------------------------------------------------
@@ -207,19 +219,21 @@ namespace
     multiInputWidgetXmlFactory::modifierOfMultiInputWidgetMap *Modifiers = multiInputWidgetXmlFactory::createModifiersMap();
     
     const QString &Name  = attribute( Element, "name", tag() + QString::number(++GroupsCount) );
-    const QString &Label = text( Element, "label" ).join(" ");
+    const QString &Label = attribute( Element, "label" );
+    const QString &SelectorName = attribute( Element, "sname", "" );
+    const QString &SelectorLabel = attribute( Element, "slabel" );
     
     multiInputWidget *SubWidget = new multiInputWidget(Widget);
     for ( QDomNode Node = Element.firstChild(); ! Node.isNull(); Node = Node.nextSibling() )  
       multiInputWidgetXmlFactory::addNextItemToMultiInputWidget( SubWidget, *Modifiers, Node.toElement() );
-    addSubMultiWidget( Widget, Name, Label, SubWidget );
+    addSubMultiWidget( Widget, SelectorName, SelectorLabel, Name, Label, SubWidget );
 
     multiInputWidgetXmlFactory::deleteModifiersMap( Modifiers );
   }
   
   // ------------------------------------------------------
  
-  void tabModifier::addSubMultiWidget( multiInputWidget *Parent, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const
+  void tabModifier::addSubMultiWidget( multiInputWidget *Parent, const QString &SelectorName, const QString &SelectorLabel, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const
   {
     Q_ASSERT( Parent != NULL );
     Parent->addTabMultiInputWidget( Name, Label, SubWidget );
@@ -227,10 +241,18 @@ namespace
   
   // ------------------------------------------------------
   
-  void boxModifier::addSubMultiWidget( multiInputWidget *Parent, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const
+  void boxModifier::addSubMultiWidget( multiInputWidget *Parent, const QString &SelectorName, const QString &SelectorLabel, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const
   {
     Q_ASSERT( Parent != NULL );
     Parent->addBoxMultiInputWidget( Name, Label, SubWidget );
+  }
+  
+  // ------------------------------------------------------
+  
+  void comboboxModifier::addSubMultiWidget( multiInputWidget *Parent, const QString &SelectorName, const QString &SelectorLabel, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const
+  {
+    Q_ASSERT( Parent != NULL );
+    Parent->addComboMultiInputWidget( SelectorName, SelectorLabel, Name, Label, SubWidget );
   }
   
   // ------------------------------------------------------
@@ -474,6 +496,7 @@ multiInputWidgetXmlFactory::modifierOfMultiInputWidgetMap* multiInputWidgetXmlFa
     new spacingModifier() <<
     new tabModifier() <<
     new boxModifier() <<
+    new comboboxModifier() <<
     new editModifier() <<
     new doubleEditModifier() <<
     new pathEditModifier() <<
@@ -517,8 +540,8 @@ QDomDocument* multiInputWidgetXmlFactory::createDomDocument( const QString &Xml,
   if ( ! OK )
   {
     if ( ErrorString != NULL )
-      *ErrorString = XmlErrorMessage + "(Line: " + QString::number(ErrorLine) + ")";
-    qWarning() << "multiInputWidgetXmlFactory: invalid xml string, " << ErrorString;
+      *ErrorString = XmlErrorMessage + " (Line: " + QString::number(ErrorLine) + ")";
+    qWarning() << "multiInputWidgetXmlFactory: invalid XML string " << *ErrorString;
     delete Result;
     Result = NULL;
   }
@@ -554,6 +577,12 @@ void multiInputWidgetXmlFactory::addItemsToMultiInputWidget( multiInputWidget* W
 {
   if ( Widget == NULL )
     return;
+
+  if ( Doculemt == NULL )
+  {
+    qWarning() << "Invalid DOM document";
+    return;
+  }
  
   const QDomElement &Root = Doculemt->documentElement();
   setSettingsName( Widget, Root );
@@ -603,7 +632,7 @@ QString multiInputWidgetXmlFactory::xmlRootName( const QString &Xml )
 
   if ( ! OK )
   {
-    qWarning() << "multiInputWidgetXmlFactory::xmlRootName: invalid xml string, " << XmlErrorMessage << " line " << ErrorLine;
+    qWarning() << "multiInputWidgetXmlFactory::xmlRootName: invalid XML string, error message is '" << XmlErrorMessage << "', error line number is " << ErrorLine;
     return QString();
   }
 

@@ -80,8 +80,8 @@ int main( int argc, char **argv )
   SubWidgetRb1->addInputWidget<labelSpinWidget>( "SpinR3", "Spin 3", 9 );
   multiInputWidget *SubWidgetRb2 = new multiInputWidget();
   SubWidgetRb2->addInputWidget<labelSpinWidget>( "SpinR4", "Spin 3", 10 );
-  Widget.addRadioMultiInputWidget( "RB1", "Radio Button 1", SubWidgetRb1 );
-  Widget.addRadioMultiInputWidget( "RB2", "Radio Button 2", SubWidgetRb2 );
+  Widget.addRadioMultiInputWidget( "RBs", "Buttons", "RB1", "Radio Button 1", SubWidgetRb1 );
+  Widget.addRadioMultiInputWidget( "RBs", "Buttons", "RB2", "Radio Button 2", SubWidgetRb2 );
 
   Widget.loadSettings();
   Widget.show();

@@ -40,18 +40,25 @@ const QString Xml =
 "  <spacing><value>15</value></spacing>\n"
 "  <label><text>label Text1</text></label>\n"
 "  <label><text>label Text2</text></label>\n"
-"  <tab name=\"tab1\"><label>Tab page1</label>"
+"  <tab name=\"tab1\" label=\"Tab page1\">"
 "  <edit name=\"tabedit1\"><label>Tab edit 1</label></edit>\n"
 "  <label><text>Tab label text 1</text></label>\n"
 "  </tab>\n"
-"  <tab name=\"tab2\"><label>Tab page2</label>"
+"  <tab name=\"tab2\" label=\"Tab page2\">"
 "  <label><text>Tab label text 2</text></label>\n"
 "  <edit name=\"tabedit2\"><label>Tab edit 2</label></edit>\n"
 "  </tab>\n"
-"  <box name=\"box1\"><label>Box 1</label>\n"
+"  <box name=\"box1\" label=\"Box 1\">\n"
 "  <edit name=\"boxedit1\"><label>Box edit 1</label></edit>\n"
 "  <edit name=\"boxedit2\"><label>Box edit 2</label></edit>\n"
 "  </box>\n"
+"  <combobox name=\"cbox1\" sname=\"cbox\" slabel=\"Combo box selector\" label=\"Item 1\">\n"
+"  <edit name=\"cboxedit1\"><label>Combo box edit 1</label></edit>\n"
+"  <edit name=\"cboxedit2\"><label>Combo box edit 2</label></edit>\n"
+"  </combobox>\n"
+"  <combobox name=\"cbox1\" sname=\"cbox\" slabel=\"Combo box selector\" label=\"Item 2\">\n"
+"  <edit name=\"cboxedit3\"><label>Combo box edit 3</label></edit>\n"
+"  </combobox>\n"
 "  <combo name=\"ComboName\"><label>Combo</label><item data=\"1\">First item</item><item data=\"2\">Second item</item></combo>\n"
 "  <check name=\"CheckName\"><label>Check</label><value>0</value></check>"
 "</testInput>\n"
@@ -68,6 +75,9 @@ int main( int argc, char **argv )
 
   Widget.loadSettings();
   Widget.show();
+
+  qDebug() << "Map: " << Widget.stringValues();
+  
   return app.exec(); 
 }
 

@@ -173,7 +173,8 @@ QTabWidget* multiInputWidget::addTabMultiInputWidget( const QString &Name, const
 
 // ------------------------------------------------------
 
-radioMultiWidget* multiInputWidget::addRadioMultiInputWidget( const QString &Name, const QString &Label, multiInputWidget *Widget )
+template <class selectorWidget> selectorWidget* multiInputWidget::addSelectorInputWidget( const QString &SelectorName, const QString &SelectorLabel, 
+  const QString &Name, const QString &Label, multiInputWidget *Widget )
 {
   if ( Widget == NULL )
     return NULL;
@@ -182,19 +183,33 @@ radioMultiWidget* multiInputWidget::addRadioMultiInputWidget( const QString &Nam
   Layout->addWidget( Widget );
   addSubwidgetInputsToMap( Name, Widget );
 
-  radioMultiWidget *RadioWidget = dynamic_cast<radioMultiWidget*>( layoutOperations::lastWidgetAfterSpacing(layout()) );
-  if ( RadioWidget == NULL )
+  selectorWidget *SelectorWidget = dynamic_cast<selectorWidget*>( layoutOperations::lastWidgetAfterSpacing(layout()) );
+  if ( SelectorWidget == NULL || SelectorWidget->settingsName() != SelectorName )
   {
-    RadioWidget = new radioMultiWidget( "", this, Name );
-    addWidgetToLayout( RadioWidget );
-    registerInputWidget( Name, RadioWidget->selector() );
+    SelectorWidget = new selectorWidget( SelectorLabel, this, SelectorName );
+    addWidgetToLayout( SelectorWidget );
+    registerInputWidget( SelectorName, SelectorWidget->selector() );
   }
 
   QWidget *Page = new QWidget( this );
   Page->setLayout( Layout );
-  RadioWidget->addWidget( Label, QVariant(Name), Page );
+  SelectorWidget->addWidget( Label, QVariant(Name), Page );
 
-  return RadioWidget;
+  return SelectorWidget;
+}
+
+// ------------------------------------------------------
+
+radioMultiWidget* multiInputWidget::addRadioMultiInputWidget( const QString &SelectorName, const QString &SelectorLabel, const QString &Name, const QString &Label, multiInputWidget *Widget )
+{
+  return addSelectorInputWidget<radioMultiWidget>( SelectorName, SelectorLabel, Name, Label, Widget );
+}
+
+// ------------------------------------------------------
+
+comboMultiWidget* multiInputWidget::addComboMultiInputWidget( const QString &SelectorName, const QString &SelectorLabel, const QString &Name, const QString &Label, multiInputWidget *Widget )
+{
+  return addSelectorInputWidget<comboMultiWidget>( SelectorName, SelectorLabel, Name, Label, Widget );
 }
 
 // ------------------------------------------------------
