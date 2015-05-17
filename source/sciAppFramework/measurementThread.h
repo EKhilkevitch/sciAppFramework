@@ -39,12 +39,9 @@ namespace sciAppFramework
       void resetError();
       void setErrorNoLock( const QString &String );
       void setError( const QString &String );
-      void waitForPause();
       void doMeasurement();
       void prepareForMeasurement();
       void cleanAfterMeasurement();
-      bool needToStopMeasurement();
-      bool needToPauseMeasurement();
       
       void run();
        
@@ -54,6 +51,9 @@ namespace sciAppFramework
       virtual void clean();
       
       void waitForTime( double WaitTime );
+      void waitForPause();
+      bool needToStopMeasurement();
+      bool needToPauseMeasurement();
 
       void lockDataMutex() const;
       void unlockDataMutex() const;
