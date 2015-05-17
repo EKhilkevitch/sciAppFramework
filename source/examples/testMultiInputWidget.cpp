@@ -53,8 +53,7 @@ int main( int argc, char **argv )
   Radio1->addItem("btn1");
   Radio1->addItem("btn2");
   Radio1->addItem("btn3");
-  Radio1->addItem("btn4");
-
+  Radio1->setOrientation( Qt::Horizontal );
 
   multiInputWidget *SubWidget = new multiInputWidget();
   SubWidget->addInputWidget<labelEditWidget>("EditS1","Sub edit 1",12);

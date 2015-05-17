@@ -1044,7 +1044,11 @@ radioButtonWidget& radioButtonWidget::setOrientation( Qt::Orientation Orientatio
 
     case Qt::Horizontal:
       Layout = createLayoutWithoutMargins<QHBoxLayout>();
+      Layout->setContentsMargins( 5, 5, 5, 5 );
       break;
+
+    default:
+      return *this;
   }
 
   Q_ASSERT( Layout != NULL );
