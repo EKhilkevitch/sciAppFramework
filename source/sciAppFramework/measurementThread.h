@@ -23,6 +23,7 @@ namespace sciAppFramework
       const measurementParameters *Parameters;
 
       mutable QMutex ProcessMutex;
+      mutable QMutex StateMutex;
       mutable QMutex DataMutex;
       
       volatile bool NeedToStop;

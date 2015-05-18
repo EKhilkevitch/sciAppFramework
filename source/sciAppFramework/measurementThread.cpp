@@ -67,19 +67,19 @@ void measurementThread::resetFlags()
 
 void measurementThread::resetError()
 {
-  ProcessMutex.lock();
+  StateMutex.lock();
   ErrorString = QString();
   ErrorOccurs = false;
-  ProcessMutex.unlock();
+  StateMutex.unlock();
 }
 
 // -----------------------------------------
 
 void measurementThread::setError( const QString &String ) 
 {
-  ProcessMutex.lock();
+  StateMutex.lock();
   setErrorNoLock( String );
-  ProcessMutex.unlock();
+  StateMutex.unlock();
 }
 
 // -----------------------------------------
@@ -94,9 +94,9 @@ void measurementThread::setErrorNoLock( const QString &String )
 
 QString measurementThread::errorString() const
 {
-  ProcessMutex.lock();
+  StateMutex.lock();
   QString Result = ErrorString;
-  ProcessMutex.unlock();
+  StateMutex.unlock();
   return Result;
 }
 
@@ -226,7 +226,7 @@ void measurementThread::doMeasurement()
     measure();
   } catch ( std::exception &Exception )
   {
-    setErrorNoLock( Exception.what() );
+    setError( Exception.what() );
   }
   ProcessMutex.unlock();
 }
@@ -241,7 +241,7 @@ void measurementThread::prepareForMeasurement()
     prepare();
   } catch ( std::exception &Exception )
   {
-    setErrorNoLock( Exception.what() );
+    setError( Exception.what() );
   }
   ProcessMutex.unlock();
 }
@@ -256,7 +256,7 @@ void measurementThread::cleanAfterMeasurement()
     clean();
   } catch ( std::exception &Exception )
   {
-    setErrorNoLock( Exception.what() );
+    setError( Exception.what() );
   }
   ProcessMutex.unlock();
 }
