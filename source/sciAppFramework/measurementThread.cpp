@@ -43,11 +43,11 @@ void measurementThread::run()
 
   while ( ! needToStopMeasurement() )
   {
-    incrementCountOfMeasurements();
     doMeasurement();
     waitForTime( timeForWaitingBetweenMeasurements() );
     if ( needToPauseMeasurement() )
       waitForPause();
+    incrementCountOfMeasurements();
   }
 
   cleanAfterMeasurement();
