@@ -212,7 +212,30 @@ QString mainWidget::getSaveFileName( const QString &Filter, const QString &Defau
   if ( Files.isEmpty() )
     return QString();
 
-  QString FileName = Files[0];
+  QString FileName = Files.first();
+  LastFileName = FileName; 
+  return FileName;
+}
+
+// -----------------------------------------
+      
+QString mainWidget::getSaveDirectory()
+{
+  QFileDialog Dialog( this, "Saving in directory...", LastFileName );
+  Dialog.setFileMode( QFileDialog::DirectoryOnly );
+  Dialog.setAcceptMode( QFileDialog::AcceptSave );
+  Dialog.setOption( QFileDialog::ShowDirsOnly );
+
+  bool OK = Dialog.exec();
+  if ( ! OK )
+    return QString();
+
+  const QStringList &Files = Dialog.selectedFiles();
+
+  if ( Files.isEmpty() )
+    return QString();
+
+  QString FileName = Files.first();
   LastFileName = FileName; 
   return FileName;
 }
@@ -224,6 +247,7 @@ QString mainWidget::getOpenFileName( const QString &Filter )
   QFileDialog Dialog( this, "Open file...", LastFileName );
   Dialog.setFilter( Filter );
   Dialog.setAcceptMode( QFileDialog::AcceptOpen );
+  Dialog.setFileMode( QFileDialog::ExistingFiles );
 
   bool OK = Dialog.exec();
   if ( ! OK )

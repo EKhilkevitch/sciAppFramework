@@ -54,6 +54,7 @@ namespace sciAppFramework
       template <class control> control* mainControlWidget() { return dynamic_cast< control* >( ControlWidget ); }
 
       QString getSaveFileName( const QString &Filter, const QString &DefaultSuffix );
+      QString getSaveDirectory();
       QString getOpenFileName( const QString &Filter );
 
       virtual void showErrorMessage( const QString &Message );
