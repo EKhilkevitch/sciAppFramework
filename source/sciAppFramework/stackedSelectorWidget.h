@@ -42,6 +42,8 @@ namespace sciAppFramework
       QWidget* currentWidget() const;
       int currentIndex() const;
       QString currentText() const;
+      
+      void loadSettings( QSettings *Settings );
   };
   
   // ======================================================
@@ -186,6 +188,14 @@ namespace sciAppFramework
   template <class selectorWidget> QString stackedSelectorWidget<selectorWidget>::currentText() const
   {
     return SelectorWidget->currentText();
+  }
+  
+  // ------------------------------------------------------
+      
+  template <class selectorWidget> void stackedSelectorWidget<selectorWidget>::loadSettings( QSettings *Settings )
+  {
+    multiSettingsObject::loadSettings( Settings );
+    StackedWidget->setCurrentIndex( SelectorWidget->currentIndex() );
   }
 
   // ======================================================
