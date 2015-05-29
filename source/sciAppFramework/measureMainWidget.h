@@ -25,7 +25,7 @@ namespace sciAppFramework
       measurementThread *MeasurementThread;
       QTimer *MeasurementTimer;
 
-    private:
+    protected:
       virtual void setupControlWidget();
       virtual void setupMeasurementThread();
       virtual void setupMeasurementTimer();
