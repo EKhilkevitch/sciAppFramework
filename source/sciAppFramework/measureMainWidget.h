@@ -38,6 +38,8 @@ namespace sciAppFramework
       
       virtual void doInitWidget();
 
+      void startMeasurementTimer();
+
     protected:
       template <class thr> thr* mainMeasurementThread() { return dynamic_cast< thr* >( MeasurementThread ); }
       
@@ -52,12 +54,12 @@ namespace sciAppFramework
       void showMeasurementData();
       void checkMeasurementState();
 
-      void startMeasurement();
-      void stopMeasurement();
-      void pauseMeasurement();
-      void contMeasurement();
+      virtual void startMeasurement();
+      virtual void stopMeasurement();
+      virtual void pauseMeasurement();
+      virtual void contMeasurement();
 
-      void saveMeasurement( QString  );
+      void saveMeasurement( QString );
   };
   
   // =========================================

@@ -109,7 +109,7 @@ void measureMainWidget::startMeasurement()
   if ( MeasurementThread == NULL )
     return;
 
-  MeasurementTimer->start(30);
+  startMeasurementTimer();
   MeasurementThread->start();   
 }
 
@@ -184,6 +184,14 @@ QString measureMainWidget::getSaveDataFileName()
 QString measureMainWidget::getSaveImageFileName()
 {
   return getSaveFileName( "Image files (*.png);; All files (*)", "png" );
+}
+
+// -----------------------------------------
+      
+void measureMainWidget::startMeasurementTimer()
+{
+  Q_ASSERT( MeasurementTimer != NULL );
+  MeasurementTimer->start( 30 );
 }
 
 // =========================================

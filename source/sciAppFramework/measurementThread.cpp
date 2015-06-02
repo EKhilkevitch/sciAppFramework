@@ -118,11 +118,11 @@ bool measurementThread::needToStopMeasurement()
 {
   if ( NeedToStop )
     return true;
+
   if ( ErrorOccurs )
     return true;
 
-  int MaxCountOfMeasurements = maxCountOfMeasurements();
-  if ( MaxCountOfMeasurements > 0 && static_cast<int>(countOfMeasurements()) >= MaxCountOfMeasurements )
+  if ( isLastMeasurementCompleate() )
     return true;
 
   return false;
@@ -194,6 +194,19 @@ void measurementThread::incrementCountOfMeasurements()
 unsigned measurementThread::countOfMeasurements() const
 {
   return CountOfMeasurements;
+}
+
+// -----------------------------------------
+
+bool measurementThread::isLastMeasurementCompleate() const
+{
+  if ( countOfMeasurements() == 0 )
+    return true;
+
+  int MaxCountOfMeasurements = maxCountOfMeasurements();
+  if ( MaxCountOfMeasurements > 0 && static_cast<int>(countOfMeasurements()) >= MaxCountOfMeasurements )
+    return true;
+  return false;
 }
 
 // -----------------------------------------
