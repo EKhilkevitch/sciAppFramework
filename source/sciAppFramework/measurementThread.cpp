@@ -37,6 +37,18 @@ void measurementThread::start()
 
 // -----------------------------------------
 
+void measurementThread::startWithPreviousPoint()
+{
+  unsigned CurrentCount = CountOfMeasurements;
+  resetFlags();
+  resetError();
+  CountOfMeasurements = CurrentCount;
+
+  QThread::start();
+}
+
+// -----------------------------------------
+
 void measurementThread::run()
 {
   prepareForMeasurement();
@@ -110,7 +122,7 @@ bool measurementThread::needToStopMeasurement()
     return true;
 
   int MaxCountOfMeasurements = maxCountOfMeasurements();
-  if ( MaxCountOfMeasurements > 0 && (int)countOfMeasurements() >= MaxCountOfMeasurements )
+  if ( MaxCountOfMeasurements > 0 && static_cast<int>(countOfMeasurements()) >= MaxCountOfMeasurements )
     return true;
 
   return false;
@@ -226,7 +238,14 @@ void measurementThread::doMeasurement()
     measure();
   } catch ( std::exception &Exception )
   {
-    setError( Exception.what() );
+    bool NeedToContinue = false;
+    try
+    {
+      NeedToContinue = processMeasurementException( Exception );
+    } catch ( ... ) {}
+
+    if ( ! NeedToContinue )
+      setError( Exception.what() );
   }
   ProcessMutex.unlock();
 }
@@ -287,6 +306,13 @@ QString measurementThread::waitTimeSecondsName()
 QString measurementThread::maxCountOfMeasurementsName() 
 { 
   return "MaxCountOfMeasurements"; 
+}
+
+// -----------------------------------------
+      
+bool measurementThread::processMeasurementException( const std::exception & )
+{
+  return false;
 }
 
 // =========================================

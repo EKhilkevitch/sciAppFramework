@@ -8,6 +8,8 @@
 
 #include "sciAppFramework/measurementParameters.h"
 
+#include <exception>
+
 // =========================================
 
 namespace sciAppFramework
@@ -65,6 +67,8 @@ namespace sciAppFramework
       void incrementCountOfMeasurements();
 
       virtual double timeForWaitingBetweenMeasurements() const;
+      
+      virtual bool processMeasurementException( const std::exception &Exception );
 
       void waitWhileRunning( unsigned MaxWaitTimeMs = 1000 );
       void stopAndCleanOnDestruction();
@@ -88,11 +92,14 @@ namespace sciAppFramework
       bool isError() const { return ErrorOccurs; }
       QString errorString() const;
 
+      bool isLastMeasurementCompleate() const;
+
       static QString waitTimeSecondsName();
       static QString maxCountOfMeasurementsName();
 
     public slots:
       void start();
+      void startWithPreviousPoint();
       void stop()  { NeedToStop = true;   }
       void pause() { NeedToPause = true;  }
       void cont()  { NeedToPause = false; }
