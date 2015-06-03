@@ -42,7 +42,7 @@ void measurementThread::startWithPreviousPoint()
   unsigned CurrentCount = CountOfMeasurements;
   resetFlags();
   resetError();
-  CountOfMeasurements = CurrentCount;
+  CountOfMeasurements = ( CurrentCount == 0 ) ? 0 : CurrentCount - 1;
 
   QThread::start();
 }
@@ -121,6 +121,9 @@ bool measurementThread::needToStopMeasurement()
 
   if ( ErrorOccurs )
     return true;
+
+  if ( countOfMeasurements() == 0 )
+    return false;
 
   if ( isLastMeasurementCompleate() )
     return true;
