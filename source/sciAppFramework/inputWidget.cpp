@@ -239,24 +239,27 @@ QString labelEditWidget::text() const
 
 // ------------------------------------------------------
 
-void labelEditWidget::setText( const QString& String ) 
+labelEditWidget& labelEditWidget::setText( const QString& String ) 
 { 
   getLineEdit()->setText(String); 
+  return *this;
 }
 
 // ------------------------------------------------------
 
-void labelEditWidget::setReadOnly( bool ReadOnly ) 
+labelEditWidget& labelEditWidget::setReadOnly( bool ReadOnly ) 
 { 
   getLineEdit()->setReadOnly(ReadOnly); 
+  return *this;
 }
 
 // ------------------------------------------------------
       
-void labelEditWidget::setValidator( QValidator *Validator ) 
+labelEditWidget& labelEditWidget::setValidator( QValidator *Validator ) 
 { 
   if ( Validator != NULL ) 
     getLineEdit()->setValidator(Validator); 
+  return *this;
 }
 
 // ======================================================
@@ -602,16 +605,18 @@ int labelSpinWidget::value() const
 
 // ------------------------------------------------------
 
-void labelSpinWidget::setValue( int Value ) 
+labelSpinWidget& labelSpinWidget::setValue( int Value ) 
 { 
   getSpinBox()->setValue(Value); 
+  return *this;
 }
 
 // ------------------------------------------------------
 
-void labelSpinWidget::setReadOnly( bool ReadOnly ) 
+labelSpinWidget& labelSpinWidget::setReadOnly( bool ReadOnly ) 
 { 
   getSpinBox()->setReadOnly(ReadOnly); 
+  return *this;
 }
 
 // ------------------------------------------------------
@@ -736,16 +741,18 @@ double labelDoubleSpinWidget::value() const
 
 // ------------------------------------------------------
       
-void labelDoubleSpinWidget::setValue( double Value ) 
+labelDoubleSpinWidget& labelDoubleSpinWidget::setValue( double Value ) 
 { 
   getDoubleSpinBox()->setValue(Value); 
+  return *this;
 }
 
 // ------------------------------------------------------
 
-void labelDoubleSpinWidget::setReadOnly( bool ReadOnly ) 
+labelDoubleSpinWidget& labelDoubleSpinWidget::setReadOnly( bool ReadOnly ) 
 { 
   getDoubleSpinBox()->setReadOnly(ReadOnly); 
+  return *this;
 }
 
 // ------------------------------------------------------
@@ -803,9 +810,10 @@ int labelDoubleSpinWidget::decimals() const
 
 // ------------------------------------------------------
 
-void labelDoubleSpinWidget::setSingleStep( double S ) 
+labelDoubleSpinWidget& labelDoubleSpinWidget::setSingleStep( double S ) 
 { 
-  getDoubleSpinBox()->setSingleStep(S); 
+  getDoubleSpinBox()->setSingleStep(S);
+  return *this;
 }
 
 // ------------------------------------------------------
@@ -1355,9 +1363,10 @@ const QString multilineEditWidget::text() const
 
 // ------------------------------------------------------
 
-void multilineEditWidget::setText( const QString &String )
+multilineEditWidget& multilineEditWidget::setText( const QString &String )
 {
   TextEdit->setPlainText( String );
+  return *this;
 }
 
 // ------------------------------------------------------

@@ -114,10 +114,10 @@ namespace sciAppFramework
       void setVariantValue( const QVariant &Value );
 
       QString text() const;
-      void setText( const QString& String );
-      void setValidator( QValidator *Validator );
+      labelEditWidget& setText( const QString& String );
+      labelEditWidget& setValidator( QValidator *Validator );
       
-      void setReadOnly( bool ReadOnly );
+      labelEditWidget& setReadOnly( bool ReadOnly );
 
     signals:
       void editingFinished();
@@ -219,8 +219,9 @@ namespace sciAppFramework
       void setVariantValue( const QVariant &Value );
 
       int value() const;
-      void setValue( int Value );
-      void setReadOnly( bool ReadOnly );
+
+      labelSpinWidget& setValue( int Value );
+      labelSpinWidget& setReadOnly( bool ReadOnly );
 
       labelSpinWidget& setRange( int Min, int Max );
       labelSpinWidget& setMinimum( int Min );
@@ -254,8 +255,8 @@ namespace sciAppFramework
       void setVariantValue( const QVariant &Value );
 
       double value() const;
-      void setValue( double Value );
-      void setReadOnly( bool ReadOnly );
+      labelDoubleSpinWidget& setValue( double Value );
+      labelDoubleSpinWidget& setReadOnly( bool ReadOnly );
 
       labelDoubleSpinWidget& setRange( double Min, double Max );
       labelDoubleSpinWidget& setMinimum( double Min );
@@ -266,7 +267,7 @@ namespace sciAppFramework
       double maximum() const;
       int decimals() const;
 
-      void setSingleStep( double Step );
+      labelDoubleSpinWidget& setSingleStep( double Step );
       double singleStep() const;
       
     signals:
@@ -436,7 +437,7 @@ namespace sciAppFramework
       const QString label() const;
 
       const QString text() const;
-      void setText( const QString &String );
+      multilineEditWidget& setText( const QString &String );
       
       multilineEditWidget& setReadOnly( bool ReadOnly );
       multilineEditWidget& setLayoutSpacing( int Spacing );
