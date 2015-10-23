@@ -99,6 +99,12 @@ void settingsObject::copySettings( settingsObject *Destination ) const
 
 // =========================================
 
+singleSettingsObject::singleSettingsObject( settingsObject *Parent, const QString &Name ) : 
+  settingsObject( Parent, Name ) 
+{
+}
+
+// -----------------------------------------
 
 void singleSettingsObject::saveSettings( QSettings *Settings ) const
 {
@@ -133,7 +139,14 @@ void singleSettingsObject::loadSettings( QSettings *Settings )
 }
       
 // =========================================
+      
+multiSettingsObject::multiSettingsObject( settingsObject *Parent, const QString &Name ) :
+  settingsObject( Parent, Name ) 
+{
+}
 
+// -----------------------------------------
+  
 void multiSettingsObject::saveSettings( QSettings *Settings ) const
 {
   if ( Settings == NULL )

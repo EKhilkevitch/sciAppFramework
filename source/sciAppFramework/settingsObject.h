@@ -37,7 +37,7 @@ namespace sciAppFramework
       void setSettingsName( const QString &Name ) { SettingsName = Name; }
       const QString& settingsName() const { return SettingsName; }
       
-      const QList<settingsObject*> settingsChildren() const { return Children; }
+      const QList<settingsObject*>& settingsChildren() const { return Children; }
       const settingsObject* settingsParent() const { return Parent; }
 
       void setSettingsParent( settingsObject *Parent );
@@ -59,8 +59,7 @@ namespace sciAppFramework
       virtual void setValueFromSettings( const QVariant& Value ) = 0;
 
     public:
-      explicit singleSettingsObject( settingsObject *Parent, const QString &Name = QString() ) : 
-        settingsObject( Parent, Name ) {}
+      explicit singleSettingsObject( settingsObject *Parent, const QString &Name = QString() ); 
 
       void saveSettings( QSettings *Settings ) const;
       void loadSettings( QSettings *Settings );
@@ -71,8 +70,7 @@ namespace sciAppFramework
   class multiSettingsObject : public settingsObject
   {
     public:
-      explicit multiSettingsObject( settingsObject *Parent, const QString &Name = QString() ) :
-        settingsObject( Parent, Name ) {}
+      explicit multiSettingsObject( settingsObject *Parent, const QString &Name = QString() );
       
       void saveSettings( QSettings *Settings ) const;
       void loadSettings( QSettings *Settings );
