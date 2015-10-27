@@ -19,10 +19,13 @@ void layoutOperations::clearLayout( QLayout *Layout )
   {
     QLayoutItem *Item = Layout->takeAt(0);
 
+    qDebug() << "clearLayout: item = " << Item;
+
     if ( Item == NULL )
       break;
     
-#if 0 
+    qDebug() << "clearLayout: this is " << " " << Item->layout() << Item->spacerItem() << Item->widget();
+   
     QLayout *ItemLayout = Item->layout();
     QSpacerItem *ItemSpacer = Item->spacerItem();
     QWidget *ItemWidget = Item->widget();
@@ -31,16 +34,16 @@ void layoutOperations::clearLayout( QLayout *Layout )
     {
       clearLayout( ItemLayout );
       delete ItemLayout;
+      delete Item;
     } else if ( ItemSpacer != NULL )
     {
-      delete ItemSpacer;
+      delete Item;
     } else if ( ItemWidget != NULL )
     {
       delete ItemWidget;
+      delete Item;
     }
-#endif
 
-    delete Item;
   }
 }
 
