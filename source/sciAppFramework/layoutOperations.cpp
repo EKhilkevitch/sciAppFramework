@@ -19,12 +19,12 @@ void layoutOperations::clearLayout( QLayout *Layout )
   {
     QLayoutItem *Item = Layout->takeAt(0);
 
-    qDebug() << "clearLayout: item = " << Item;
+    //qDebug() << "clearLayout: item = " << Item;
 
     if ( Item == NULL )
       break;
     
-    qDebug() << "clearLayout: this is " << " " << Item->layout() << Item->spacerItem() << Item->widget();
+    //qDebug() << "clearLayout: this is " << " " << Item->layout() << Item->spacerItem() << Item->widget();
    
     QLayout *ItemLayout = Item->layout();
     QSpacerItem *ItemSpacer = Item->spacerItem();
