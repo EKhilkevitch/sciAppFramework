@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include <QBoxLayout>
+#include <QLayoutItem>
+#include <QDebug>
 
 using namespace sciAppFramework;
 
@@ -16,18 +18,27 @@ void layoutOperations::clearLayout( QLayout *Layout )
   while ( true )
   {
     QLayoutItem *Item = Layout->takeAt(0);
+
     if ( Item == NULL )
       break;
     
+#if 0 
     QLayout *ItemLayout = Item->layout();
+    QSpacerItem *ItemSpacer = Item->spacerItem();
+    QWidget *ItemWidget = Item->widget();
+    
     if ( ItemLayout != NULL )
     {
       clearLayout( ItemLayout );
       delete ItemLayout;
+    } else if ( ItemSpacer != NULL )
+    {
+      delete ItemSpacer;
+    } else if ( ItemWidget != NULL )
+    {
+      delete ItemWidget;
     }
-
-    delete Item->spacerItem();
-    delete Item->widget();
+#endif
 
     delete Item;
   }
