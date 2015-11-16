@@ -1,6 +1,9 @@
 
 #include <QtGui>
+
 #include "sciAppFramework/inputWidget.h"
+#include "sciAppFramework/labelInputWidget.h"
+#include "sciAppFramework/adaptedInputWidget.h"
 
 using namespace sciAppFramework;
 

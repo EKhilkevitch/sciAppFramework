@@ -2,6 +2,7 @@
 #include <QtGui>
 
 #include "sciAppFramework/inputWidget.h"
+#include "sciAppFramework/labelInputWidget.h"
 #include "sciAppFramework/multiInputWidget.h"
 #include "sciAppFramework/structInputConnection.h"
 

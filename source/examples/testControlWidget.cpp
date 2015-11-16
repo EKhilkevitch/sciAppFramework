@@ -4,6 +4,7 @@
 #include "sciAppFramework/measureControlWidget.h"
 #include "sciAppFramework/multiInputWidget.h"
 #include "sciAppFramework/inputWidget.h"
+#include "sciAppFramework/labelInputWidget.h"
 
 using namespace sciAppFramework;
 

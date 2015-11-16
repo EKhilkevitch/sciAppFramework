@@ -3,6 +3,8 @@
 
 #include "sciAppFramework/multiInputWidget.h"
 #include "sciAppFramework/multiInputXmlFactory.h"
+#include "sciAppFramework/labelInputWidget.h"
+#include "sciAppFramework/adaptedInputWidget.h"
 
 #include <QDomDocument>
 #include <QDomElement>

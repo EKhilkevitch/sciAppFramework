@@ -8,6 +8,8 @@ include( ${QT_USE_FILE} )
 set ( sciAppFramework_source_files
                 settingsObject.cpp
                 inputWidget.cpp         
+                labelInputWidget.cpp
+                adaptedInputWidget.cpp
                 multiInputWidget.cpp    
                 multiInputXmlFactory.cpp
                 measurementParameters.cpp
@@ -28,6 +30,8 @@ set ( sciAppFramework_source_files
 
 qt4_wrap_cpp( sciAppFramework_moc_sources 
                 inputWidget.h                   
+                labelInputWidget.h
+                adaptedInputWidget.h
                 multiInputWidget.h              
                 measurementThread.h             
                 controlWidget.h                 

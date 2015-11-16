@@ -8,7 +8,8 @@
 #include <QStackedWidget>
 #include <QScrollArea>
 
-#include "sciAppFramework/inputWidget.h"
+#include "sciAppFramework/labelInputWidget.h"
+#include "sciAppFramework/adaptedInputWidget.h"
 #include "sciAppFramework/settingsObject.h"
 
 class QStackedWidget;
