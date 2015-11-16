@@ -28,7 +28,7 @@ settingsObject::settingsObject() :
 
 settingsObject::settingsObject( settingsObject *Pnt, const QString &Name ) : 
   Parent(Pnt),
-  SettingsName(Name)  
+  SettingsName(Name)
 {
   initSettingsObject();
 }

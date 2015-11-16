@@ -51,6 +51,20 @@ QList<QPushButton*> catalogueWidget::createButtonsList()
 }
 
 // -----------------------------------------
+      
+bool catalogueWidget::putButtonsonTheTop() const 
+{ 
+  return true; 
+}
+
+// -----------------------------------------
+
+QAbstractItemView::SelectionMode catalogueWidget::viewSelectionMode() const 
+{ 
+  return QAbstractItemView::SingleSelection; 
+}
+
+// -----------------------------------------
 
 void catalogueWidget::initWidget()
 {
@@ -110,6 +124,20 @@ catalogueListWidget::catalogueListWidget( QWidget *Parent ) :
 
 catalogueListWidget::~catalogueListWidget()
 {
+}
+
+// -----------------------------------------
+
+QListWidgetItem* catalogueListWidget::add( const QString &Title ) 
+{ 
+  return add( Title, QVariant(), true ); 
+}
+
+// -----------------------------------------
+
+QListWidgetItem* catalogueListWidget::add( const QString &Title, bool Selected ) 
+{ 
+  return add( Title, QVariant(), Selected ); 
 }
 
 // -----------------------------------------
@@ -331,6 +359,20 @@ QTableWidgetItem* catalogueTableWidget::setItem( int Row, int Column, QTableWidg
     return NULL;
   itemViewCast()->setItem( Row, Column, Item );
   return Item;
+}
+
+// -----------------------------------------
+
+QTableWidgetItem* catalogueTableWidget::item( int Row, int Column ) const 
+{ 
+  return itemViewCast()->item( Row, Column ); 
+}
+
+// -----------------------------------------
+
+QTableWidgetItem* catalogueTableWidget::takeItem( int Row, int Column ) 
+{ 
+  return itemViewCast()->takeItem( Row, Column ); 
 }
 
 // -----------------------------------------

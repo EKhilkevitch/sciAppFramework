@@ -26,7 +26,7 @@ namespace sciAppFramework
       void initWidget();
 
     public:
-      waitWidget( QWidget *Parent = NULL );
+      explicit waitWidget( QWidget *Parent = NULL );
       virtual ~waitWidget() = 0;
   };
 

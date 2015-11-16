@@ -18,7 +18,7 @@ using namespace sciAppFramework;
 
 multiInputWidget::multiInputWidget( QWidget *Parent, const QString &SettingsName ) : 
   QWidget(Parent),
-  multiSettingsObject( dynamic_cast<multiSettingsObject*>(Parent), settingsObject::normolizeToSettingsName(SettingsName) )
+  multiSettingsObject( Parent, settingsObject::normolizeToSettingsName(SettingsName) )
 {
   QBoxLayout *Layout = createBoxLayout();
   setLayout( Layout );

@@ -88,7 +88,7 @@ namespace sciAppFramework
       void appendOutputWidgetItem( outputWidgetItem *Item );
 
     public:
-      outputWidget( QWidget *Parent = NULL, const QList<outputWidgetItem*> &OutputWidgets = QList<outputWidgetItem*>() );
+      explicit outputWidget( QWidget *Parent = NULL, const QList<outputWidgetItem*> &OutputWidgets = QList<outputWidgetItem*>() );
       ~outputWidget();
 
       void saveSettings( QSettings* );

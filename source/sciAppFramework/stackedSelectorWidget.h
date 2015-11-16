@@ -67,7 +67,7 @@ namespace sciAppFramework
   
   template <class selectorWidget> stackedSelectorWidget<selectorWidget>::stackedSelectorWidget( const QString &Label, QWidget *Parent, const QString &SettingsName ) :
     QWidget( Parent ),
-    multiSettingsObject( dynamic_cast<multiSettingsObject*>(Parent), settingsObject::normolizeToSettingsName(SettingsName) ),
+    multiSettingsObject( Parent, settingsObject::normolizeToSettingsName(SettingsName) ),
     SelectorWidget( NULL ),
     StackedWidget( NULL )
   {
