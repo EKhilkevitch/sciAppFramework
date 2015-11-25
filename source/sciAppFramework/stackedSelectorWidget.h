@@ -41,6 +41,7 @@ namespace sciAppFramework
       selectorWidget* selector();
 
       QWidget* currentWidget() const;
+      QVariant currentData() const;
       int currentIndex() const;
       QString currentText() const;
       
@@ -177,6 +178,13 @@ namespace sciAppFramework
     return StackedWidget->currentWidget();
   }
 
+  // ------------------------------------------------------
+  
+  template <class selectorWidget> QVariant stackedSelectorWidget<selectorWidget>::currentData() const
+  {
+    return SelectorWidget->currentData();
+  }
+  
   // ------------------------------------------------------
 
   template <class selectorWidget> int stackedSelectorWidget<selectorWidget>::currentIndex() const

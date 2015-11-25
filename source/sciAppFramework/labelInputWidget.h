@@ -151,11 +151,11 @@ namespace sciAppFramework
       explicit labelPathEditWidget( const QString& LabelText, QWidget *Parent = NULL );
       labelPathEditWidget( const QString& LabelText, const QString& Text, QWidget *Parent = NULL );
 
-      void setFileMode( QFileDialog::FileMode Mode ) { FileMode = Mode; }
-      void setAcceptMode( QFileDialog::AcceptMode Mode ) { AcceptMode = Mode; }
-      void setNameFilter( const QString &F ) { Filter = F; }
-      void setNameFilters( const QStringList &F );
-      void setDirectory( const QString &D ) { Directory = D; }
+      labelPathEditWidget& setFileMode( QFileDialog::FileMode Mode );
+      labelPathEditWidget& setAcceptMode( QFileDialog::AcceptMode Mode );
+      labelPathEditWidget& setNameFilter( const QString &F );
+      labelPathEditWidget& setNameFilters( const QStringList &F );
+      labelPathEditWidget& setDirectory( const QString &D );
 
     public slots:
       void setEditFromFileDialog();

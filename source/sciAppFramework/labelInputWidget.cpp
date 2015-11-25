@@ -442,9 +442,42 @@ void labelPathEditWidget::setDefaultModes()
 
 // ------------------------------------------------------
 
-void labelPathEditWidget::setNameFilters( const QStringList &F ) 
+labelPathEditWidget& labelPathEditWidget::setFileMode( QFileDialog::FileMode Mode ) 
 { 
+  FileMode = Mode; 
+  return *this;
+}
+
+// ------------------------------------------------------
+
+labelPathEditWidget& labelPathEditWidget::setAcceptMode( QFileDialog::AcceptMode Mode )
+{ 
+  AcceptMode = Mode; 
+  return *this;
+}
+
+// ------------------------------------------------------
+
+labelPathEditWidget& labelPathEditWidget::setNameFilter( const QString &F ) 
+{ 
+  Filter = F; 
+  return *this;
+}
+
+// ------------------------------------------------------
+
+labelPathEditWidget& labelPathEditWidget::setNameFilters( const QStringList &F )
+{
   Filter = F.join(";;"); 
+  return *this;
+}
+
+// ------------------------------------------------------
+
+labelPathEditWidget& labelPathEditWidget::setDirectory( const QString &D ) 
+{ 
+  Directory = D; 
+  return *this;
 }
 
 // ------------------------------------------------------
