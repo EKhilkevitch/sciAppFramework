@@ -47,6 +47,7 @@ int main( int argc, char **argv )
   Widget.addInputWidget<labelEditWidget>("Edit2","This is a test input field #2",22);
   Widget.addInputWidget<labelPathEditWidget>("Path1","This is a test path field");
   Widget.addInputWidget<labelSpinWidget>("Spin1","This is a test spin",12);
+  Widget.addInputWidget<labelLongSpinWidget>("LongSpin1","This is a test long spin",12)->setMinimum( -100 );
   Widget.addInputWidget<multilineEditWidget>( "MultiEdit", "Multiline edit", "This text is\nmultiline" );
   Widget.addLabel("This is a label");
   radioButtonWidget *Radio1 = Widget.addInputWidget<radioButtonWidget>("Radio1","A lot of radio buttons");

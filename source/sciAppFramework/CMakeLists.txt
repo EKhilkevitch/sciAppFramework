@@ -7,7 +7,7 @@ include( ${QT_USE_FILE} )
 
 set ( sciAppFramework_source_files
                 settingsObject.cpp
-                inputWidget.cpp         
+                inputWidget.cpp 
                 labelInputWidget.cpp
                 adaptedInputWidget.cpp
                 multiInputWidget.cpp    
@@ -25,6 +25,7 @@ set ( sciAppFramework_source_files
                 catalogueWidget.cpp
                 waitWidget.cpp
                 layoutOperations.cpp
+                longSpinBox.cpp
                 structInputConnection.cpp
   )
 
@@ -42,6 +43,7 @@ qt4_wrap_cpp( sciAppFramework_moc_sources
                 okcancelDialog.h
                 catalogueWidget.h
                 waitWidget.h
+                longSpinBox.h
   )
 
 add_library( sciAppFramework ${LIBRARY_TYPE} ${sciAppFramework_source_files} ${sciAppFramework_moc_sources} )

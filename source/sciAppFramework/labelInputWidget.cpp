@@ -2,6 +2,7 @@
 // ======================================================
 
 #include "sciAppFramework/labelInputWidget.h"
+#include "sciAppFramework/longSpinBox.h"
 
 #include <QLabel>
 #include <QLineEdit>
@@ -667,6 +668,136 @@ QVariant labelSpinWidget::getVariantValue() const
 void labelSpinWidget::setVariantValue( const QVariant &Value ) 
 { 
   setValue( Value.toInt() ); 
+}
+
+// ======================================================
+
+labelLongSpinWidget::labelLongSpinWidget( const QString &LabelText, QWidget *Parent ) : 
+  labelInputWidget(Parent,LabelText) 
+{ 
+  initWidget( LabelText ); 
+}
+
+// ------------------------------------------------------
+      
+labelLongSpinWidget::labelLongSpinWidget( const QString& LabelText, qlonglong Value, QWidget *Parent ) : 
+  labelInputWidget(Parent,LabelText) 
+{ 
+  initWidget(LabelText); 
+  setValue(Value); 
+}
+
+// ------------------------------------------------------
+
+labelLongSpinWidget::labelLongSpinWidget( const QString& LabelText, qlonglong Min, qlonglong Max, QWidget *Parent ) : 
+  labelInputWidget(Parent,LabelText) 
+{ 
+  initWidget(LabelText); 
+  setRange(Min,Max); 
+}
+
+// ------------------------------------------------------
+      
+const longSpinBox* labelLongSpinWidget::getSpinBox() const 
+{ 
+  const longSpinBox *Spin = getInput<longSpinBox>();
+  Q_ASSERT( Spin != NULL );
+  return Spin;
+}
+
+// ------------------------------------------------------
+
+longSpinBox* labelLongSpinWidget::getSpinBox() 
+{ 
+  longSpinBox *Spin = getInput<longSpinBox>();
+  Q_ASSERT( Spin != NULL );
+  return Spin;
+}
+
+// ------------------------------------------------------
+
+QWidget* labelLongSpinWidget::createInputWidget()
+{
+  longSpinBox *Spin = new longSpinBox(this);
+  Spin->setRange( std::numeric_limits<qlonglong>::min(), std::numeric_limits<qlonglong>::max() );
+  connect( Spin, SIGNAL(valueChanged(qlonglong)), SIGNAL(valueChanged(qlonglong)));
+  connect( Spin, SIGNAL(valueChanged(qlonglong)), SIGNAL(changed()) );
+  return Spin;
+}
+
+// ------------------------------------------------------
+      
+qlonglong labelLongSpinWidget::value() const 
+{ 
+  return getSpinBox()->value(); 
+}
+
+// ------------------------------------------------------
+
+labelLongSpinWidget& labelLongSpinWidget::setValue( qlonglong Value ) 
+{ 
+  getSpinBox()->setValue(Value); 
+  return *this;
+}
+
+// ------------------------------------------------------
+
+labelLongSpinWidget& labelLongSpinWidget::setReadOnly( bool ReadOnly ) 
+{ 
+  getSpinBox()->setReadOnly(ReadOnly); 
+  return *this;
+}
+
+// ------------------------------------------------------
+
+labelLongSpinWidget& labelLongSpinWidget::setRange( qlonglong Min, qlonglong Max ) 
+{ 
+  getSpinBox()->setRange(Min,Max); 
+  return *this;
+}
+
+// ------------------------------------------------------
+
+labelLongSpinWidget& labelLongSpinWidget::setMinimum( qlonglong Min ) 
+{ 
+  getSpinBox()->setMinimum(Min); 
+  return *this;
+}
+
+// ------------------------------------------------------
+
+labelLongSpinWidget& labelLongSpinWidget::setMaximum( qlonglong Max ) 
+{ 
+  getSpinBox()->setMaximum(Max); 
+  return *this;
+}
+
+// ------------------------------------------------------
+
+qlonglong labelLongSpinWidget::maximum() const 
+{ 
+  return getSpinBox()->maximum(); 
+}
+
+// ------------------------------------------------------
+
+qlonglong labelLongSpinWidget::minimum() const 
+{ 
+  return getSpinBox()->minimum(); 
+}
+      
+// ------------------------------------------------------
+
+QVariant labelLongSpinWidget::getVariantValue() const 
+{ 
+  return value(); 
+}
+
+// ------------------------------------------------------
+
+void labelLongSpinWidget::setVariantValue( const QVariant &Value ) 
+{ 
+  setValue( Value.toLongLong() ); 
 }
 
 // ======================================================

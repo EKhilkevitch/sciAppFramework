@@ -20,6 +20,10 @@ class QDoubleValidator;
 
 namespace sciAppFramework
 {
+  
+  // ======================================================
+
+  class longSpinBox;
 
   // ======================================================
 
@@ -196,6 +200,41 @@ namespace sciAppFramework
       void valueChanged( int i );
   };
 
+  // ======================================================
+  
+  class labelLongSpinWidget : public labelInputWidget
+  {
+    Q_OBJECT
+
+    protected:
+      const longSpinBox* getSpinBox() const;
+      longSpinBox* getSpinBox();
+      QWidget* createInputWidget();
+
+    public:
+      explicit labelLongSpinWidget( const QString &LabelText, QWidget *Parent = NULL );
+      labelLongSpinWidget( const QString &LabelText, qlonglong Value, QWidget *Parent = NULL );
+      labelLongSpinWidget( const QString &LabelText, qlonglong Min, qlonglong Max, QWidget *Parent = NULL );
+
+      QVariant getVariantValue() const;
+      void setVariantValue( const QVariant &Value );
+
+      qlonglong value() const;
+
+      labelLongSpinWidget& setValue( qlonglong Value );
+      labelLongSpinWidget& setReadOnly( bool ReadOnly );
+
+      labelLongSpinWidget& setRange( qlonglong Min, qlonglong Max );
+      labelLongSpinWidget& setMinimum( qlonglong Min );
+      labelLongSpinWidget& setMaximum( qlonglong Max );
+
+      qlonglong maximum() const;
+      qlonglong minimum() const;
+
+    signals:
+      void valueChanged( qlonglong i );
+  };
+  
   // ======================================================
 
   class labelDoubleSpinWidget : public labelInputWidget
