@@ -148,6 +148,16 @@ namespace
 
   // ------------------------------------------------------
   
+  class longSpinModifier : public inputModifier<labelLongSpinWidget>
+  {
+    protected:
+      void setUpInput( labelLongSpinWidget *Input, const QDomElement &Element ) const;
+    public:
+      QString tag() const { return "longSpin"; }
+  };
+
+  // ------------------------------------------------------
+  
   class doubleSpinModifier : public inputModifier<labelDoubleSpinWidget>
   {
     protected:
@@ -355,6 +365,21 @@ namespace
     if ( ! OkMax )      MaxValue = Input->maximum();
     Input->setRange( MinValue, MaxValue );
   }
+  
+  // ------------------------------------------------------ 
+
+  void longSpinModifier::setUpInput( labelLongSpinWidget *Input, const QDomElement &Element ) const
+  {
+    Q_ASSERT( Input != NULL );
+
+    bool OkMin = false, OkMax = false;
+    qlonglong MinValue = text( Element, "min" ).value( 0 ).toLongLong( &OkMin );
+    qlonglong MaxValue = text( Element, "max" ).value( 0 ).toLongLong( &OkMax );
+
+    if ( ! OkMin )      MinValue = Input->minimum();
+    if ( ! OkMax )      MaxValue = Input->maximum();
+    Input->setRange( MinValue, MaxValue );
+  }
 
   // ------------------------------------------------------ 
       
@@ -503,6 +528,7 @@ multiInputWidgetXmlFactory::modifierOfMultiInputWidgetMap* multiInputWidgetXmlFa
     new doubleEditModifier() <<
     new pathEditModifier() <<
     new spinModifier() << 
+    new longSpinModifier() << 
     new doubleSpinModifier() <<
     new comboModifier() <<
     new radioModifier() << 
