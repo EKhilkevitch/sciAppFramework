@@ -8,7 +8,7 @@ using namespace sciAppFramework;
 // ======================================================
 
 inputWidget::inputWidget( QWidget *Parent, const QString &SettingsName ) : 
-  QWidget(Parent),
+  QWidget( Parent ),
   singleSettingsObject( Parent, settingsObject::normolizeToSettingsName(SettingsName) ) 
 {
 }

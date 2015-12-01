@@ -81,8 +81,9 @@ namespace sciAppFramework
     public:
       explicit catalogueItemViewTemplateWidget( QWidget *Parent = NULL );
       
-      int count() const { return itemViewCast()->count(); }
-      QList<itemWidget*> selectedItems() { return itemViewCast()->selectedItems(); }
+      int count() const;
+      QList<itemWidget*> selectedItems();
+      itemWidget* currentItem();
   };
   
   // ======================================================
@@ -180,6 +181,27 @@ namespace sciAppFramework
   template <class itemView, class itemWidget> void catalogueItemViewTemplateWidget<itemView,itemWidget>::disableSelectionSignalItemView() 
   { 
     itemViewCast()->disconnect();  
+  }
+  
+  // ------------------------------------------------------
+  
+  template <class itemView, class itemWidget> int catalogueItemViewTemplateWidget<itemView,itemWidget>::count() const 
+  { 
+    return itemViewCast()->count(); 
+  }
+  
+  // ------------------------------------------------------
+  
+  template <class itemView, class itemWidget> QList<itemWidget*> catalogueItemViewTemplateWidget<itemView,itemWidget>::selectedItems() 
+  { 
+    return itemViewCast()->selectedItems(); 
+  }
+  
+  // ------------------------------------------------------
+  
+  template <class itemView, class itemWidget> itemWidget* catalogueItemViewTemplateWidget<itemView,itemWidget>::currentItem() 
+  { 
+    return itemViewCast()->currentItem(); 
   }
   
   // ======================================================
