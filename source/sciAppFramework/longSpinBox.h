@@ -49,7 +49,6 @@ namespace sciAppFramework
 
     signals:
       void valueChanged( qlonglong Value );
-      void valueChanged( const QString &Text );
   };
 
   // ======================================================

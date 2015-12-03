@@ -90,7 +90,6 @@ longSpinBox::longSpinBox( QWidget *Parent ) :
   QAbstractSpinBox( Parent ),
   Validator( new longValidator(this) )
 {
-  connect( this, SIGNAL( editingFinished() ), SIGNAL( changed() ) );
   connect( this, SIGNAL( editingFinished() ), SLOT( emitValueChanged() ) );
 }
   
