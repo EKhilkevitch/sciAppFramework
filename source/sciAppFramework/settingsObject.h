@@ -32,7 +32,7 @@ namespace sciAppFramework
     public:
       settingsObject();
       explicit settingsObject( settingsObject *Parent, const QString &Name = QString() );
-      template <class T> explicit settingsObject( T *Parent, const QString &Name = QString() );
+      template <class T> explicit inline settingsObject( T *Parent, const QString &Name = QString() );
       virtual ~settingsObject();
 
       void setSettingsName( const QString &Name ) { SettingsName = Name; }
@@ -61,7 +61,7 @@ namespace sciAppFramework
 
     public:
       explicit singleSettingsObject( settingsObject *Parent, const QString &Name = QString() ); 
-      template <class T> explicit singleSettingsObject( T *Parent, const QString &Name = QString() );
+      template <class T> explicit inline singleSettingsObject( T *Parent, const QString &Name = QString() );
 
       void saveSettings( QSettings *Settings ) const;
       void loadSettings( QSettings *Settings );
@@ -73,7 +73,7 @@ namespace sciAppFramework
   {
     public:
       explicit multiSettingsObject( settingsObject *Parent, const QString &Name = QString() );
-      template <class T> explicit multiSettingsObject( T *Parent, const QString &Name = QString() );
+      template <class T> explicit inline multiSettingsObject( T *Parent, const QString &Name = QString() );
       
       void saveSettings( QSettings *Settings ) const;
       void loadSettings( QSettings *Settings );
