@@ -52,7 +52,7 @@ QList<QPushButton*> catalogueWidget::createButtonsList()
 
 // -----------------------------------------
       
-bool catalogueWidget::putButtonsonTheTop() const 
+bool catalogueWidget::putButtonsOnTheTop() const 
 { 
   return true; 
 }
@@ -77,7 +77,7 @@ void catalogueWidget::initWidget()
   QBoxLayout *Layout = new QVBoxLayout();
   Layout->setContentsMargins( 0, 0, 0, 0 );
 
-  if ( putButtonsonTheTop() )
+  if ( putButtonsOnTheTop() )
   {
     Layout->addWidget( ButtonsWidget );
     Layout->addWidget( ItemView );
@@ -324,6 +324,48 @@ catalogueTableWidget::~catalogueTableWidget()
 
 // ------------------------------------------------------
 
+void catalogueTableWidget::setColumnCount( int Count ) 
+{ 
+  itemViewCast()->setColumnCount( Count ); 
+}
+
+// ------------------------------------------------------
+
+int catalogueTableWidget::columnCount() const 
+{ 
+  return itemViewCast()->columnCount(); 
+}
+
+// ------------------------------------------------------
+
+void catalogueTableWidget::setColumnWidth( int Column, int Width ) 
+{ 
+  itemViewCast()->setColumnWidth( Column ,Width ); 
+}
+
+// ------------------------------------------------------
+
+void catalogueTableWidget::setRowCount( int Count ) 
+{ 
+  itemViewCast()->setRowCount( Count );
+}
+
+// ------------------------------------------------------
+
+int catalogueTableWidget::rowCount() const 
+{ 
+  return itemViewCast()->rowCount(); 
+}
+
+// ------------------------------------------------------
+
+void catalogueTableWidget::setRowHeight( int Row, int Height ) 
+{ 
+  itemViewCast()->setRowHeight( Row, Height ); 
+}
+
+// ------------------------------------------------------
+
 void catalogueTableWidget::enableSelectionSignalItemView()
 {
   catalogueItemViewTemplateWidget<QTableWidget,QTableWidgetItem>::enableSelectionSignalItemView();
@@ -343,12 +385,41 @@ QTableWidget* catalogueTableWidget::createItemView()
 
 // ------------------------------------------------------
       
+QHeaderView* catalogueTableWidget::horizontalHeader() const 
+{ 
+  return itemViewCast()->horizontalHeader(); 
+}
+
+// ------------------------------------------------------
+
+QHeaderView* catalogueTableWidget::verticalHeader() const 
+{ 
+  return itemViewCast()->verticalHeader(); 
+}
+
+// ------------------------------------------------------
+
+void catalogueTableWidget::incrementRowCoumt() 
+{ 
+  int RowCount = rowCount();
+  setRowCount( RowCount + 1 ); 
+}
+
+// ------------------------------------------------------
+      
 QTableWidgetItem* catalogueTableWidget::setItem( int Row, int Column, const QString& Title, const QVariant& Data )
 {
   QTableWidgetItem *Item = new QTableWidgetItem( Title );
   Item->setText( Title );
   Item->setData( Qt::UserRole, Data );
   return setItem( Row, Column, Item );
+}
+
+// ------------------------------------------------------
+
+QTableWidgetItem* catalogueTableWidget::setItem( int Row, int Column, const QString& Title )
+{
+  return setItem( Row, Column, Title, QVariant() );
 }
 
 // ------------------------------------------------------

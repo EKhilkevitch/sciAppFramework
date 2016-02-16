@@ -20,7 +20,7 @@ namespace sciAppFramework
       void setWidgetPropertis();
 
     private:
-      virtual QString title() const { return "Please wait..."; }
+      virtual QString title() const;
 
     protected:
       void initWidget();

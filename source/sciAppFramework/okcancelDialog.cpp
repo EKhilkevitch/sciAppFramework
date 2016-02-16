@@ -23,6 +23,7 @@ okcancelDialog::okcancelDialog( QWidget *Parent ) :
 QWidget* okcancelDialog::createButtonsWidget()
 {
   QPushButton *OkButton = new QPushButton( acceptButtonName() ,this );
+  OkButton->setDefault( true );
   connect( OkButton, SIGNAL(clicked()), SLOT(accept()) );
 
   QPushButton *CancelButton = new QPushButton( rejectButtonName(), this );
@@ -68,6 +69,34 @@ void okcancelDialog::reject()
 {
   if ( rejectEnabled() )
     QDialog::reject();
+}
+
+// ------------------------------------------------------
+
+QString okcancelDialog::acceptButtonName() const 
+{ 
+  return "Ok"; 
+}
+
+// ------------------------------------------------------
+
+QString okcancelDialog::rejectButtonName() const 
+{ 
+  return "Cancel"; 
+}
+
+// ------------------------------------------------------
+      
+bool okcancelDialog::acceptEnabled() 
+{ 
+  return true; 
+}
+
+// ------------------------------------------------------
+
+bool okcancelDialog::rejectEnabled() 
+{ 
+  return true; 
 }
 
 // ======================================================

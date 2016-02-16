@@ -23,6 +23,13 @@ waitWidget::~waitWidget()
 }
 
 // ------------------------------------------------------
+      
+QString waitWidget::title() const 
+{ 
+  return "Please wait..."; 
+}
+
+// ------------------------------------------------------
 
 void waitWidget::initWidget()
 {

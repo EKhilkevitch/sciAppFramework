@@ -17,13 +17,13 @@ namespace sciAppFramework
     Q_OBJECT
 
     private:
-      virtual QString acceptButtonName() const { return "Ok"; }
-      virtual QString rejectButtonName() const { return "Cancel"; }
+      virtual QString acceptButtonName() const;
+      virtual QString rejectButtonName() const;
       virtual QWidget* createButtonsWidget();
       virtual QWidget* createContentWidget() = 0;
 
-      virtual bool acceptEnabled() { return true; }
-      virtual bool rejectEnabled() { return true; }
+      virtual bool acceptEnabled();
+      virtual bool rejectEnabled();
 
     protected:
       void initWidget();

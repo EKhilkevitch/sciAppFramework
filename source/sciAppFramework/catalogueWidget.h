@@ -4,10 +4,8 @@
 
 // ======================================================
 
-#include <QWidget>
 #include <QList>
-#include <QVariant>
-
+#include <QWidget>
 #include <QListWidget>
 #include <QTableWidget>
 
@@ -16,6 +14,7 @@ class QListWidgetItem;
 class QListWidget;
 class QPushButton;
 class QSettings;
+class QVariant;
 
 // ======================================================
 
@@ -35,10 +34,11 @@ namespace sciAppFramework
     private:
       virtual QAbstractItemView* createItemView() = 0;
       
+    protected:
       virtual QWidget* createButtonsWidget();
       virtual QList<QPushButton*> createButtonsList();
 
-      virtual bool putButtonsonTheTop() const;
+      virtual bool putButtonsOnTheTop() const;
       virtual QAbstractItemView::SelectionMode viewSelectionMode() const;
 
     protected:
@@ -134,20 +134,21 @@ namespace sciAppFramework
       explicit catalogueTableWidget( QWidget *Parent = NULL );
       virtual ~catalogueTableWidget() = 0;
 
-      void setColumnCount( int C ) { itemViewCast()->setColumnCount(C); }
-      int columnCount() const { return itemViewCast()->columnCount(); }
-      void setColumnWidth( int C, int W ) { itemViewCast()->setColumnWidth(C,W); }
+      void setColumnCount( int Count );
+      int columnCount() const;
+      void setColumnWidth( int Column, int Width );
 
-      void setRowCount( int R ) { itemViewCast()->setRowCount(R); }
-      int rowCount() const { return itemViewCast()->rowCount(); }
-      void setRowHeight( int R, int H ) { itemViewCast()->setRowHeight(R,H); }
+      void setRowCount( int Count );
+      int rowCount() const;
+      void setRowHeight( int Row, int Height );
 
-      QHeaderView* horizontalHeader() const { return itemViewCast()->horizontalHeader(); }
-      QHeaderView* verticalHeader() const { return itemViewCast()->verticalHeader(); }
+      QHeaderView* horizontalHeader() const;
+      QHeaderView* verticalHeader() const;
 
-      void incrementRowCoumt() { setRowCount( rowCount() + 1 ); }
+      void incrementRowCoumt();
 
-      QTableWidgetItem* setItem( int Row, int Column, const QString& Title, const QVariant& Data = QVariant() );
+      QTableWidgetItem* setItem( int Row, int Column, const QString& Title, const QVariant& Data );
+      QTableWidgetItem* setItem( int Row, int Column, const QString& Title );
       QTableWidgetItem* setItem( int Row, int Column, QTableWidgetItem *Item );
       QTableWidgetItem* item( int Row, int Column ) const;
       QTableWidgetItem* takeItem( int Row, int Column );
