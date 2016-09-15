@@ -30,6 +30,7 @@ namespace sciAppFramework
 
     public:
       explicit okcancelDialog( QWidget *Parent = NULL );
+      virtual ~okcancelDialog() = 0;
 
       void accept();
       void reject();
