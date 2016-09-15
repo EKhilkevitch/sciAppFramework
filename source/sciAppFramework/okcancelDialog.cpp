@@ -25,20 +25,6 @@ okcancelDialog::~okcancelDialog()
 }
 
 // ------------------------------------------------------
-      
-QString okcancelDialog::acceptButtonName() const 
-{ 
-  return "Ok"; 
-}
-
-// ------------------------------------------------------
-
-QString okcancelDialog::rejectButtonName() const 
-{ 
-  return "Cancel"; 
-}
-
-// ------------------------------------------------------
 
 QWidget* okcancelDialog::createButtonsWidget()
 {
