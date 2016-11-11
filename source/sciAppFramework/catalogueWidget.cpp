@@ -399,6 +399,34 @@ QHeaderView* catalogueTableWidget::verticalHeader() const
 
 // ------------------------------------------------------
 
+void catalogueTableWidget::setHorizontalHeaderLabels( const QStringList &Labels )
+{
+  itemViewCast()->setHorizontalHeaderLabels( Labels );
+}
+
+// ------------------------------------------------------
+
+void catalogueTableWidget::setHorizontalHeaderItem( int Column, QTableWidgetItem *Item )
+{
+  itemViewCast()->setHorizontalHeaderItem( Column, Item );
+}
+
+// ------------------------------------------------------
+
+void catalogueTableWidget::setVerticalHeaderItem( int Row, QTableWidgetItem *Item )
+{
+  itemViewCast()->setVerticalHeaderItem( Row, Item );
+}
+
+// ------------------------------------------------------
+
+void catalogueTableWidget::setVerticalHeaderLabels( const QStringList &Labels )
+{
+  itemViewCast()->setVerticalHeaderLabels( Labels );
+}
+
+// ------------------------------------------------------
+
 void catalogueTableWidget::incrementRowCoumt() 
 { 
   int RowCount = rowCount();

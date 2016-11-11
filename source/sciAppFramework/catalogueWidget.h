@@ -145,6 +145,11 @@ namespace sciAppFramework
       QHeaderView* horizontalHeader() const;
       QHeaderView* verticalHeader() const;
 
+      void setHorizontalHeaderLabels( const QStringList &Labels );
+      void setHorizontalHeaderItem( int Column, QTableWidgetItem *Item );
+      void setVerticalHeaderItem( int Row, QTableWidgetItem *Item );
+      void setVerticalHeaderLabels( const QStringList &Labels );
+
       void incrementRowCoumt();
 
       QTableWidgetItem* setItem( int Row, int Column, const QString& Title, const QVariant& Data );
