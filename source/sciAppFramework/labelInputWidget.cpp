@@ -9,6 +9,8 @@
 #include <QSpinBox>
 #include <QDoubleSpinBox>
 #include <QComboBox>
+#include <QDateTimeEdit>
+#include <QDateTime>
 #include <QPushButton>
 #include <QFileDialog>
 #include <QHBoxLayout>
@@ -1107,5 +1109,129 @@ labelComboWidget& labelComboWidget::setCurrentData( const QVariant& V )
 
 // ======================================================
 
+const QDateTimeEdit* labelDateTimeWidget::getDateTimeEdit() const
+{
+  return getInput<QDateTimeEdit>(); 
+}
+
+// ------------------------------------------------------
+      
+QDateTimeEdit* labelDateTimeWidget::getDateTimeEdit()
+{
+  return getInput<QDateTimeEdit>(); 
+}
+
+// ------------------------------------------------------
+
+QWidget* labelDateTimeWidget::createInputWidget()
+{
+  QDateTimeEdit *Edit = new QDateTimeEdit( this );
+  connect( Edit, SIGNAL(dateTimeChanged(const QDateTime&)), SIGNAL(valueChanged(const QDateTime&))); 
+  connect( Edit, SIGNAL(dateTimeChanged(const QDateTime&)), SIGNAL(changed()) ); 
+  return Edit;
+}
+
+// ------------------------------------------------------
+
+labelDateTimeWidget::labelDateTimeWidget( const QString& LabelText, QWidget *Parent ) :
+  labelInputWidget(Parent,LabelText) 
+{ 
+  initWidget(LabelText); 
+}
+
+// ------------------------------------------------------
+
+labelDateTimeWidget::labelDateTimeWidget( const QString& LabelText, const QDateTime &DateTime, QWidget *Parent ) :
+  labelInputWidget(Parent,LabelText) 
+{ 
+  initWidget(LabelText); 
+  setValue(DateTime); 
+}
+
+// ------------------------------------------------------
+
+QVariant labelDateTimeWidget::getVariantValue() const
+{
+  return value(); 
+}
+
+// ------------------------------------------------------
+
+void labelDateTimeWidget::setVariantValue( const QVariant &Value )
+{
+  setValue( Value.toDateTime() );
+}
+
+// ------------------------------------------------------
+
+const QDateTime labelDateTimeWidget::value() const
+{
+  return getDateTimeEdit()->dateTime();
+}
+
+// ------------------------------------------------------
+
+labelDateTimeWidget& labelDateTimeWidget::setValue( const QDateTime &Value )
+{
+  getDateTimeEdit()->setDateTime( Value );
+  return *this;
+}
+
+// ------------------------------------------------------
+
+labelDateTimeWidget& labelDateTimeWidget::setReadOnly( bool ReadOnly )
+{
+  getDateTimeEdit()->setReadOnly(ReadOnly); 
+  return *this;
+}
+
+// ------------------------------------------------------
+      
+labelDateTimeWidget& labelDateTimeWidget::setCalendarPopup( bool SetPopup )
+{
+  getDateTimeEdit()->setCalendarPopup(SetPopup); 
+  return *this;
+}
+
+// ------------------------------------------------------
+
+labelDateTimeWidget& labelDateTimeWidget::setRange( const QDateTime &Min, const QDateTime &Max )
+{
+  getDateTimeEdit()->setMaximumDateTime( Max );
+  getDateTimeEdit()->setMinimumDateTime( Min );
+  return *this;
+}
+
+// ------------------------------------------------------
+
+labelDateTimeWidget& labelDateTimeWidget::setMinimum( const QDateTime &Min )
+{
+  getDateTimeEdit()->setMinimumDateTime( Min );
+  return *this;
+}
+
+// ------------------------------------------------------
+
+labelDateTimeWidget& labelDateTimeWidget::setMaximum( const QDateTime &Max )
+{
+  getDateTimeEdit()->setMaximumDateTime( Max );
+  return *this;
+}
+
+// ------------------------------------------------------
+
+const QDateTime labelDateTimeWidget::minimum() const
+{
+  return getDateTimeEdit()->minimumDateTime();
+}
+
+// ------------------------------------------------------
+
+const QDateTime labelDateTimeWidget::maximum() const
+{
+  return getDateTimeEdit()->maximumDateTime();
+}
+
+// ======================================================
 
 
