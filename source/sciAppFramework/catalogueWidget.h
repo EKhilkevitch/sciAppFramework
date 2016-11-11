@@ -149,6 +149,7 @@ namespace sciAppFramework
       void setHorizontalHeaderItem( int Column, QTableWidgetItem *Item );
       void setVerticalHeaderItem( int Row, QTableWidgetItem *Item );
       void setVerticalHeaderLabels( const QStringList &Labels );
+      void setEditTriggers( EditTriggers Triggers );
 
       void incrementRowCoumt();
 

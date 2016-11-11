@@ -426,6 +426,13 @@ void catalogueTableWidget::setVerticalHeaderLabels( const QStringList &Labels )
 }
 
 // ------------------------------------------------------
+      
+void catalogueTableWidget::setEditTriggers( EditTriggers Triggers )
+{
+  itemViewCast()->setEditTriggers( Triggers );
+}
+
+// ------------------------------------------------------
 
 void catalogueTableWidget::incrementRowCoumt() 
 { 
