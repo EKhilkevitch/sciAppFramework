@@ -162,6 +162,7 @@ namespace sciAppFramework
     signals:
       void currentChanged( QTableWidgetItem*, QTableWidgetItem* );
       void cellClicked( int Row, int Column );
+      void cellDoubleClicked( int Row, int Column );
       void cellChanged( int Row, int Column );
       void cellEntered( int Row, int Column );
     
