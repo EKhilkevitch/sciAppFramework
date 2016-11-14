@@ -28,7 +28,7 @@ namespace sciAppFramework
       QStackedWidget *StackedWidget;
 
     public:
-      explicit stackedSelectorWidget( const QString &Label, QWidget *Parent, const QString &SettingsName );
+      stackedSelectorWidget( const QString &Label, QWidget *Parent, const QString &SettingsName );
       virtual ~stackedSelectorWidget() {};
       
       stackedSelectorWidget& addWidget( const QString &Name, QWidget *Widget ); 
