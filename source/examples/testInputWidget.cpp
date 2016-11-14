@@ -30,6 +30,7 @@ int main( int argc, char **argv )
   Radio1->addItem("yyy");
   Radio1->addItem("zz");
   checkBoxWidget *Check1 = new checkBoxWidget("Check1");
+  labelDateTimeWidget *DateTime1 = new labelDateTimeWidget( "Date and time", QDateTime::currentDateTime() );
 
   QBoxLayout *Layout = new QVBoxLayout();
   Layout->addWidget( Edit1 );
@@ -41,6 +42,7 @@ int main( int argc, char **argv )
   Layout->addWidget( Combo1 );
   Layout->addWidget( Radio1 );
   Layout->addWidget( Check1 );
+  Layout->addWidget( DateTime1 );
   
 #if 0
   {

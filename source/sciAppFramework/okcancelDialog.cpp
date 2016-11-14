@@ -20,6 +20,12 @@ okcancelDialog::okcancelDialog( QWidget *Parent ) :
 
 // ------------------------------------------------------
 
+okcancelDialog::~okcancelDialog()
+{
+}
+
+// ------------------------------------------------------
+
 QWidget* okcancelDialog::createButtonsWidget()
 {
   QPushButton *OkButton = new QPushButton( acceptButtonName() ,this );

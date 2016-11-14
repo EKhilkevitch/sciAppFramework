@@ -53,7 +53,7 @@ namespace sciAppFramework
   class comboMultiWidget : public stackedSelectorWidget<labelComboWidget>
   {
     public:
-      comboMultiWidget( const QString &Label, QWidget *Parent = NULL, const QString &SettingsName = QString() );
+      explicit comboMultiWidget( const QString &Label, QWidget *Parent = NULL, const QString &SettingsName = QString() );
   };
  
   // ------------------------------------------------------
@@ -61,7 +61,7 @@ namespace sciAppFramework
   class radioMultiWidget : public stackedSelectorWidget<radioButtonWidget>
   {
     public:
-      radioMultiWidget( const QString &Label, QWidget *Parent = NULL, const QString &SettingsName = QString() );
+      explicit radioMultiWidget( const QString &Label, QWidget *Parent = NULL, const QString &SettingsName = QString() );
   };
   
   // ======================================================

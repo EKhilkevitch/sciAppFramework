@@ -372,6 +372,7 @@ void catalogueTableWidget::enableSelectionSignalItemView()
 
   connect( itemViewCast(), SIGNAL( currentItemChanged(QTableWidgetItem*, QTableWidgetItem*) ), SIGNAL(currentChanged(QTableWidgetItem*, QTableWidgetItem*)) );
   connect( itemViewCast(), SIGNAL(cellClicked(int,int)), SIGNAL(cellClicked(int,int)) );
+  connect( itemViewCast(), SIGNAL(cellDoubleClicked(int,int)), SIGNAL(cellDoubleClicked(int,int)) );
   connect( itemViewCast(), SIGNAL(cellChanged(int,int)), SIGNAL(cellChanged(int,int)) );
   connect( itemViewCast(), SIGNAL(cellEntered(int,int)), SIGNAL(cellEntered(int,int)) );
 }
@@ -395,6 +396,41 @@ QHeaderView* catalogueTableWidget::horizontalHeader() const
 QHeaderView* catalogueTableWidget::verticalHeader() const 
 { 
   return itemViewCast()->verticalHeader(); 
+}
+
+// ------------------------------------------------------
+
+void catalogueTableWidget::setHorizontalHeaderLabels( const QStringList &Labels )
+{
+  itemViewCast()->setHorizontalHeaderLabels( Labels );
+}
+
+// ------------------------------------------------------
+
+void catalogueTableWidget::setHorizontalHeaderItem( int Column, QTableWidgetItem *Item )
+{
+  itemViewCast()->setHorizontalHeaderItem( Column, Item );
+}
+
+// ------------------------------------------------------
+
+void catalogueTableWidget::setVerticalHeaderItem( int Row, QTableWidgetItem *Item )
+{
+  itemViewCast()->setVerticalHeaderItem( Row, Item );
+}
+
+// ------------------------------------------------------
+
+void catalogueTableWidget::setVerticalHeaderLabels( const QStringList &Labels )
+{
+  itemViewCast()->setVerticalHeaderLabels( Labels );
+}
+
+// ------------------------------------------------------
+      
+void catalogueTableWidget::setEditTriggers( QTableWidget::EditTriggers Triggers )
+{
+  itemViewCast()->setEditTriggers( Triggers );
 }
 
 // ------------------------------------------------------

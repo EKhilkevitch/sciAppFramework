@@ -12,6 +12,8 @@ class QLineEdit;
 class QSpinBox;
 class QDoubleSpinBox;
 class QComboBox;
+class QDateTime;
+class QDateTimeEdit;
 class QSettings;
 class QValidator;
 class QDoubleValidator;
@@ -312,6 +314,40 @@ namespace sciAppFramework
       void currentIndexChanged( const QString& );
   };
 
+  // ======================================================
+  
+  class labelDateTimeWidget : public labelInputWidget
+  {
+    Q_OBJECT
+    
+    protected:
+      const QDateTimeEdit* getDateTimeEdit() const;
+      QDateTimeEdit* getDateTimeEdit();
+      QWidget* createInputWidget(); 
+
+    public:
+      explicit labelDateTimeWidget( const QString& LabelText, QWidget *Parent = NULL );
+      labelDateTimeWidget( const QString& LabelText, const QDateTime &DateTime, QWidget *Parent = NULL );
+
+      QVariant getVariantValue() const;
+      void setVariantValue( const QVariant &Value );
+
+      const QDateTime value() const;
+      labelDateTimeWidget& setValue( const QDateTime &Value );
+      labelDateTimeWidget& setReadOnly( bool ReadOnly );
+      labelDateTimeWidget& setCalendarPopup( bool SetPopup );
+
+      labelDateTimeWidget& setRange( const QDateTime &Min, const QDateTime &Max );
+      labelDateTimeWidget& setMinimum( const QDateTime &Min );
+      labelDateTimeWidget& setMaximum( const QDateTime &Max );
+
+      const QDateTime minimum() const;
+      const QDateTime maximum() const;
+
+    signals:
+      void valueChanged( const QDateTime &Value );
+  };
+  
   // ======================================================
   
 }
