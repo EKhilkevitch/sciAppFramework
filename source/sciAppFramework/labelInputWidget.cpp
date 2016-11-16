@@ -496,17 +496,16 @@ void labelPathEditWidget::setEditFromFileDialog()
   QString CurrDir = QFileInfo( text().length() > 0 ? text() : "." ).path();
 
   QFileDialog Dialog( this );
-  Dialog.selectFile( text() );
   Dialog.setFileMode( FileMode );
   Dialog.setAcceptMode( AcceptMode );
   Dialog.setDirectory( Directory );
   Dialog.setNameFilter( Filter );
-  Dialog.selectFile( text() );
+  Dialog.selectFile( text().split(";").value(0) );
   Dialog.setOption( QFileDialog::DontUseNativeDialog, false );
   
   if ( Dialog.exec() == QDialog::Accepted )
   {
-    setText( Dialog.selectedFiles().value(0,"") );
+    setText( Dialog.selectedFiles().join(";") );
     emit changed();
   }
 #else

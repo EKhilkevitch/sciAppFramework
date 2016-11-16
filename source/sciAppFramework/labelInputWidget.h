@@ -159,9 +159,9 @@ namespace sciAppFramework
 
       labelPathEditWidget& setFileMode( QFileDialog::FileMode Mode );
       labelPathEditWidget& setAcceptMode( QFileDialog::AcceptMode Mode );
-      labelPathEditWidget& setNameFilter( const QString &F );
-      labelPathEditWidget& setNameFilters( const QStringList &F );
-      labelPathEditWidget& setDirectory( const QString &D );
+      labelPathEditWidget& setNameFilter( const QString &Filter );
+      labelPathEditWidget& setNameFilters( const QStringList &Filters );
+      labelPathEditWidget& setDirectory( const QString &Directory );
 
     public slots:
       void setEditFromFileDialog();
