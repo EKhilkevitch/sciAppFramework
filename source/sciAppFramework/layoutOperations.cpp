@@ -33,14 +33,14 @@ void layoutOperations::clearLayout( QLayout *Layout )
     if ( ItemLayout != NULL )
     {
       clearLayout( ItemLayout );
-      delete ItemLayout;
+      ItemLayout->deleteLater();
       delete Item;
     } else if ( ItemSpacer != NULL )
     {
       delete Item;
     } else if ( ItemWidget != NULL )
     {
-      delete ItemWidget;
+      ItemWidget->deleteLater();
       delete Item;
     }
 
