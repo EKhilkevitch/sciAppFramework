@@ -7,12 +7,15 @@
 #include <QWidget>
 #include <QStackedLayout>
 #include <QLabel>
+#include <QTimer>
+#include <QThread>
 
 using namespace sciAppFramework;
 
 // ======================================================
 
-waitWidget::waitWidget( QWidget *Parent ) : QDialog(Parent)
+waitWidget::waitWidget( QWidget *Parent ) : 
+  QDialog(Parent)
 {
 }
 
@@ -53,6 +56,36 @@ void waitWidget::setWidgetPropertis()
   setWindowFlags( windowFlags() & (~Qt::WindowContextHelpButtonHint) );
   
   setWindowTitle( title() );
+}
+
+// ------------------------------------------------------
+
+void waitWidget::acceptOnThreadDone()
+{
+  if ( Thread == NULL )
+    return;
+  if ( Thread->isFinished() )
+    accept();
+}
+
+// ------------------------------------------------------
+
+int waitWidget::exec()
+{
+  return QDialog::exec();
+}
+
+// ------------------------------------------------------
+
+int waitWidget::execUntilThreadRun( QThread *Thread )
+{
+  this->Thread = Thread;
+
+  QTimer Timer;
+  connect( &Timer, SIGNAL(timeout()), SLOT(acceptOnThreadDone()) );
+  Timer.start(25);
+
+  return exec();
 }
 
 // ======================================================
