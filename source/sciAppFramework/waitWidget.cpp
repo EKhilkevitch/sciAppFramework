@@ -38,7 +38,7 @@ void waitWidget::initWidget()
 {
   setWidgetPropertis();
   
-  QLabel *Label = new QLabel("Please wait",this);
+  QLabel *Label = new QLabel( title(), this );
   Label->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
   
   QStackedLayout *Layout = new QStackedLayout();
