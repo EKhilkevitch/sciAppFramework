@@ -492,7 +492,7 @@ void labelPathEditWidget::setEditFromFileDialog()
 /* 
  * This code not working on Release build with icc on Win32 
  */
-#if __unix__ || _MSC_VER >= 1700
+#if __unix__ || _MSC_VER >= 1700 
   QString CurrDir = QFileInfo( text().length() > 0 ? text() : "." ).path();
 
   QFileDialog Dialog( this );
@@ -510,7 +510,7 @@ void labelPathEditWidget::setEditFromFileDialog()
   }
 #else
   QWidget *Parent = this;
-  const QString Selected = text();
+  const QString Selected = text().split(";").value(0);
   const QString Caption = QString();
   const QString Directory = this->Directory;
   const QString Filter = this->Filter;
@@ -527,9 +527,14 @@ void labelPathEditWidget::setEditFromFileDialog()
       //FileName = QFileDialog::getSaveFileName( Parent, Caption, Selected, Filter, NULL, Options );
   } else {
     if ( AcceptMode == QFileDialog::AcceptOpen )
-      FileName = QFileDialog::getOpenFileName( Parent, Caption, Selected, Filter );
-    else 
+    {
+      if ( FileMode == QFileDialog::ExistingFiles )
+        FileName = QFileDialog::getOpenFileNames( Parent, Caption, Selected, Filter ).join(";");
+      else
+        FileName = QFileDialog::getOpenFileName( Parent, Caption, Selected, Filter );
+    } else {
       FileName = QFileDialog::getSaveFileName( Parent, Caption, Selected, Filter );
+    }
   }
 
   if ( FileName.isEmpty() )
