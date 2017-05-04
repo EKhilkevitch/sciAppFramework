@@ -1,9 +1,10 @@
 
 cmake_minimum_required( VERSION 2.6 )
-project( sciAppFramework ) 
 
 find_package( Qt4 COMPONENTS QtCore QtGui QtXml REQUIRED )
 include( ${QT_USE_FILE} )
+
+project( sciAppFramework ) 
 
 set ( sciAppFramework_source_files
                 settingsObject.cpp
@@ -12,14 +13,6 @@ set ( sciAppFramework_source_files
                 adaptedInputWidget.cpp
                 multiInputWidget.cpp    
                 multiInputXmlFactory.cpp
-                measurementParameters.cpp
-                measurementThread.cpp
-                controlWidget.cpp
-                measureControlWidget.cpp
-                outputWidget.cpp        
-                outputSettingsWidget.cpp
-                mainWidget.cpp
-                measureMainWidget.cpp
                 okcancelDialog.cpp      
                 stackedSelectorWidget.cpp
                 catalogueWidget.cpp
@@ -34,12 +27,6 @@ qt4_wrap_cpp( sciAppFramework_moc_sources
                 labelInputWidget.h
                 adaptedInputWidget.h
                 multiInputWidget.h              
-                measurementThread.h             
-                controlWidget.h                 
-                measureControlWidget.h                 
-                outputWidget.h                  
-                outputSettingsWidget.h                
-                measureMainWidget.h
                 okcancelDialog.h
                 catalogueWidget.h
                 waitWidget.h
@@ -48,4 +35,29 @@ qt4_wrap_cpp( sciAppFramework_moc_sources
 
 add_library( sciAppFramework ${LIBRARY_TYPE} ${sciAppFramework_source_files} ${sciAppFramework_moc_sources} )
 target_link_libraries( sciAppFramework ${QT_LIBRARIES} ${scigraphics_LIBRARY} ${scigraphicsQt_LIBRARY} )
+
+project( sciMeashurementFramework )
+
+set ( sciMeashurementFramework_source_files
+                measurementParameters.cpp
+                measurementThread.cpp
+                outputWidget.cpp        
+                outputSettingsWidget.cpp
+                controlWidget.cpp
+                measureControlWidget.cpp
+                measureMainWidget.cpp
+                mainWidget.cpp
+  )
+
+qt4_wrap_cpp( sciMeashurementFramework_moc_sources 
+                measurementThread.h             
+                outputWidget.h                  
+                outputSettingsWidget.h                
+                controlWidget.h                 
+                measureControlWidget.h                 
+                measureMainWidget.h
+  )
+
+add_library( sciMeashurementFramework ${LIBRARY_TYPE} ${sciMeashurementFramework_source_files} ${sciMeashurementFramework_moc_sources} )
+target_link_libraries( sciMeashurementFramework sciAppFramework ${QT_LIBRARIES} ${scigraphics_LIBRARY} ${scigraphicsQt_LIBRARY} )
 

@@ -29,6 +29,10 @@ namespace sciAppFramework
     private:
       void initSettingsObject();
 
+    private:
+      settingsObject( const settingsObject& );
+      settingsObject& operator=( const settingsObject& );
+
     public:
       settingsObject();
       explicit settingsObject( settingsObject *Parent, const QString &Name = QString() );

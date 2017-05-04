@@ -40,7 +40,7 @@ settingsObject::~settingsObject()
   while ( ! Children.isEmpty() )
     Children.front()->setSettingsParent( NULL );
 
-  setSettingsParent( this );
+  setSettingsParent( NULL );
 }
 
 // -----------------------------------------
