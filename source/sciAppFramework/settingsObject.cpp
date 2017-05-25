@@ -1,14 +1,13 @@
 
 // =========================================
 
-#include <QSettings>
 #include <QVariant>
 #include <QList>
 #include <QRegExp>
 #include <QDebug>
-#include <QTemporaryFile>
 
 #include "sciAppFramework/settingsObject.h"
+#include "sciAppFramework/settingsStorage.h"
 
 using namespace sciAppFramework;
 
@@ -78,6 +77,7 @@ QString settingsObject::normolizeToSettingsName( QString String )
 
 // -----------------------------------------
 
+#if 0
 void settingsObject::copySettings( settingsObject *Destination ) const
 {
   if ( Destination == NULL )
@@ -96,6 +96,7 @@ void settingsObject::copySettings( settingsObject *Destination ) const
   saveSettings( &SettingsBuffer );
   Destination->loadSettings( &SettingsBuffer );
 }
+#endif
 
 // =========================================
 
@@ -106,7 +107,7 @@ singleSettingsObject::singleSettingsObject( settingsObject *Parent, const QStrin
 
 // -----------------------------------------
 
-void singleSettingsObject::saveSettings( QSettings *Settings ) const
+void singleSettingsObject::saveSettings( settingsStorage *Settings ) const
 {
   if ( Settings == NULL )
     return;
@@ -122,7 +123,7 @@ void singleSettingsObject::saveSettings( QSettings *Settings ) const
 
 // -----------------------------------------
 
-void singleSettingsObject::loadSettings( QSettings *Settings )
+void singleSettingsObject::loadSettings( settingsStorage *Settings )
 {
   if ( Settings == NULL )
     return;
@@ -147,7 +148,7 @@ multiSettingsObject::multiSettingsObject( settingsObject *Parent, const QString 
 
 // -----------------------------------------
   
-void multiSettingsObject::saveSettings( QSettings *Settings ) const
+void multiSettingsObject::saveSettings( settingsStorage *Settings ) const
 {
   if ( Settings == NULL )
     return;
@@ -165,7 +166,7 @@ void multiSettingsObject::saveSettings( QSettings *Settings ) const
 
 // -----------------------------------------
 
-void multiSettingsObject::loadSettings( QSettings *Settings )
+void multiSettingsObject::loadSettings( settingsStorage *Settings )
 {
   if ( Settings == NULL )
     return;

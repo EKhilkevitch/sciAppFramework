@@ -79,7 +79,7 @@ QWidget* controlWidget::createBtnWidget()
 
 // -----------------------------------------
 
-void controlWidget::loadSettings( QSettings *Settings )
+void controlWidget::loadSettings( settingsStorage *Settings )
 {
   Q_ASSERT( ParametersWidget != NULL );
   ParametersWidget->loadSettings(Settings);
@@ -87,10 +87,17 @@ void controlWidget::loadSettings( QSettings *Settings )
 
 // -----------------------------------------
 
-void controlWidget::saveSettings( QSettings *Settings )
+void controlWidget::saveSettings( settingsStorage *Settings )
 {
   Q_ASSERT( ParametersWidget != NULL );
   ParametersWidget->saveSettings(Settings);
+}
+
+// -----------------------------------------
+      
+const multiInputWidget& controlWidget::getParameters() const 
+{ 
+  return *ParametersWidget; 
 }
 
 // =========================================

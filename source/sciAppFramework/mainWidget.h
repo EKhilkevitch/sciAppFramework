@@ -5,13 +5,14 @@
 
 #include <QMainWindow>
 
-class QSettings;
- 
 // =========================================
 
 namespace sciAppFramework
 {
+  
+  // =========================================
 
+  class settingsStorage;
   class outputWidget;
   class controlWidget;
   class outputSettingsWidget;
@@ -28,7 +29,7 @@ namespace sciAppFramework
       QString LastFileName;
 
     private:
-      static QSettings* createSettingsObject();
+      static settingsStorage* createSettingsObject();
 
       virtual controlWidget* createControlWidget() { return NULL; }
       virtual outputWidget* createOutputWidget() { return NULL; }
@@ -39,8 +40,8 @@ namespace sciAppFramework
     protected:
       virtual void doInitWidget();
       
-      virtual void doSaveSettings( QSettings *Settings );
-      virtual void doLoadSettings( QSettings *Settings );
+      virtual void doSaveSettings( settingsStorage *Settings );
+      virtual void doLoadSettings( settingsStorage *Settings );
       
       virtual void setupOutputWidget();
       virtual void setupOutputSettingsWidget();

@@ -1,10 +1,12 @@
 
-#include <QtGui>
-
 #include "sciAppFramework/measureControlWidget.h"
 #include "sciAppFramework/multiInputWidget.h"
 #include "sciAppFramework/inputWidget.h"
 #include "sciAppFramework/labelInputWidget.h"
+#include "sciAppFramework/settingsStorage.h"
+
+#include <QStringList>
+#include <QApplication>
 
 using namespace sciAppFramework;
 
@@ -27,9 +29,9 @@ struct testControlWidget : public measureControlWidget
     return new testInputWidget();
   }
   
-  QSettings* createSettings() 
+  settingsStorage* createSettings() 
   { 
-    return new QSettings("./testControlWidget.conf",QSettings::IniFormat); 
+    return new fileSettingsStorage( "./testControlWidget.conf" );
   }
 
   QStringList saveButtonsTextAndNames() const { return QStringList(); }
@@ -38,14 +40,15 @@ struct testControlWidget : public measureControlWidget
   testControlWidget() : measureControlWidget()
   {
     initWidget();
-    QSettings *Settings = createSettings(); 
+    
+    settingsStorage *Settings = createSettings(); 
     controlWidget::loadSettings( Settings );
     delete Settings;
   }
 
   ~testControlWidget() 
   { 
-    QSettings *Settings = createSettings(); 
+    settingsStorage *Settings = createSettings(); 
     saveSettings( Settings ); 
     delete Settings;
   }

@@ -1,25 +1,29 @@
 
-#include <QtGui>
-
 #include "sciAppFramework/inputWidget.h"
 #include "sciAppFramework/multiInputWidget.h"
 #include "sciAppFramework/stackedSelectorWidget.h"
+#include "sciAppFramework/settingsStorage.h"
+
+#include <QApplication>
+#include <QLabel>
+#include <QPushButton>
+#include <QDebug>
 
 using namespace sciAppFramework;
 
 struct testInputWidget : public multiInputWidget
 {
-  QSettings* createSettings() { return new QSettings("./testMultiInputWidget.conf",QSettings::IniFormat); }
+  settingsStorage* createSettings() { return new fileSettingsStorage("./testMultiInputWidget.conf"); }
   void loadSettings() 
   { 
-    QSettings *Settings = createSettings(); 
+    settingsStorage *Settings = createSettings(); 
     multiInputWidget::loadSettings( Settings ); 
     delete Settings;
   }
 
   ~testInputWidget()  
   { 
-    QSettings *Settings = createSettings(); 
+    settingsStorage *Settings = createSettings(); 
     multiInputWidget::saveSettings( Settings ); 
     delete Settings;
   }

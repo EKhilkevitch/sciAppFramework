@@ -5,10 +5,11 @@
 #include "sciAppFramework/outputWidget.h"
 #include "sciAppFramework/outputSettingsWidget.h"
 #include "sciAppFramework/controlWidget.h"
+#include "sciAppFramework/settingsStorage.h"
 
-#include <QSettings>
 #include <QDockWidget>
 #include <QApplication>
+#include <QDir>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QIcon>
@@ -128,25 +129,25 @@ QIcon mainWidget::appIcon() const
 
 // -----------------------------------------
 
-QSettings* mainWidget::createSettingsObject()
+settingsStorage* mainWidget::createSettingsObject()
 {
   QString AppName = QFileInfo( QCoreApplication::applicationFilePath() ).baseName();
-  QString FileName = QCoreApplication::applicationDirPath() + "/" + AppName + ".conf";
-  return new QSettings( FileName, QSettings::IniFormat );  
+  QString FileName = QCoreApplication::applicationDirPath() + QDir::separator() + AppName + ".conf";
+  return new fileSettingsStorage( FileName );  
 }
 
 // -----------------------------------------
 
 void mainWidget::saveSettings()
 {
-  QSettings *Settings = createSettingsObject();
+  settingsStorage *Settings = createSettingsObject();
   doSaveSettings( Settings );
   delete Settings;
 }
 
 // -----------------------------------------
 
-void mainWidget::doSaveSettings( QSettings *Settings )
+void mainWidget::doSaveSettings( settingsStorage *Settings )
 {
   Q_ASSERT( Settings != NULL );
   
@@ -168,14 +169,14 @@ void mainWidget::doSaveSettings( QSettings *Settings )
 
 void mainWidget::loadSettings()
 {
-  QSettings *Settings = createSettingsObject();
+  settingsStorage *Settings = createSettingsObject();
   doLoadSettings( Settings );
   delete Settings;
 }
 
 // -----------------------------------------
 
-void mainWidget::doLoadSettings( QSettings *Settings )
+void mainWidget::doLoadSettings( settingsStorage *Settings )
 {
   Q_ASSERT( Settings != NULL );
 

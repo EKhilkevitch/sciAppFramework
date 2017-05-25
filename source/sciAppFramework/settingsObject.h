@@ -6,13 +6,16 @@
 #include <QList>
 #include <QString>
 
-class QSettings;
 class QVariant;
 
 // =========================================
 
 namespace sciAppFramework
 {
+  
+  // =========================================
+  
+  class settingsStorage;
   
   // =========================================
  
@@ -47,10 +50,10 @@ namespace sciAppFramework
 
       void setSettingsParent( settingsObject *Parent );
       
-      virtual void saveSettings( QSettings *Settings ) const = 0;
-      virtual void loadSettings( QSettings *Settings ) = 0;
+      virtual void saveSettings( settingsStorage *Settings ) const = 0;
+      virtual void loadSettings( settingsStorage *Settings ) = 0;
 
-      void copySettings( settingsObject *Destination ) const;
+      //void copySettings( settingsObject *Destination ) const;
 
       static QString normolizeToSettingsName( QString String );
   };
@@ -67,8 +70,8 @@ namespace sciAppFramework
       explicit singleSettingsObject( settingsObject *Parent, const QString &Name = QString() ); 
       template <class T> explicit inline singleSettingsObject( T *Parent, const QString &Name = QString() );
 
-      void saveSettings( QSettings *Settings ) const;
-      void loadSettings( QSettings *Settings );
+      void saveSettings( settingsStorage *Settings ) const;
+      void loadSettings( settingsStorage *Settings );
   };
   
   // =========================================
@@ -79,8 +82,8 @@ namespace sciAppFramework
       explicit multiSettingsObject( settingsObject *Parent, const QString &Name = QString() );
       template <class T> explicit inline multiSettingsObject( T *Parent, const QString &Name = QString() );
       
-      void saveSettings( QSettings *Settings ) const;
-      void loadSettings( QSettings *Settings );
+      void saveSettings( settingsStorage *Settings ) const;
+      void loadSettings( settingsStorage *Settings );
   };
   
   // =========================================

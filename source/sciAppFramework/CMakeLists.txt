@@ -7,6 +7,7 @@ include( ${QT_USE_FILE} )
 project( sciAppFramework ) 
 
 set ( sciAppFramework_source_files
+                settingsStorage.cpp
                 settingsObject.cpp
                 inputWidget.cpp 
                 labelInputWidget.cpp

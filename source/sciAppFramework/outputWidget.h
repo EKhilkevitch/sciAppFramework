@@ -10,13 +10,16 @@ namespace scigraphics
   class qt4plotManager;
 }
 
-class QSettings;
 class QTabWidget;
 
 // =========================================
 
 namespace sciAppFramework
 {
+  
+  // =========================================
+  
+  class settingsStorage;
   
   // =========================================
   
@@ -30,8 +33,8 @@ namespace sciAppFramework
       virtual QWidget* outputSettingsWidget() = 0;
       virtual QString title() const { return Title; }
 
-      virtual void saveSettings( QSettings* ) {}
-      virtual void loadSettings( QSettings* ) {}
+      virtual void saveSettings( settingsStorage* ) {}
+      virtual void loadSettings( settingsStorage* ) {}
 
       outputWidgetItem( const QString &T ) : Title(T) {}
       virtual ~outputWidgetItem() {}
@@ -67,8 +70,8 @@ namespace sciAppFramework
       plotManagerOutputWidgetItem( scigraphics::qt4plotManager *PlotManager, const QString &Title );
       QWidget* outputWidget();
       QWidget* outputSettingsWidget();
-      void saveSettings( QSettings* );
-      void loadSettings( QSettings* );
+      void saveSettings( settingsStorage* );
+      void loadSettings( settingsStorage* );
   };
   
   // =========================================
@@ -91,8 +94,8 @@ namespace sciAppFramework
       explicit outputWidget( QWidget *Parent = NULL, const QList<outputWidgetItem*> &OutputWidgets = QList<outputWidgetItem*>() );
       ~outputWidget();
 
-      void saveSettings( QSettings* );
-      void loadSettings( QSettings* );
+      void saveSettings( settingsStorage* );
+      void loadSettings( settingsStorage* );
 
       const QList<QWidget*> listOfSettingsWidgets();
 

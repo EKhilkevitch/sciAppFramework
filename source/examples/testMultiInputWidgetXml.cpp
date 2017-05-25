@@ -1,19 +1,20 @@
 
-#include <QtCore>
-#include <QtGui>
-
 #include "sciAppFramework/inputWidget.h"
 #include "sciAppFramework/multiInputWidget.h"
 #include "sciAppFramework/multiInputXmlFactory.h"
+#include "sciAppFramework/settingsStorage.h"
+
+#include <QApplication>
+#include <QDebug>
 
 using namespace sciAppFramework;
 
 struct testInputWidget : public multiInputWidget
 {
-  QSettings* createSettings() { return new QSettings("./testMultiInputWidgetXml.conf",QSettings::IniFormat); }
+  settingsStorage* createSettings() { return new fileSettingsStorage("./testMultiInputWidgetXml.conf"); }
   void loadSettings()
   { 
-    QSettings *Settings = createSettings(); 
+    settingsStorage *Settings = createSettings(); 
     multiInputWidget::loadSettings( Settings ); 
     delete Settings;
   }
@@ -21,7 +22,7 @@ struct testInputWidget : public multiInputWidget
   ~testInputWidget()  
   { 
     qDebug() << "Save settings";
-    QSettings *Settings = createSettings(); 
+    settingsStorage *Settings = createSettings(); 
     multiInputWidget::saveSettings( Settings ); 
     delete Settings;
   }
@@ -80,5 +81,4 @@ int main( int argc, char **argv )
   
   return app.exec(); 
 }
-
 

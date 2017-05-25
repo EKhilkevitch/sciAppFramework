@@ -13,7 +13,6 @@
 #include "sciAppFramework/inputWidget.h"
 #include "sciAppFramework/settingsObject.h"
 
-class QSettings;
 class QLayout;
 class QBoxLayout;
 class QGroupBox;

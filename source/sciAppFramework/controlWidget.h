@@ -5,8 +5,6 @@
 
 #include <QWidget>
 
-class QSettings;
-
 // =========================================
 
 namespace sciAppFramework
@@ -16,6 +14,7 @@ namespace sciAppFramework
 
   class multiInputWidget;
   class measurementParameters;
+  class settingsStorage;
 
   // =========================================
 
@@ -41,10 +40,10 @@ namespace sciAppFramework
       explicit controlWidget( QWidget *Parent = NULL );
       virtual ~controlWidget() = 0;
 
-      void saveSettings( QSettings* );
-      void loadSettings( QSettings* );
+      void saveSettings( settingsStorage *Settings );
+      void loadSettings( settingsStorage *Settings );
       
-      const multiInputWidget& getParameters() const { return *ParametersWidget; }
+      const multiInputWidget& getParameters() const;
       
     signals:
       void changed();

@@ -2,11 +2,11 @@
 // =========================================
 
 #include "sciAppFramework/outputWidget.h"
+#include "sciAppFramework/settingsStorage.h"
 #include "scigraphics/qt4/manager.h"
 
 #include <QStackedLayout>
 #include <QTabWidget>
-#include <QSettings>
 
 using namespace sciAppFramework;
 
@@ -35,16 +35,17 @@ QWidget* plotManagerOutputWidgetItem::outputSettingsWidget()
       
 // -----------------------------------------
 
-void plotManagerOutputWidgetItem::saveSettings( QSettings *Settings )
+void plotManagerOutputWidgetItem::saveSettings( settingsStorage *Settings )
 {
-  PlotManager->saveSettings( Settings );
+  Settings->setValue( PlotManager->name(), PlotManager->serialize() );
 }
 
 // -----------------------------------------
 
-void plotManagerOutputWidgetItem::loadSettings( QSettings *Settings )
+void plotManagerOutputWidgetItem::loadSettings( settingsStorage *Settings )
 {
-  PlotManager->loadSettings( Settings );
+  QString Value = Settings->value( PlotManager->name() ).toString();
+  PlotManager->deserialize( Value );
 }
 
 // =========================================
@@ -127,7 +128,7 @@ void outputWidget::addToTabWidget( QWidget *Widget, const QString &Title )
 
 // -----------------------------------------
 
-void outputWidget::saveSettings( QSettings *Settings )
+void outputWidget::saveSettings( settingsStorage *Settings )
 {
   if ( Settings == NULL )
     return;
@@ -142,7 +143,7 @@ void outputWidget::saveSettings( QSettings *Settings )
 
 // -----------------------------------------
 
-void outputWidget::loadSettings( QSettings *Settings )
+void outputWidget::loadSettings( settingsStorage *Settings )
 {
   if ( Settings == NULL )
     return;
