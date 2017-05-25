@@ -13,7 +13,6 @@ class QAbstractItemView;
 class QListWidgetItem;
 class QListWidget;
 class QPushButton;
-class QSettings;
 class QVariant;
 
 // ======================================================
@@ -21,6 +20,10 @@ class QVariant;
 namespace sciAppFramework
 {
 
+  // ======================================================
+  
+  class settingsStorage;
+  
   // ======================================================
 
   class catalogueWidget : public QWidget
@@ -111,8 +114,8 @@ namespace sciAppFramework
       bool isSelected( const QVariant &Data ) const;
       bool isSelected( const QListWidgetItem* Item ) const;
 
-      virtual void saveListInSettings( QSettings *Settings, const QString &Name ) const;
-      virtual void loadListFromSettings( QSettings *Settings, const QString &Name );
+      virtual void saveListInSettings( settingsStorage *Settings, const QString &Name ) const;
+      virtual void loadListFromSettings( settingsStorage *Settings, const QString &Name );
 
     public slots:
       void deleteSelectedItems();

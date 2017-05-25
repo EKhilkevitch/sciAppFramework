@@ -14,7 +14,6 @@ class QDoubleSpinBox;
 class QComboBox;
 class QDateTime;
 class QDateTimeEdit;
-class QSettings;
 class QValidator;
 class QDoubleValidator;
 

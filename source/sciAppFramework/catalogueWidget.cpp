@@ -2,6 +2,7 @@
 // ======================================================
 
 #include "sciAppFramework/catalogueWidget.h"
+#include "sciAppFramework/settingsStorage.h"
 
 #include <QPushButton>
 #include <QHBoxLayout>
@@ -9,7 +10,6 @@
 #include <QAbstractItemView>
 #include <QListWidget>
 #include <QKeyEvent>
-#include <QSettings>
 #include <QDebug>
 
 using namespace sciAppFramework;
@@ -235,7 +235,7 @@ bool catalogueListWidget::isSelected( const QListWidgetItem* Item ) const
 
 // -----------------------------------------
 
-void catalogueListWidget::saveListInSettings( QSettings *Settings, const QString &Name ) const
+void catalogueListWidget::saveListInSettings( settingsStorage *Settings, const QString &Name ) const
 {
   if ( Settings == NULL )
     return;
@@ -269,7 +269,7 @@ void catalogueListWidget::saveListInSettings( QSettings *Settings, const QString
 
 // -----------------------------------------
 
-void catalogueListWidget::loadListFromSettings( QSettings *Settings, const QString &Name )
+void catalogueListWidget::loadListFromSettings( settingsStorage *Settings, const QString &Name )
 {
   if ( Settings == NULL )
     return;

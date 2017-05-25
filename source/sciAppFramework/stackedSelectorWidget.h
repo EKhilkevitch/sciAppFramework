@@ -45,7 +45,7 @@ namespace sciAppFramework
       int currentIndex() const;
       QString currentText() const;
       
-      void loadSettings( QSettings *Settings );
+      void loadSettings( settingsStorage *Settings );
   };
   
   // ======================================================
@@ -201,7 +201,7 @@ namespace sciAppFramework
   
   // ------------------------------------------------------
       
-  template <class selectorWidget> void stackedSelectorWidget<selectorWidget>::loadSettings( QSettings *Settings )
+  template <class selectorWidget> void stackedSelectorWidget<selectorWidget>::loadSettings( settingsStorage *Settings )
   {
     multiSettingsObject::loadSettings( Settings );
     StackedWidget->setCurrentIndex( SelectorWidget->currentIndex() );

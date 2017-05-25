@@ -31,6 +31,7 @@ namespace sciAppFramework
       virtual void setValue( const QString &Key, const QVariant &Value ) = 0;
       virtual QVariant value(const QString &Key, const QVariant &Default = QVariant() ) const = 0;
       virtual void remove( const QString &Key ) = 0;
+      virtual bool contains( const QString &Key ) const = 0;
       
       virtual void beginGroup( const QString &Prefix ) = 0;
       virtual void endGroup() = 0;
@@ -57,6 +58,7 @@ namespace sciAppFramework
       void setValue( const QString &Key, const QVariant &Value );
       QVariant value(const QString &Key, const QVariant &Default = QVariant() ) const;
       void remove( const QString &Key );
+      bool contains( const QString &Key ) const;
       
       void beginGroup( const QString &Prefix );
       void endGroup();
@@ -112,6 +114,7 @@ namespace sciAppFramework
           const group* findGroup( const QString &Key ) const;
           group* parent();
           void remove( const QString &Key );
+          bool contains( const QString &Key ) const;
       };
 
     private:
@@ -132,6 +135,7 @@ namespace sciAppFramework
       void setValue( const QString &Key, const QVariant &Value );
       QVariant value(const QString &Key, const QVariant &Default = QVariant() ) const;
       void remove( const QString &Key );
+      bool contains( const QString &Key ) const;
       
       void beginGroup( const QString &Prefix );
       void endGroup();

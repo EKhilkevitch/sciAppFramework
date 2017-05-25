@@ -58,6 +58,13 @@ void fileSettingsStorage::remove( const QString &Key )
 
 // -----------------------------------------
       
+bool fileSettingsStorage::contains( const QString &Key ) const
+{
+  return Settings->contains( Key );
+}
+
+// -----------------------------------------
+      
 void fileSettingsStorage::beginGroup( const QString &Prefix )
 {
   Settings->beginGroup( Prefix );
@@ -163,6 +170,25 @@ QStringList xmlSettingsStorage::group::childKeys() const
   foreach ( const element &E, Elements )
     Result.append( E.key() );
   return Result;
+}
+
+// -----------------------------------------
+
+bool xmlSettingsStorage::group::contains( const QString &Key ) const
+{
+  foreach ( const element &E, Elements )
+  {
+    if ( E.key() == Key )
+      return true;
+  }
+
+  foreach ( const group *G, Groups )
+  {
+    if ( G->key() == Key )
+      return true;
+  }
+
+  return false;
 }
 
 // -----------------------------------------
@@ -286,6 +312,13 @@ QVariant xmlSettingsStorage::value(const QString &Key, const QVariant &Default )
 void xmlSettingsStorage::remove( const QString &Key )
 {
   Current->remove( Key );
+}
+
+// -----------------------------------------
+
+bool xmlSettingsStorage::contains( const QString &Key ) const
+{
+  return Current->contains( Key );
 }
 
 // -----------------------------------------
