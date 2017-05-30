@@ -66,10 +66,11 @@ namespace sciAppFramework
       const QString& errorMessage() const { return ErrorString; }
 
 
-      multiInputWidget* create( QWidget *Parent = NULL ) const;
+      multiInputWidget* create( const QString &Name ) const;
+      multiInputWidget* create( QWidget *Parent, const QString &Name ) const;
       void addItemsToMultiInputWidget( multiInputWidget* Widget ) const;
 
-      static multiInputWidget* create( const QString &Xml, QWidget *Parent = NULL );
+      static multiInputWidget* create( const QString &Xml, QWidget *Parent, const QString &Name );
       static QString xmlRootName( const QString &Xml );
       
       static modifierOfMultiInputWidgetMap* createModifiersMap();

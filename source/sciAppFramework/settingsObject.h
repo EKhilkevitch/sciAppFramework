@@ -38,15 +38,15 @@ namespace sciAppFramework
 
     public:
       settingsObject();
-      explicit settingsObject( settingsObject *Parent, const QString &Name = QString() );
-      template <class T> explicit inline settingsObject( T *Parent, const QString &Name = QString() );
+      settingsObject( settingsObject *Parent, const QString &Name );
+      template <class T> inline settingsObject( T *Parent, const QString &Name );
       virtual ~settingsObject();
 
-      void setSettingsName( const QString &Name ) { SettingsName = Name; }
-      const QString& settingsName() const { return SettingsName; }
+      void setSettingsName( const QString &Name );
+      const QString& settingsName() const;
       
-      const QList<settingsObject*>& settingsChildren() const { return Children; }
-      const settingsObject* settingsParent() const { return Parent; }
+      const QList<settingsObject*>& settingsChildren() const;
+      const settingsObject* settingsParent() const;
 
       void setSettingsParent( settingsObject *Parent );
       
@@ -67,8 +67,8 @@ namespace sciAppFramework
       virtual void setValueFromSettings( const QVariant& Value ) = 0;
 
     public:
-      explicit singleSettingsObject( settingsObject *Parent, const QString &Name = QString() ); 
-      template <class T> explicit inline singleSettingsObject( T *Parent, const QString &Name = QString() );
+      explicit singleSettingsObject( settingsObject *Parent, const QString &Name ); 
+      template <class T> explicit inline singleSettingsObject( T *Parent, const QString &Name );
 
       void saveSettings( settingsStorage *Settings ) const;
       void loadSettings( settingsStorage *Settings );
@@ -79,8 +79,8 @@ namespace sciAppFramework
   class multiSettingsObject : public settingsObject
   {
     public:
-      explicit multiSettingsObject( settingsObject *Parent, const QString &Name = QString() );
-      template <class T> explicit inline multiSettingsObject( T *Parent, const QString &Name = QString() );
+      explicit multiSettingsObject( settingsObject *Parent, const QString &Name );
+      template <class T> explicit inline multiSettingsObject( T *Parent, const QString &Name );
       
       void saveSettings( settingsStorage *Settings ) const;
       void loadSettings( settingsStorage *Settings );

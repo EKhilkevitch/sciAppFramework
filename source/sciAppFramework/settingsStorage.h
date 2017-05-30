@@ -6,7 +6,6 @@
 #include <QList>
 #include <QString>
 #include <QVariant>
-#include <QList>
 
 class QVariant;
 class QString;
@@ -84,8 +83,6 @@ namespace sciAppFramework
 
           const QString& key() const { return Key; }
           const QVariant& value() const { return Value; }
-
-
       };
 
       class group

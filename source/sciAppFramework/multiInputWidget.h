@@ -47,7 +47,9 @@ namespace sciAppFramework
         const QString &Name, const QString &Label, multiInputWidget *Widget );
 
     public:
-      explicit multiInputWidget( QWidget *Parent = NULL, const QString &SettingsName = QString() );
+      explicit multiInputWidget( const QString &SettingsName );
+      multiInputWidget( QWidget *Parent, const QString &SettingsName );
+      ~multiInputWidget();
 
       void setupSettingsObject( settingsObject *Object, const QString &Name = QString() );
       inputWidget* registerInputWidget( inputWidget *Input ); 

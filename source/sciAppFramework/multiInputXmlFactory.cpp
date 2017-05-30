@@ -235,7 +235,7 @@ namespace
     const QString &SelectorName = attribute( Element, "sname", "" );
     const QString &SelectorLabel = attribute( Element, "slabel" );
     
-    multiInputWidget *SubWidget = new multiInputWidget(Widget);
+    multiInputWidget *SubWidget = new multiInputWidget( Widget, Name );
     for ( QDomNode Node = Element.firstChild(); ! Node.isNull(); Node = Node.nextSibling() )  
       multiInputWidgetXmlFactory::addNextItemToMultiInputWidget( SubWidget, *Modifiers, Node.toElement() );
     addSubMultiWidget( Widget, SelectorName, SelectorLabel, Name, Label, SubWidget );
@@ -490,9 +490,10 @@ QStringList multiInputWidgetXmlFactory::modifierOfMultiInputWidget::text( const 
 
 // ======================================================
 
-multiInputWidget* multiInputWidgetXmlFactory::create( const QString &Xml, QWidget *Parent )
+multiInputWidget* multiInputWidgetXmlFactory::create( const QString &Xml, QWidget *Parent, const QString &Name )
 {
-  return multiInputWidgetXmlFactory( Xml ).create( Parent );
+  multiInputWidgetXmlFactory Factory( Xml );
+  return Factory.create( Parent, Name );
 }
 
 // ------------------------------------------------------
@@ -592,9 +593,16 @@ void multiInputWidgetXmlFactory::addModifierOfMultiInputWidget( modifierOfMultiI
 
 // ------------------------------------------------------
       
-multiInputWidget* multiInputWidgetXmlFactory::create( QWidget *Parent ) const
+multiInputWidget* multiInputWidgetXmlFactory::create( const QString &Name ) const
 {
-  multiInputWidget *Widget = new multiInputWidget( Parent );
+  return create( NULL, Name );
+}
+
+// ------------------------------------------------------
+      
+multiInputWidget* multiInputWidgetXmlFactory::create( QWidget *Parent, const QString &Name ) const
+{
+  multiInputWidget *Widget = new multiInputWidget( Parent, Name );
   addItemsToMultiInputWidget( Widget ); 
   return Widget;
 }

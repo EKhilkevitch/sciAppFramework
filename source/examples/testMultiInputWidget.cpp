@@ -13,6 +13,11 @@ using namespace sciAppFramework;
 
 struct testInputWidget : public multiInputWidget
 {
+  testInputWidget() :
+    multiInputWidget( NULL, "TestMIW" )
+  {
+  }
+
   settingsStorage* createSettings() { return new fileSettingsStorage("./testMultiInputWidget.conf"); }
   void loadSettings() 
   { 
@@ -60,15 +65,15 @@ int main( int argc, char **argv )
   Radio1->addItem("btn3");
   Radio1->setOrientation( Qt::Horizontal );
 
-  multiInputWidget *SubWidget = new multiInputWidget();
+  multiInputWidget *SubWidget = new multiInputWidget( "SubWidget" );
   SubWidget->addInputWidget<labelEditWidget>("EditS1","Sub edit 1",12);
   SubWidget->addInputWidget<labelEditWidget>("EditS2","Sub edit 2",13);
   Widget.addBoxMultiInputWidget( "SW", "Sub widget", SubWidget );
 
-  multiInputWidget *SubWidgetTab1 = new multiInputWidget();
+  multiInputWidget *SubWidgetTab1 = new multiInputWidget( "SubWidgetTab1" );
   SubWidgetTab1->addInputWidget<labelEditWidget>("EditT1","Sub edit 1",12);
   SubWidgetTab1->addInputWidget<labelEditWidget>("EditT2","Sub edit 2",13);
-  multiInputWidget *SubWidgetTab2 = new multiInputWidget();
+  multiInputWidget *SubWidgetTab2 = new multiInputWidget( "SubWidgetTab2" );
   SubWidgetTab2->addInputWidget<labelEditWidget>("EditT3","Sub edit 3",14);
   Widget.addTabMultiInputWidget( "ST1", "Tab widget 1", SubWidgetTab1 );
   Widget.addTabMultiInputWidget( "ST2", "Tab widget 2", SubWidgetTab2 );
@@ -78,11 +83,11 @@ int main( int argc, char **argv )
   Widget.addWidget( new QPushButton("Button") );
   Widget.addLabel( "This is a label #2" );
 
-  multiInputWidget *SubWidgetRb1 = new multiInputWidget();
+  multiInputWidget *SubWidgetRb1 = new multiInputWidget( "SubWidgetRb1" );
   SubWidgetRb1->addInputWidget<labelSpinWidget>( "SpinR1", "Spin 1", 7 );
   SubWidgetRb1->addInputWidget<labelSpinWidget>( "SpinR2", "Spin 2", 8 );
   SubWidgetRb1->addInputWidget<labelSpinWidget>( "SpinR3", "Spin 3", 9 );
-  multiInputWidget *SubWidgetRb2 = new multiInputWidget();
+  multiInputWidget *SubWidgetRb2 = new multiInputWidget( "SubWidgetRb2" );
   SubWidgetRb2->addInputWidget<labelSpinWidget>( "SpinR4", "Spin 3", 10 );
   Widget.addRadioMultiInputWidget( "RBs", "Buttons", "RB1", "Radio Button 1", SubWidgetRb1 );
   Widget.addRadioMultiInputWidget( "RBs", "Buttons", "RB2", "Radio Button 2", SubWidgetRb2 );

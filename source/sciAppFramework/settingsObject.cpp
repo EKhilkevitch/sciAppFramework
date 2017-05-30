@@ -56,6 +56,34 @@ void settingsObject::initSettingsObject()
 }
 
 // -----------------------------------------
+      
+void settingsObject::setSettingsName( const QString &Name ) 
+{ 
+  SettingsName = Name; 
+}
+
+// -----------------------------------------
+
+const QString& settingsObject::settingsName() const 
+{ 
+  return SettingsName; 
+}
+
+// -----------------------------------------
+      
+const QList<settingsObject*>& settingsObject::settingsChildren() const 
+{ 
+  return Children; 
+}
+
+// -----------------------------------------
+
+const settingsObject* settingsObject::settingsParent() const 
+{ 
+  return Parent; 
+}
+
+// -----------------------------------------
 
 void settingsObject::setSettingsParent( settingsObject *NewParent )
 {

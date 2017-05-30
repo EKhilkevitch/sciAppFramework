@@ -93,14 +93,6 @@ QStringList fileSettingsStorage::childKeys() const
 
 // =========================================
 
-#if 0
-xmlSettingsStorage::element::element()
-{
-}
-
-// -----------------------------------------
-#endif
-
 xmlSettingsStorage::element::element( const QString &K, const QVariant &V ) :
   Key(K),
   Value(V)

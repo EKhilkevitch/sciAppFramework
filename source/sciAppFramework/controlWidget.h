@@ -40,7 +40,7 @@ namespace sciAppFramework
       explicit controlWidget( QWidget *Parent = NULL );
       virtual ~controlWidget() = 0;
 
-      void saveSettings( settingsStorage *Settings );
+      void saveSettings( settingsStorage *Settings ) const;
       void loadSettings( settingsStorage *Settings );
       
       const multiInputWidget& getParameters() const;

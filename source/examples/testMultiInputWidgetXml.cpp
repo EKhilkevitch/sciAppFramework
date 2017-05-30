@@ -19,6 +19,9 @@ struct testInputWidget : public multiInputWidget
     delete Settings;
   }
 
+  testInputWidget() :
+    multiInputWidget( "TestMIW" ) {}
+
   ~testInputWidget()  
   { 
     qDebug() << "Save settings";

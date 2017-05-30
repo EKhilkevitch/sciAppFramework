@@ -17,7 +17,8 @@ struct testControlWidget : public measureControlWidget
   {
     struct testInputWidget : public multiInputWidget
     {
-      testInputWidget() 
+      testInputWidget() :
+        multiInputWidget( NULL, "TestMIW" )
       {
         addInputWidget<labelEditWidget>( "Edit1", "Edit field1" );
         addInputWidget<labelEditWidget>( "Edit2", "Edit field2", "zyz" );

@@ -67,7 +67,7 @@ multiInputWidget& controlWidget::getParameters()
 
 multiInputWidget* controlWidget::createMultiInputWidget()
 {
-  return new multiInputWidget(this);
+  return new multiInputWidget( this, "ParametersWidget" );
 }
 
 // -----------------------------------------
@@ -87,7 +87,7 @@ void controlWidget::loadSettings( settingsStorage *Settings )
 
 // -----------------------------------------
 
-void controlWidget::saveSettings( settingsStorage *Settings )
+void controlWidget::saveSettings( settingsStorage *Settings ) const
 {
   Q_ASSERT( ParametersWidget != NULL );
   ParametersWidget->saveSettings(Settings);

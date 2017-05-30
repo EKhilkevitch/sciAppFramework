@@ -16,12 +16,27 @@ using namespace sciAppFramework;
 
 // ======================================================
 
+multiInputWidget::multiInputWidget( const QString &SettingsName ) :
+  multiSettingsObject( NULL, settingsObject::normolizeToSettingsName(SettingsName) )
+{
+  QBoxLayout *Layout = createBoxLayout();
+  setLayout( Layout );
+}
+
+// ------------------------------------------------------
+
 multiInputWidget::multiInputWidget( QWidget *Parent, const QString &SettingsName ) : 
   QWidget(Parent),
   multiSettingsObject( Parent, settingsObject::normolizeToSettingsName(SettingsName) )
 {
   QBoxLayout *Layout = createBoxLayout();
   setLayout( Layout );
+}
+
+// ------------------------------------------------------
+
+multiInputWidget::~multiInputWidget()
+{
 }
 
 // ------------------------------------------------------

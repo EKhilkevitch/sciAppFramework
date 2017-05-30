@@ -24,7 +24,7 @@ namespace sciAppFramework
       void setValueFromSettings( const QVariant& Value );
 
     public:
-      explicit inputWidget( QWidget *Parent, const QString &SettingsName = QString() );
+      inputWidget( QWidget *Parent, const QString &SettingsName );
       virtual ~inputWidget();
    
       virtual const QString label() const = 0;

@@ -28,7 +28,7 @@ int main( int argc, char **argv )
 {
   QApplication app(argc,argv);
   
-  multiInputWidget Widget;
+  multiInputWidget Widget( "TestMIW" );
   structInputConnection StructInputConnection;
 
   STRUCT_INPUT_CONNECT_FIELD( &StructInputConnection, Widget.addInputWidget<labelEditWidget>( "Edit1", "Std string", "abcd" ), structType, StdString );
