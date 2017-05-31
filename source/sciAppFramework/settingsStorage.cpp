@@ -93,6 +93,14 @@ QStringList fileSettingsStorage::childKeys() const
 
 // =========================================
 
+const QString xmlSettingsStorage::KeyAttributeName = "key";
+const QString xmlSettingsStorage::ValueAttributeName = "value";
+const QString xmlSettingsStorage::ElementPrefix = "Element_";
+const QString xmlSettingsStorage::GroupPrefix = "Group_";
+const QString xmlSettingsStorage::RootElementName = "Root";
+
+// -----------------------------------------
+
 xmlSettingsStorage::element::element( const QString &K, const QVariant &V ) :
   Key(K),
   Value(V)
@@ -353,9 +361,9 @@ void xmlSettingsStorage::storeGroupToElement( QDomDocument *Document, QDomElemen
   foreach ( const QString &Key, ChildKeys )
   {
     const QVariant &Value = Group->value( Key, Empty );
-    QDomElement Element = Document->createElement( "Element_" + QString::number(Index++) );
-    Element.setAttribute( "key", Key );
-    Element.setAttribute( "value", Value.toString() );
+    QDomElement Element = Document->createElement( ElementPrefix + QString::number(Index++) );
+    Element.setAttribute( KeyAttributeName, Key );
+    Element.setAttribute( ValueAttributeName, Value.toString() );
     DomElement->appendChild(Element);
   }
 
@@ -363,8 +371,8 @@ void xmlSettingsStorage::storeGroupToElement( QDomDocument *Document, QDomElemen
   foreach ( const QString &Key, ChildGroups )
   {
     const group *SubGroup = Group->findGroup( Key );
-    QDomElement Element = Document->createElement( "Group_" + QString::number(Index++) );
-    Element.setAttribute( "key", SubGroup->key() );
+    QDomElement Element = Document->createElement( GroupPrefix + QString::number(Index++) );
+    Element.setAttribute( KeyAttributeName, SubGroup->key() );
     DomElement->appendChild( Element );
     storeGroupToElement( Document, &Element, SubGroup );
   }
@@ -386,16 +394,16 @@ void xmlSettingsStorage::loadGroupFromElement( const QDomNode &DomNode, group *G
       continue;
 
     QString TagName = Element.tagName();
-    if ( TagName.startsWith( "Element_" ) )
+    if ( TagName.startsWith( ElementPrefix ) )
     {
-      QString Key = Element.attribute( "key" );
-      QString Value = Element.attribute( "value" );
+      QString Key = Element.attribute( KeyAttributeName );
+      QString Value = Element.attribute( ValueAttributeName );
       Group->addElement( Key, Value );
     }
 
-    if ( TagName.startsWith( "Group_" ) ) 
+    if ( TagName.startsWith( GroupPrefix ) ) 
     {
-      QString Key = Element.attribute( "key" );
+      QString Key = Element.attribute( KeyAttributeName );
       group *SubGroup = Group->addGroup( Key );
       loadGroupFromElement( Child, SubGroup );
     }
@@ -408,7 +416,7 @@ QString xmlSettingsStorage::toXml() const
 {
   QDomDocument Document;
 
-  QDomElement RootElement = Document.createElement( "Root" );
+  QDomElement RootElement = Document.createElement( RootElementName );
   Document.appendChild( RootElement );
 
   storeGroupToElement( &Document, &RootElement, &Root );
