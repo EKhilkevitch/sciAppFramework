@@ -96,6 +96,10 @@ namespace sciAppFramework
     Q_OBJECT
 
     private:
+      static const QString SettingsTextKeyName;
+      static const QString SettingsDataKeyName;
+
+    private:
       QListWidget* createItemView();
 
     public:
@@ -113,6 +117,9 @@ namespace sciAppFramework
       bool isSelected( unsigned Index ) const;
       bool isSelected( const QVariant &Data ) const;
       bool isSelected( const QListWidgetItem* Item ) const;
+
+      void setSelected( unsigned Index, bool Set );
+      void setSelected( QListWidgetItem* Item, bool Set );
 
       virtual void saveListInSettings( settingsStorage *Settings, const QString &Name ) const;
       virtual void loadListFromSettings( settingsStorage *Settings, const QString &Name );

@@ -137,7 +137,7 @@ void multiInputWidget::addSubwidgetInputsToMap( const QString &Name, multiInputW
 
   for ( labelInputMap::iterator i = Widget->LabelInputMap.begin(); i != Widget->LabelInputMap.end(); ++i )
   {
-    const QString FullName = Name.isEmpty() ? i.key() : Name + ":" + i.key();
+    const QString FullName = Name.isEmpty() ? i.key() : Name + ':' + i.key();
     inputWidget *Value = i.value();
     registerInputWidget( FullName, Value );
   }

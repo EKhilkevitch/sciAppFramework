@@ -114,6 +114,11 @@ catalogueWidget::~catalogueWidget()
 }
 
 // =========================================
+
+const QString catalogueListWidget::SettingsTextKeyName = "Text";
+const QString catalogueListWidget::SettingsDataKeyName = "Data";
+
+// -----------------------------------------
       
 catalogueListWidget::catalogueListWidget( QWidget *Parent ) : 
   catalogueItemViewTemplateWidget<QListWidget,QListWidgetItem>(Parent) 
@@ -198,7 +203,7 @@ bool catalogueListWidget::isSelected( unsigned Index ) const
     return false;
 
   const QListWidget *ListWidget = itemViewCast();
-  if ( (int)Index >= ListWidget->count() )
+  if ( static_cast<int>(Index) >= ListWidget->count() )
     return false;
 
   return isSelected( ListWidget->item(Index) );
@@ -234,6 +239,26 @@ bool catalogueListWidget::isSelected( const QListWidgetItem* Item ) const
 }
 
 // -----------------------------------------
+      
+void catalogueListWidget::setSelected( unsigned Index, bool Set )
+{
+  QListWidget *ListWidget = itemViewCast();
+  if ( static_cast<int>(Index) >= ListWidget->count() )
+    return;
+
+  setSelected( ListWidget->item(Index), Set );
+}
+
+// -----------------------------------------
+
+void catalogueListWidget::setSelected( QListWidgetItem* Item, bool Set )
+{
+  if ( Item == NULL )
+    return;
+  Item->setSelected( Set );
+}
+
+// -----------------------------------------
 
 void catalogueListWidget::saveListInSettings( settingsStorage *Settings, const QString &Name ) const
 {
@@ -247,20 +272,20 @@ void catalogueListWidget::saveListInSettings( settingsStorage *Settings, const Q
     if ( Item == NULL )
       continue;
     Settings->beginGroup( QString::number(Row) );
-    Settings->setValue( "Text", Item->text() );
-    Settings->setValue( "Data", Item->data(Qt::UserRole) );
+    Settings->setValue( SettingsTextKeyName, Item->text() );
+    Settings->setValue( SettingsDataKeyName, Item->data(Qt::UserRole) );
     Settings->endGroup();
   }
 
   for ( int Row = count(); true; ++Row )
   {
     Settings->beginGroup( QString::number(Row) );
-    if ( ! Settings->contains( "Text" ) )
+    if ( ! Settings->contains( SettingsTextKeyName ) )
     {
       Settings->endGroup(); 
       break;
     }
-    Settings->remove( "" );
+    Settings->remove( QString() );
     Settings->endGroup(); 
   }
 
@@ -279,13 +304,13 @@ void catalogueListWidget::loadListFromSettings( settingsStorage *Settings, const
   for ( int Row = 0; true; ++Row )
   {
     Settings->beginGroup( QString::number(Row) );
-    if ( ! Settings->contains( "Text" ) )
+    if ( ! Settings->contains( SettingsTextKeyName ) )
     {
       Settings->endGroup();
       break;
     }
-    QString Text = Settings->value( "Text" ).toString();
-    QVariant Data = Settings->value( "Data" );
+    QString Text  = Settings->value( SettingsTextKeyName ).toString();
+    QVariant Data = Settings->value( SettingsDataKeyName );
     Settings->endGroup();
     add( Text, Data, false );
   } 

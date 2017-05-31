@@ -323,7 +323,7 @@ namespace
     if ( AcceptMode.contains( DirMode ) )
     {
       Input->setFileMode( QFileDialog::DirectoryOnly );
-      AcceptMode.replace( DirMode, "" );
+      AcceptMode.replace( DirMode, QString() );
     }
 
     if ( AcceptMode.isEmpty() )
@@ -416,7 +416,7 @@ namespace
       if ( Node.nodeName() == "item" )
       {
         const QString &Value = multiInputWidgetXmlFactory::modifierOfMultiInputWidget::attribute( Node.toElement(), QString("data") );
-        const QString &Text = multiInputWidgetXmlFactory::modifierOfMultiInputWidget::text( Node ).join("");
+        const QString &Text = multiInputWidgetXmlFactory::modifierOfMultiInputWidget::text( Node ).join( QString() );
         Input->addItem( Text, QVariant(Value) );
       }
     }
