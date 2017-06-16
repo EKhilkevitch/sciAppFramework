@@ -28,16 +28,28 @@ okcancelDialog::~okcancelDialog()
 
 QWidget* okcancelDialog::createButtonsWidget()
 {
-  QPushButton *OkButton = new QPushButton( acceptButtonName() ,this );
-  OkButton->setDefault( true );
-  connect( OkButton, SIGNAL(clicked()), SLOT(accept()) );
+  const QString AcceptButtonName = acceptButtonName();
+  QPushButton *OkButton = NULL;
+  if ( ! AcceptButtonName.isEmpty() )
+  {
+    OkButton = new QPushButton( AcceptButtonName, this );
+    OkButton->setDefault( true );
+    connect( OkButton, SIGNAL(clicked()), SLOT(accept()) );
+  }
 
-  QPushButton *CancelButton = new QPushButton( rejectButtonName(), this );
-  connect( CancelButton, SIGNAL(clicked()), SLOT(reject()) );
+  const QString RejectButtonName = rejectButtonName();
+  QPushButton *CancelButton = NULL;
+  if ( ! RejectButtonName.isEmpty() )
+  {
+    CancelButton = new QPushButton( RejectButtonName, this );
+    connect( CancelButton, SIGNAL(clicked()), SLOT(reject()) );
+  }
 
   QBoxLayout *Layout = new QHBoxLayout();
-  Layout->addWidget( OkButton );
-  Layout->addWidget( CancelButton );
+  if ( OkButton != NULL )
+    Layout->addWidget( OkButton );
+  if ( CancelButton != NULL )
+    Layout->addWidget( CancelButton );
 
   QWidget *Widget = new QWidget(this);
   Widget->setLayout(Layout);
