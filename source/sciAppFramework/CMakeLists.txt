@@ -28,7 +28,6 @@ qt4_wrap_cpp( sciAppFramework_moc_sources
                 labelInputWidget.h
                 adaptedInputWidget.h
                 multiInputWidget.h              
-                okcancelDialog.h
                 catalogueWidget.h
                 waitWidget.h
                 longSpinBox.h

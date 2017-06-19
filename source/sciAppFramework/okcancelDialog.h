@@ -14,8 +14,6 @@ namespace sciAppFramework
 
   class okcancelDialog : public QDialog
   {
-    Q_OBJECT
-
     private:
       virtual QString acceptButtonName() const;
       virtual QString rejectButtonName() const;
