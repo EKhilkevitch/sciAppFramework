@@ -42,7 +42,7 @@ int main( int argc, char **argv )
 
   labelComboWidget *Combo = new labelComboWidget("Combo",&Widget);
   Combo->addItem("Item1");
-  Combo->addItem("Item2");
+  Combo->addItem("Item2 with very long text and this combo should show it full");
 
   comboMultiWidget *ComboMultiWidget = new comboMultiWidget("Select widget:");
   ComboMultiWidget->setScrollArea( true );

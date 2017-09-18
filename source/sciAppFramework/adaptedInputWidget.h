@@ -123,8 +123,6 @@ namespace sciAppFramework
   
   class multilineEditWidget : public inputWidget
   {
-    Q_OBJECT
-
     private:
       QLabel *Label;
       QTextEdit *TextEdit;

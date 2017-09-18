@@ -6,6 +6,8 @@
 
 #include <QLabel>
 #include <QLineEdit>
+#include <QDirModel>
+#include <QCompleter>
 #include <QSpinBox>
 #include <QDoubleSpinBox>
 #include <QComboBox>
@@ -432,6 +434,7 @@ void labelPathEditWidget::initWidget( const QString &LabelText )
 {
   setDefaultModes(); 
   labelEditWidget::initWidget(LabelText);
+  setPathCompleter();
   setStretchFactors( 6, 8 );
 }
 
@@ -441,6 +444,16 @@ void labelPathEditWidget::setDefaultModes()
 { 
   FileMode = QFileDialog::AnyFile; 
   AcceptMode = QFileDialog::AcceptOpen; 
+}
+
+// ------------------------------------------------------
+      
+void labelPathEditWidget::setPathCompleter()
+{
+  QCompleter *PathCompleter = new QCompleter( this );
+  QDirModel *DirModel = new QDirModel(PathCompleter);
+  PathCompleter->setModel( DirModel );
+  getLineEdit()->setCompleter( PathCompleter ); 
 }
 
 // ------------------------------------------------------

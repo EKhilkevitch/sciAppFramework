@@ -30,8 +30,6 @@ namespace sciAppFramework
 
   class labelInputWidget : public inputWidget
   {
-    Q_OBJECT
-
     private:
       QLabel  *LabelWidget;
       QWidget *InputWidget;
@@ -99,8 +97,6 @@ namespace sciAppFramework
   
   class labelDoubleEditWidget : public labelEditWidget
   {
-    Q_OBJECT
-
     private:
       QString PrintfFormat;
 
@@ -150,6 +146,7 @@ namespace sciAppFramework
       virtual QLineEdit* getLineEdit();
       QWidget* createInputWidget(); 
       void setDefaultModes();
+      void setPathCompleter();
       void initWidget( const QString &LabelText );
 
     public:
