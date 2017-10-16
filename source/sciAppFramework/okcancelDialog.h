@@ -14,7 +14,7 @@ namespace sciAppFramework
 
   class okcancelDialog : public QDialog
   {
-    private:
+    protected:
       virtual QString acceptButtonName() const;
       virtual QString rejectButtonName() const;
       virtual QWidget* createButtonsWidget();
@@ -23,7 +23,6 @@ namespace sciAppFramework
       virtual bool acceptEnabled();
       virtual bool rejectEnabled();
 
-    protected:
       void initWidget();
 
     public:
