@@ -51,7 +51,7 @@ namespace sciAppFramework
       fileSettingsStorage& operator=( const fileSettingsStorage& );
 
     public:
-      fileSettingsStorage( const QString &FileName );
+      explicit fileSettingsStorage( const QString &FileName );
       ~fileSettingsStorage();
 
       void setValue( const QString &Key, const QVariant &Value );
@@ -64,6 +64,8 @@ namespace sciAppFramework
 
       QStringList childGroups() const;
       QStringList childKeys() const;
+
+      void sync();
   };
 
   // =========================================
