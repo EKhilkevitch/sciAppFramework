@@ -57,6 +57,8 @@ int main( int argc, char **argv )
   Widget.addInputWidget<labelPathEditWidget>("Path1","This is a test path field");
   Widget.addInputWidget<labelSpinWidget>("Spin1","This is a test spin",12);
   Widget.addInputWidget<labelLongSpinWidget>("LongSpin1","This is a test long spin",12)->setMinimum( -100 );
+  Widget.addInputWidget<labelDoubleSpinWidget>( "DoubleSpin1", "This is a test double spin", 1.5 )->setMinimum( -4.5 );
+  Widget.addInputWidget<labelDoubleEditWidget>( "DoubleEdit1", "This is a test double edit", 3.5 )->setMinimum( -5.5 );
   Widget.addInputWidget<multilineEditWidget>( "MultiEdit", "Multiline edit", "This text is\nmultiline" );
   Widget.addLabel("This is a label");
   radioButtonWidget *Radio1 = Widget.addInputWidget<radioButtonWidget>("Radio1","A lot of radio buttons");
@@ -97,6 +99,8 @@ int main( int argc, char **argv )
 
   qDebug() << "Edit1 = " << Widget.value<QString>("Edit1");
   qDebug() << "Spin1 = " << Widget.value<QString>("Spin1");
+  qDebug() << "DoubleSpin1 = " << Widget.value<double>("DoubleSpin1");
+  qDebug() << "DoubleEdit1 = " << Widget.value<double>("DoubleEdit1");
   qDebug() << "RB1:SpinR2 = " << Widget.value<QString>("RB1:SpinR2");
   qDebug() << "RB1 = " << Widget.value<QString>("RB1");
   qDebug() << "SW:EditS2 = " << Widget.value<QString>("SW:EditS2");

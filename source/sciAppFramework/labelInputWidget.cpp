@@ -233,7 +233,47 @@ labelEditWidget& labelEditWidget::setValidator( QValidator *Validator )
 }
 
 // ======================================================
-      
+
+class labelDoubleEditWidget::fixedDoubleValidator : public QDoubleValidator
+{
+  public:
+    explicit fixedDoubleValidator( QObject *Parent );
+    State validate( QString &Input, int &Position ) const;
+};
+
+// ------------------------------------------------------
+    
+labelDoubleEditWidget::fixedDoubleValidator::fixedDoubleValidator( QObject *Parent ) :
+  QDoubleValidator( Parent )
+{
+}
+
+// ------------------------------------------------------
+
+QValidator::State labelDoubleEditWidget::fixedDoubleValidator::validate( QString &Input, int &Position ) const
+{
+  if ( Input.isEmpty() )
+    return QValidator::Intermediate;
+
+  if ( Input.indexOf(',') >= 0 )
+    return QValidator::Invalid;
+
+  bool Ok = false;
+  const double Value = Input.toDouble( &Ok );
+  if ( Ok )
+  {
+    if ( bottom() <= Value && Value <= top() )
+      return QValidator::Acceptable;
+    return QValidator::Invalid;
+  }
+
+  QValidator::State Result = QDoubleValidator::validate( Input, Position );
+  //qDebug() << "fixedDoubleValidator::validate: " << Input << " -> " << Result << " : " << Input.toDouble();
+  return Result;
+}
+
+// ------------------------------------------------------
+
 labelDoubleEditWidget::labelDoubleEditWidget( const QString& LabelText, QWidget *Parent ) : 
   labelEditWidget(0,Parent,LabelText) 
 { 
@@ -251,14 +291,37 @@ labelDoubleEditWidget::labelDoubleEditWidget( const QString& LabelText, double V
 
 // ------------------------------------------------------
 
-QDoubleValidator* labelDoubleEditWidget::doubleValidator()
-{
-  return const_cast<QDoubleValidator*>( const_cast<const labelDoubleEditWidget*>(this)->doubleValidator() );
+void labelDoubleEditWidget::setText( const QString& String ) 
+{ 
+  labelEditWidget::setText(String); 
+} 
+
+// ------------------------------------------------------
+
+void labelDoubleEditWidget::setValidator( QValidator *Validator ) 
+{ 
+  labelEditWidget::setValidator(Validator); 
 }
 
 // ------------------------------------------------------
 
-const QDoubleValidator* labelDoubleEditWidget::doubleValidator() const
+QString labelDoubleEditWidget::text() const 
+{ 
+  return labelEditWidget::text(); 
+}
+
+// ------------------------------------------------------
+
+labelDoubleEditWidget::fixedDoubleValidator* labelDoubleEditWidget::doubleValidator()
+{
+  const labelDoubleEditWidget *ConstThis = this;
+  const fixedDoubleValidator *Validator = ConstThis->doubleValidator();
+  return const_cast<fixedDoubleValidator*>(Validator);
+}
+
+// ------------------------------------------------------
+
+const labelDoubleEditWidget::fixedDoubleValidator* labelDoubleEditWidget::doubleValidator() const
 {
   const QValidator *Validator = getLineEdit()->validator();
   if ( Validator == NULL )
@@ -267,7 +330,7 @@ const QDoubleValidator* labelDoubleEditWidget::doubleValidator() const
     return NULL;
   }
 
-  const QDoubleValidator *DoubleValidator = dynamic_cast<const QDoubleValidator*>(Validator);
+  const fixedDoubleValidator *DoubleValidator = dynamic_cast<const fixedDoubleValidator*>(Validator);
   if ( DoubleValidator == NULL )
   {
     qDebug() << "labelDoubleEditWidget::setRange: DoubleValidator == NULL!";
@@ -286,7 +349,8 @@ QWidget* labelDoubleEditWidget::createInputWidget()
 
   Q_ASSERT( Edit != NULL );
 
-  QValidator *Validator = new QDoubleValidator(this);
+  QValidator *Validator = new fixedDoubleValidator(this);
+  qDebug() << "labelDoubleEditWidget::createInputWidget: decimal point = '" << Validator->locale().decimalPoint() << "'";
   Edit->setValidator( Validator );
 
   return Edit;
@@ -296,7 +360,7 @@ QWidget* labelDoubleEditWidget::createInputWidget()
 
 double labelDoubleEditWidget::minimum() const
 {
-  const QDoubleValidator *Validator = doubleValidator();
+  const fixedDoubleValidator *Validator = doubleValidator();
   if ( Validator == NULL )
     return std::numeric_limits<double>::min();
   return Validator->bottom();
@@ -306,7 +370,7 @@ double labelDoubleEditWidget::minimum() const
 
 double labelDoubleEditWidget::maximum() const
 {
-  const QDoubleValidator *Validator = doubleValidator();
+  const fixedDoubleValidator *Validator = doubleValidator();
   if ( Validator == NULL )
     return std::numeric_limits<double>::max();
   return Validator->top();
@@ -316,7 +380,7 @@ double labelDoubleEditWidget::maximum() const
       
 labelDoubleEditWidget& labelDoubleEditWidget::setRange( double Min, double Max )
 {
-  QDoubleValidator *Validator = doubleValidator();
+  fixedDoubleValidator *Validator = doubleValidator();
   if ( Validator != NULL )
     Validator->setRange( Min, Max );
   return *this;
@@ -326,7 +390,7 @@ labelDoubleEditWidget& labelDoubleEditWidget::setRange( double Min, double Max )
 
 labelDoubleEditWidget& labelDoubleEditWidget::setMinimum( double Min )
 {
-  QDoubleValidator *Validator = doubleValidator();
+  fixedDoubleValidator *Validator = doubleValidator();
   if ( Validator != NULL )
     Validator->setBottom( Min );
   return *this;
@@ -336,7 +400,7 @@ labelDoubleEditWidget& labelDoubleEditWidget::setMinimum( double Min )
 
 labelDoubleEditWidget& labelDoubleEditWidget::setMaximum( double Max )
 {
-  QDoubleValidator *Validator = doubleValidator();
+  fixedDoubleValidator *Validator = doubleValidator();
   if ( Validator != NULL )
     Validator->setTop( Max );
   return *this;
@@ -1012,6 +1076,20 @@ QWidget* labelComboWidget::createInputWidget()
   connect( Combo, SIGNAL(currentIndexChanged(const QString&)), SIGNAL(currentIndexChanged(const QString&)));
   connect( Combo, SIGNAL(currentIndexChanged(int)), SIGNAL(changed()));
   return Combo;
+}
+
+// ------------------------------------------------------
+      
+QVariant labelComboWidget::getVariantValue() const 
+{ 
+  return currentData(); 
+}
+
+// ------------------------------------------------------
+
+void labelComboWidget::setVariantValue( const QVariant &Value ) 
+{ 
+  setCurrentData( Value ); 
 }
 
 // ------------------------------------------------------
