@@ -350,7 +350,6 @@ QWidget* labelDoubleEditWidget::createInputWidget()
   Q_ASSERT( Edit != NULL );
 
   QValidator *Validator = new fixedDoubleValidator(this);
-  qDebug() << "labelDoubleEditWidget::createInputWidget: decimal point = '" << Validator->locale().decimalPoint() << "'";
   Edit->setValidator( Validator );
 
   return Edit;
