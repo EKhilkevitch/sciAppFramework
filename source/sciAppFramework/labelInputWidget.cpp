@@ -18,6 +18,7 @@
 #include <QHBoxLayout>
 #include <QFileInfo>
 #include <QDoubleValidator>
+#include <QRegExpValidator>
 #include <QValidator>
 #include <QDebug>
 
@@ -234,18 +235,30 @@ labelEditWidget& labelEditWidget::setValidator( QValidator *Validator )
 
 // ======================================================
 
-class labelDoubleEditWidget::fixedDoubleValidator : public QDoubleValidator
+class labelDoubleEditWidget::fixedDoubleValidator : public QRegExpValidator
 {
+  private:
+    double Top, Bottom;
+
   public:
     explicit fixedDoubleValidator( QObject *Parent );
     State validate( QString &Input, int &Position ) const;
+
+    double top() const { return Top; }
+    double bottom() const { return Bottom; }
+    void setRange( double Min, double Max );
+    void setBottom( double B );
+    void setTop( double T );
 };
 
 // ------------------------------------------------------
     
 labelDoubleEditWidget::fixedDoubleValidator::fixedDoubleValidator( QObject *Parent ) :
-  QDoubleValidator( Parent )
+  QRegExpValidator( Parent ),
+  Top( +std::numeric_limits<double>::max() ),
+  Bottom( -std::numeric_limits<double>::max() )
 {
+  setRegExp( QRegExp( "^[+-]?\\d+(?:\\.\\d*)?(?:[Ee][+-]?\\d+)?$" ) );
 }
 
 // ------------------------------------------------------
@@ -267,10 +280,34 @@ QValidator::State labelDoubleEditWidget::fixedDoubleValidator::validate( QString
     return QValidator::Invalid;
   }
 
-  QValidator::State Result = QDoubleValidator::validate( Input, Position );
-  //qDebug() << "fixedDoubleValidator::validate: " << Input << " -> " << Result << " : " << Input.toDouble();
-  return Result;
+  return QRegExpValidator::validate( Input, Position );
 }
+
+// ------------------------------------------------------
+
+void labelDoubleEditWidget::fixedDoubleValidator::setRange( double Min, double Max ) 
+{ 
+  Top = qMax(Min,Max); 
+  Bottom = qMin(Min,Max); 
+}
+
+// ------------------------------------------------------
+
+void labelDoubleEditWidget::fixedDoubleValidator::setBottom( double B ) 
+{ 
+  Bottom = B; 
+  if ( Bottom > Top ) 
+    qSwap(Top,Bottom); 
+}
+
+// ------------------------------------------------------
+
+void labelDoubleEditWidget::fixedDoubleValidator::setTop( double T ) 
+{ 
+  Top = T; 
+  if ( Top < Bottom ) 
+    qSwap(Top,Bottom); 
+} 
 
 // ------------------------------------------------------
 

@@ -70,6 +70,7 @@ const QString Xml =
 
 int main( int argc, char **argv )
 {
+  QLocale::setDefault( QLocale::c() );
   QApplication app(argc,argv);
   
   testInputWidget Widget;
