@@ -235,7 +235,7 @@ labelEditWidget& labelEditWidget::setValidator( QValidator *Validator )
 
 // ======================================================
 
-class labelDoubleEditWidget::fixedDoubleValidator : public QRegExpValidator
+class labelDoubleEditWidget::fixedDoubleValidator : public QValidator
 {
   private:
     double Top, Bottom;
@@ -254,11 +254,10 @@ class labelDoubleEditWidget::fixedDoubleValidator : public QRegExpValidator
 // ------------------------------------------------------
     
 labelDoubleEditWidget::fixedDoubleValidator::fixedDoubleValidator( QObject *Parent ) :
-  QRegExpValidator( Parent ),
+  QValidator( Parent ),
   Top( +std::numeric_limits<double>::max() ),
   Bottom( -std::numeric_limits<double>::max() )
 {
-  setRegExp( QRegExp( "^[+-]?\\d+(?:\\.\\d*)?(?:[Ee][+-]?\\d+)?$" ) );
 }
 
 // ------------------------------------------------------
@@ -272,7 +271,7 @@ QValidator::State labelDoubleEditWidget::fixedDoubleValidator::validate( QString
     return QValidator::Invalid;
 
   bool Ok = false;
-  const double Value = Input.toDouble( &Ok );
+  double Value = Input.toDouble( &Ok );
   if ( Ok )
   {
     if ( bottom() <= Value && Value <= top() )
@@ -280,7 +279,28 @@ QValidator::State labelDoubleEditWidget::fixedDoubleValidator::validate( QString
     return QValidator::Invalid;
   }
 
-  return QRegExpValidator::validate( Input, Position );
+  if ( Input == "+" || Input == "-" )
+    return QValidator::Intermediate;
+
+  QString InputFront = Input.toLower();
+  if ( InputFront.endsWith('e') )
+  {
+    InputFront = InputFront.left( InputFront.length() - 1 );
+  } else if ( InputFront.endsWith("e+") || InputFront.endsWith("e-") ) {
+    InputFront = InputFront.left( InputFront.length() - 2 );
+  } else {
+    InputFront = QString();
+  }
+
+  if ( InputFront.indexOf('e') >= 0 )
+    return QValidator::Invalid;
+
+  Ok = false;
+  Value = InputFront.toDouble( &Ok );
+  if ( Ok )
+    return QValidator::Intermediate;
+
+  return QValidator::Invalid;
 }
 
 // ------------------------------------------------------
