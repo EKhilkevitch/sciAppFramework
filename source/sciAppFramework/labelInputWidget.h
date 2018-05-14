@@ -15,7 +15,6 @@ class QComboBox;
 class QDateTime;
 class QDateTimeEdit;
 class QValidator;
-class QDoubleValidator;
 
 // ======================================================
 
@@ -98,16 +97,19 @@ namespace sciAppFramework
   class labelDoubleEditWidget : public labelEditWidget
   {
     private:
+      class fixedDoubleValidator;
+
+    private:
       QString PrintfFormat;
 
     private:
       // Disable usage of this functions
-      void setText( const QString& S ) { labelEditWidget::setText(S); } 
-      void setValidator( QValidator *Validator ) { labelEditWidget::setValidator(Validator); }
-      QString text() const { return labelEditWidget::text(); }
+      void setText( const QString& String );
+      void setValidator( QValidator *Validator );
+      QString text() const;
 
-      QDoubleValidator* doubleValidator();
-      const QDoubleValidator* doubleValidator() const;
+      fixedDoubleValidator* doubleValidator();
+      const fixedDoubleValidator* doubleValidator() const;
 
     protected:
       QWidget* createInputWidget(); 
@@ -291,8 +293,8 @@ namespace sciAppFramework
       explicit labelComboWidget( const QString& LabelText, QWidget *Parent = NULL );
       labelComboWidget( const QString& LabelText, const QStringList& Items, QWidget *Parent = NULL );
 
-      QVariant getVariantValue() const { return currentData(); }
-      void setVariantValue( const QVariant &Value ) { setCurrentData( Value ); }    
+      QVariant getVariantValue() const;
+      void setVariantValue( const QVariant &Value );
 
       int  currentIndex() const;
       int  count() const;

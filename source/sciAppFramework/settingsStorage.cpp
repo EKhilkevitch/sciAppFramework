@@ -1,6 +1,8 @@
 
 // =========================================
 
+#include "sciAppFramework/settingsStorage.h"
+
 #include <QSettings>
 #include <QVariant>
 #include <QString>
@@ -10,8 +12,6 @@
 #include <QDomDocument>
 #include <QDomElement>
 #include <QDomText>
-
-#include "sciAppFramework/settingsStorage.h"
 
 using namespace sciAppFramework;
 
@@ -89,6 +89,13 @@ QStringList fileSettingsStorage::childGroups() const
 QStringList fileSettingsStorage::childKeys() const
 {
   return Settings->childKeys();
+}
+
+// -----------------------------------------
+      
+void fileSettingsStorage::sync()
+{
+  Settings->sync();
 }
 
 // =========================================
