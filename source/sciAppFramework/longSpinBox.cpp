@@ -82,7 +82,7 @@ namespace
 
   // ------------------------------------------------------
 
-};
+}
 
 // ======================================================
 
@@ -97,28 +97,38 @@ longSpinBox::longSpinBox( QWidget *Parent ) :
       
 qlonglong longSpinBox::maximum() const
 {
-  return dynamic_cast<longValidator*>( Validator )->top();
+  longValidator *LongValidator = dynamic_cast<longValidator*>( Validator );
+  if ( LongValidator != NULL )
+    return LongValidator->top();
+  return 0;
 }
 
 // ------------------------------------------------------
 
 qlonglong longSpinBox::minimum() const
 {
-  return dynamic_cast<longValidator*>( Validator )->bottom();
+  longValidator *LongValidator = dynamic_cast<longValidator*>( Validator );
+  if ( LongValidator != NULL )
+    return LongValidator->bottom();
+  return 0;
 }
 
 // ------------------------------------------------------
 
 void longSpinBox::setMaximum( qlonglong Max )
 {
-  dynamic_cast<longValidator*>( Validator )->setTop( Max ); 
+  longValidator *LongValidator = dynamic_cast<longValidator*>( Validator );
+  if ( LongValidator != NULL )
+    LongValidator->setTop( Max );
 }
 
 // ------------------------------------------------------
 
 void longSpinBox::setMinimum( qlonglong Min )
 {
-  dynamic_cast<longValidator*>( Validator )->setBottom( Min ); 
+  longValidator *LongValidator = dynamic_cast<longValidator*>( Validator );
+  if ( LongValidator != NULL )
+    LongValidator->setBottom( Min );
 }
 
 // ------------------------------------------------------
