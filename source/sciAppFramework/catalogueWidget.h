@@ -96,8 +96,8 @@ namespace sciAppFramework
     Q_OBJECT
 
     private:
-      static const QString SettingsTextKeyName;
-      static const QString SettingsDataKeyName;
+      static const char *const SettingsTextKeyName;
+      static const char *const SettingsDataKeyName;
 
     private:
       QListWidget* createItemView();

@@ -120,11 +120,11 @@ namespace sciAppFramework
       group Root;
       group *Current;
 
-      static const QString KeyAttributeName;
-      static const QString ValueAttributeName;
-      static const QString ElementPrefix;
-      static const QString GroupPrefix;
-      static const QString RootElementName;
+      static const char *const KeyAttributeName;
+      static const char *const ValueAttributeName;
+      static const char *const ElementPrefix;
+      static const char *const GroupPrefix;
+      static const char *const RootElementName;
 
     private:
       xmlSettingsStorage( const xmlSettingsStorage& );

@@ -115,8 +115,8 @@ catalogueWidget::~catalogueWidget()
 
 // =========================================
 
-const QString catalogueListWidget::SettingsTextKeyName = "Text";
-const QString catalogueListWidget::SettingsDataKeyName = "Data";
+const char *const catalogueListWidget::SettingsTextKeyName = "Text";
+const char *const catalogueListWidget::SettingsDataKeyName = "Data";
 
 // -----------------------------------------
       
@@ -265,6 +265,9 @@ void catalogueListWidget::saveListInSettings( settingsStorage *Settings, const Q
   if ( Settings == NULL )
     return;
 
+  const QString SettingsTextKeyNameQString = SettingsTextKeyName;
+  const QString SettingsDataKeyNameQString = SettingsDataKeyName;
+
   Settings->beginGroup( Name );
   for ( int Row = 0; Row < count(); ++Row )
   {
@@ -272,15 +275,15 @@ void catalogueListWidget::saveListInSettings( settingsStorage *Settings, const Q
     if ( Item == NULL )
       continue;
     Settings->beginGroup( QString::number(Row) );
-    Settings->setValue( SettingsTextKeyName, Item->text() );
-    Settings->setValue( SettingsDataKeyName, Item->data(Qt::UserRole) );
+    Settings->setValue( SettingsTextKeyNameQString, Item->text() );
+    Settings->setValue( SettingsDataKeyNameQString, Item->data(Qt::UserRole) );
     Settings->endGroup();
   }
 
   for ( int Row = count(); true; ++Row )
   {
     Settings->beginGroup( QString::number(Row) );
-    if ( ! Settings->contains( SettingsTextKeyName ) )
+    if ( ! Settings->contains( SettingsTextKeyNameQString ) )
     {
       Settings->endGroup(); 
       break;
@@ -298,19 +301,22 @@ void catalogueListWidget::loadListFromSettings( settingsStorage *Settings, const
 {
   if ( Settings == NULL )
     return;
+  
+  const QString SettingsTextKeyNameQString = SettingsTextKeyName;
+  const QString SettingsDataKeyNameQString = SettingsDataKeyName;
 
   clear();
   Settings->beginGroup( Name );
   for ( int Row = 0; true; ++Row )
   {
     Settings->beginGroup( QString::number(Row) );
-    if ( ! Settings->contains( SettingsTextKeyName ) )
+    if ( ! Settings->contains( SettingsTextKeyNameQString ) )
     {
       Settings->endGroup();
       break;
     }
-    QString Text  = Settings->value( SettingsTextKeyName ).toString();
-    QVariant Data = Settings->value( SettingsDataKeyName );
+    QString Text  = Settings->value( SettingsTextKeyNameQString ).toString();
+    QVariant Data = Settings->value( SettingsDataKeyNameQString );
     Settings->endGroup();
     add( Text, Data, false );
   } 
