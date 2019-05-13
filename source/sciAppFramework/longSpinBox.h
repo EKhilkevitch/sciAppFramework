@@ -17,6 +17,9 @@ namespace sciAppFramework
     Q_OBJECT
 
     private:
+      class longValidator;
+
+    private:
       QValidator *Validator;
 
     protected:

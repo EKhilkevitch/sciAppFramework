@@ -12,76 +12,67 @@ using namespace sciAppFramework;
 
 // ======================================================
 
-namespace 
+class longSpinBox::longValidator : public QValidator
 {
+  private:
+    qlonglong Top, Bottom;
 
-  // ------------------------------------------------------
-  
-  class longValidator : public QValidator
+  public:
+    explicit longValidator( QObject *Parent = NULL );
+
+    qlonglong bottom() const { return Bottom; }
+    void setBottom( qlonglong Value ) { setRange( top(), Value ); }
+    
+    qlonglong top() const { return Top; }
+    void setTop( qlonglong Value ) { setRange( bottom(), Value ); }
+
+    void setRange( qlonglong Bottom, qlonglong Top );
+
+    QValidator::State validate( QString &Input, int &Position ) const;
+};
+
+// ------------------------------------------------------
+
+longSpinBox::longValidator::longValidator( QObject *Parent ) :
+  QValidator( Parent ),
+  Top( std::numeric_limits<qlonglong>::max() ),
+  Bottom( std::numeric_limits<qlonglong>::min() )
+{
+}
+
+// ------------------------------------------------------
+
+void longSpinBox::longValidator::setRange( qlonglong Bottom, qlonglong Top )
+{
+  this->Bottom = qMin( Bottom, Top );
+  this->Top = qMax( Bottom, Top );
+}
+
+// ------------------------------------------------------
+
+QValidator::State longSpinBox::longValidator::validate( QString &Input, int &Position ) const
+{
+  if ( Input.contains( QLatin1Char(' ')) )
+    return Invalid;
+
+  if ( Input.isEmpty() || ( Bottom < 0 && Input == QLatin1String("-")) )
+    return Intermediate;
+
+  bool Ok;
+  qlonglong Entered = Input.toLongLong( &Ok );
+
+  if ( !Ok || ( Entered < 0 && Bottom >= 0 ) ) 
   {
-    private:
-      qlonglong Top, Bottom;
-
-    public:
-      explicit longValidator( QObject *Parent = NULL );
-
-      qlonglong bottom() const { return Bottom; }
-      void setBottom( qlonglong Value ) { setRange( top(), Value ); }
-      
-      qlonglong top() const { return Top; }
-      void setTop( qlonglong Value ) { setRange( bottom(), Value ); }
-
-      void setRange( qlonglong Bottom, qlonglong Top );
-
-      QValidator::State validate( QString &Input, int &Position ) const;
-  };
-
-  // ------------------------------------------------------
-
-  longValidator::longValidator( QObject *Parent ) :
-    QValidator( Parent ),
-    Top( std::numeric_limits<qlonglong>::max() ),
-    Bottom( std::numeric_limits<qlonglong>::min() )
+    return Invalid;
+  } else if ( Entered >= Bottom && Entered <= Top ) 
   {
+    return Acceptable;
+  } else {
+    if ( Entered >= 0 )
+      return Entered > Top ? Invalid : Intermediate;
+    else
+      return Entered < Bottom ? Invalid : Intermediate;
   }
-
-  // ------------------------------------------------------
-  
-  void longValidator::setRange( qlonglong Bottom, qlonglong Top )
-  {
-    this->Bottom = qMin( Bottom, Top );
-    this->Top = qMax( Bottom, Top );
-  }
-  
-  // ------------------------------------------------------
-  
-  QValidator::State longValidator::validate( QString &Input, int &Position ) const
-  {
-    if ( Input.contains( QLatin1Char(' ')) )
-      return Invalid;
-
-    if ( Input.isEmpty() || ( Bottom < 0 && Input == QLatin1String("-")) )
-      return Intermediate;
-
-    bool Ok;
-    int Entered = Input.toLongLong( &Ok );
-
-    if ( !Ok || ( Entered < 0 && Bottom >= 0 ) ) 
-    {
-      return Invalid;
-    } else if ( Entered >= Bottom && Entered <= Top ) 
-    {
-      return Acceptable;
-    } else {
-      if ( Entered >= 0 )
-        return Entered > Top ? Invalid : Intermediate;
-      else
-        return Entered < Bottom ? Invalid : Intermediate;
-    }
-  }
-
-  // ------------------------------------------------------
-
 }
 
 // ======================================================
@@ -195,7 +186,6 @@ void longSpinBox::stepBy( int Steps )
 longSpinBox::StepEnabled longSpinBox::stepEnabled() const
 {
   longValidator *LongValidator = dynamic_cast<longValidator*>( Validator );
-
   qlonglong Value = lineEdit()->text().toLongLong();
   if ( Value >= LongValidator->top() )
     return StepDownEnabled;
