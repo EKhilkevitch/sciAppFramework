@@ -23,12 +23,13 @@ if ( NOT LIBRARY_TYPE )
   set( LIBRARY_TYPE STATIC )
 endif()
 
-message( "LIBRARY_TYPE = ${LIBRARY_TYPE}" )
-message( "CMAKE_BUILD_TYPE = ${CMAKE_BUILD_TYPE}" )
-
 if ( NOT SCIGRAPHICS_DIR )
   set( SCIGRAPHICS_DIR "${PROJECT_SOURCE_DIR}/../scigraphics/" )
 endif()
+
+message( "LIBRARY_TYPE = ${LIBRARY_TYPE}" )
+message( "CMAKE_BUILD_TYPE = ${CMAKE_BUILD_TYPE}" )
+message( "SCIGRAPHICS_DIR = ${SCIGRAPHICS_DIR}" )
 
 set( scigraphics_INCLUDE "${SCIGRAPHICS_DIR}/source/" )
 find_library( scigraphics_LIBRARY   NAMES scigraphics   PATHS "${SCIGRAPHICS_DIR}/lib/" )
