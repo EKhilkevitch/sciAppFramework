@@ -35,6 +35,7 @@ qt4_wrap_cpp( sciAppFramework_moc_sources
 
 add_library( sciAppFramework ${LIBRARY_TYPE} ${sciAppFramework_source_files} ${sciAppFramework_moc_sources} )
 target_link_libraries( sciAppFramework ${QT_LIBRARIES} ${scigraphics_LIBRARY} ${scigraphicsQt_LIBRARY} )
+target_include_directories( sciAppFramework PRIVATE ${scigraphics_INCLUDE} )
 
 project( sciMeashurementFramework )
 
@@ -60,4 +61,5 @@ qt4_wrap_cpp( sciMeashurementFramework_moc_sources
 
 add_library( sciMeashurementFramework ${LIBRARY_TYPE} ${sciMeashurementFramework_source_files} ${sciMeashurementFramework_moc_sources} )
 target_link_libraries( sciMeashurementFramework sciAppFramework ${QT_LIBRARIES} ${scigraphics_LIBRARY} ${scigraphicsQt_LIBRARY} )
+target_include_directories( sciMeashurementFramework PRIVATE ${scigraphics_INCLUDE} )
 

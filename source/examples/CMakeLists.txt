@@ -24,6 +24,7 @@ if ( ENABLE_EXAMPLES )
   project( testMainWidget )
   add_executable( testMainWidget testMainWidget.cpp )
   target_link_libraries( testMainWidget sciAppFramework sciMeashurementFramework ${scigraphicsQt_LIBRARY} ${scigraphics_LIBRARY} ${QT_LIBRARIES} )
+  target_include_directories( testMainWidget PRIVATE ${scigraphics_INCLUDE} )
 
   project( testMultiInputWidget )
   add_executable( testMultiInputWidget testMultiInputWidget.cpp )
