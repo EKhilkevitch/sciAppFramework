@@ -100,7 +100,11 @@ namespace sciAppFramework
       class fixedDoubleValidator;
 
     private:
-      QString PrintfFormat;
+      int FieldWidth;
+      char Format;
+      int Precision;
+
+      //QString PrintfFormat;
 
     private:
       // Disable usage of this functions
@@ -127,7 +131,9 @@ namespace sciAppFramework
       labelDoubleEditWidget& setRange( double Min, double Max );
       labelDoubleEditWidget& setMinimum( double Min );
       labelDoubleEditWidget& setMaximum( double Max );
-      labelDoubleEditWidget& setPrintfFormat( const QString &Format );
+
+      labelDoubleEditWidget& setPrintfFormat( int FieldWidth, char Format, int Precision );
+      labelDoubleEditWidget& resetPrintfFormat();
 
       labelDoubleEditWidget& setValue( double Value );
       double value() const;

@@ -332,16 +332,18 @@ void labelDoubleEditWidget::fixedDoubleValidator::setTop( double T )
 // ------------------------------------------------------
 
 labelDoubleEditWidget::labelDoubleEditWidget( const QString& LabelText, QWidget *Parent ) : 
-  labelEditWidget(0,Parent,LabelText) 
+  labelEditWidget( 0, Parent,LabelText )
 { 
-  initWidget(LabelText); 
+  resetPrintfFormat();
+  initWidget(LabelText);
 }
 
 // ------------------------------------------------------
 
 labelDoubleEditWidget::labelDoubleEditWidget( const QString& LabelText, double Value, QWidget *Parent ) :
-  labelEditWidget(0,Parent,LabelText) 
+  labelEditWidget( 0, Parent, LabelText )
 { 
+  resetPrintfFormat();
   initWidget(LabelText); 
   setValue(Value); 
 }
@@ -464,9 +466,19 @@ labelDoubleEditWidget& labelDoubleEditWidget::setMaximum( double Max )
 
 // ------------------------------------------------------
       
-labelDoubleEditWidget& labelDoubleEditWidget::setPrintfFormat( const QString &Format ) 
+labelDoubleEditWidget& labelDoubleEditWidget::setPrintfFormat( int FieldWidth, char Format, int Precision ) 
 { 
-  PrintfFormat = Format;
+  this->FieldWidth = FieldWidth;
+  this->Format = Format;
+  this->Precision = Precision;
+  return *this;
+}
+
+// ------------------------------------------------------
+
+labelDoubleEditWidget& labelDoubleEditWidget::resetPrintfFormat()
+{
+  this->Format = '\0';
   return *this;
 }
 
@@ -474,10 +486,14 @@ labelDoubleEditWidget& labelDoubleEditWidget::setPrintfFormat( const QString &Fo
 
 labelDoubleEditWidget& labelDoubleEditWidget::setValue( double Value ) 
 { 
-  if ( PrintfFormat.isEmpty() )
-    setText( QString::number(Value) );
+  QString Text;
+  if ( Format == '\0' )
+    Text = QString::number(Value);
   else
-    setText( QString().sprintf( PrintfFormat.toLocal8Bit().data(), Value ) );
+    Text = QString( "%1" ).arg( Value, FieldWidth, Format, Precision );
+//    Text.sprintf( Print fFormat.toLocal8Bit().data(), Value );
+
+  setText( Text );
 
   return *this;
 }

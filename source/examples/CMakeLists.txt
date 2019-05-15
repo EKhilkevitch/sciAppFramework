@@ -23,7 +23,7 @@ if ( ENABLE_EXAMPLES )
 
   project( testMainWidget )
   add_executable( testMainWidget testMainWidget.cpp )
-  target_link_libraries( testMainWidget sciAppFramework sciMeashurementFramework ${scigraphicsQt_LIBRARY} ${scigraphics_LIBRARY} ${QT_LIBRARIES} )
+  target_link_libraries( testMainWidget sciMeashurementFramework sciAppFramework ${scigraphicsQt_LIBRARY} ${scigraphics_LIBRARY} ${QT_LIBRARIES} )
   target_include_directories( testMainWidget PRIVATE ${scigraphics_INCLUDE} )
 
   project( testMultiInputWidget )
@@ -36,7 +36,7 @@ if ( ENABLE_EXAMPLES )
 
   project( testOutputWidget )
   add_executable( testOutputWidget testOutputWidget.cpp )
-  target_link_libraries( testOutputWidget sciAppFramework sciMeashurementFramework ${scigraphicsQt_LIBRARY} ${scigraphics_LIBRARY} ${QT_LIBRARIES} )
+  target_link_libraries( testOutputWidget sciMeashurementFramework sciAppFramework ${scigraphicsQt_LIBRARY} ${scigraphics_LIBRARY} ${QT_LIBRARIES} )
 
   project( testCatalogueWidget )
   add_executable( testCatalogueWidget testCatalogueWidget.cpp )
