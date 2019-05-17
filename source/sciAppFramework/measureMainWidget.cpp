@@ -30,6 +30,25 @@ measureMainWidget::~measureMainWidget()
 
 // -----------------------------------------
 
+measurementThread* measureMainWidget::createMeasurementThread( const measurementParameters * ) 
+{ 
+  return NULL; 
+}
+
+// -----------------------------------------
+
+void measureMainWidget::outputMeasurementData() 
+{
+}
+
+// -----------------------------------------
+
+void measureMainWidget::saveMeasurementData( const QString& ) 
+{
+}
+
+// -----------------------------------------
+
 void measureMainWidget::doInitWidget()
 {
   mainWidget::doInitWidget();

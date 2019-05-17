@@ -64,7 +64,7 @@ qt4_wrap_cpp( sciMeashurementFramework_moc_sources
 
 add_library( sciMeashurementFramework ${LIBRARY_TYPE} ${sciMeashurementFramework_source_files} ${sciMeashurementFramework_moc_sources} )
 if ( NOT ${scigraphics_LIBRARY} MATCHES "" )
-  target_link_libraries( sciMeashurementFramework ${scigraphics_LIBRARY} ${scigraphicsQt_LIBRARY} )
+  target_link_libraries( sciMeashurementFramework sciAppFramework ${scigraphics_LIBRARY} ${scigraphicsQt_LIBRARY} )
 endif()
 target_include_directories( sciMeashurementFramework PRIVATE ${scigraphics_INCLUDE} )
 
