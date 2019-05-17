@@ -38,13 +38,8 @@ find_library( scigraphicsQt_LIBRARY NAMES scigraphicsQt PATHS "${SCIGRAPHICS_DIR
 #check_found( scigraphicsQt_LIBRARY )
 
 if ( UNIX )
-  set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC") 
-  set( CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -fPIC") 
-  set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall") 
-endif()
-
-if ( WIN32 )
-  add_definitions( -D_CRT_SECURE_NO_DEPRECATE=1 )
+  set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall ") 
+  set( CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -fPIC -Wall ") 
 endif()
 
 add_subdirectory( ./source/sciAppFramework/ )
