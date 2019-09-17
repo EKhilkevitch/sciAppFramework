@@ -174,7 +174,29 @@ void layoutOperations::insertLayoutItem( int Index, QWidget *Widget, QLayoutItem
   if ( Layout == NULL )
     return;
 
-  Layout->insertWidget( Index, Widget, Stretch );
+  do
+  {
+    QWidget *ItemWidget = Item->widget();
+    if ( ItemWidget != NULL )
+    {
+      Layout->insertWidget( Index, ItemWidget, Stretch );
+      break;
+    }
+
+    QLayout *ItemLayout = Item->layout();
+    if ( ItemLayout != NULL )
+    {
+      Layout->insertLayout( Index, ItemLayout, Stretch );
+      break;
+    }
+
+    QSpacerItem *ItemSpace = Item->spacerItem();
+    if ( ItemSpace != NULL )
+    {
+      Layout->insertSpacerItem( Index, ItemSpace );
+      break;
+    }
+  } while ( false );
 }
 
 // ======================================================

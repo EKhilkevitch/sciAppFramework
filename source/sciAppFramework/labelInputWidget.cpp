@@ -262,7 +262,7 @@ labelDoubleEditWidget::fixedDoubleValidator::fixedDoubleValidator( QObject *Pare
 
 // ------------------------------------------------------
 
-QValidator::State labelDoubleEditWidget::fixedDoubleValidator::validate( QString &Input, int &Position ) const
+QValidator::State labelDoubleEditWidget::fixedDoubleValidator::validate( QString &Input, int & ) const
 {
   if ( Input.isEmpty() )
     return QValidator::Intermediate;

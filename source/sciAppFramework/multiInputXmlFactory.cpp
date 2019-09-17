@@ -100,7 +100,7 @@ namespace
       void setStretchFactors( labelInputWidget* Input, const QDomElement &Element ) const;
 
     protected:
-      virtual void setUpInput( input *Input, const QDomElement &Element ) const {}
+      virtual void setUpInput( input *Input, const QDomElement &Element ) const = 0;
 
     public:
       void addToMultiInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const;
@@ -112,6 +112,9 @@ namespace
   
   class editModifier : public inputModifier<labelEditWidget>
   {
+    protected:
+      void setUpInput( labelEditWidget*, const QDomElement & ) const {}
+
     public:
       QString tag() const { return "edit"; }
   };
@@ -122,6 +125,7 @@ namespace
   {
     protected:
       void setUpInput( labelDoubleEditWidget *Input, const QDomElement &Element ) const;
+
     public:
       QString tag() const { return "double"; }
   };
@@ -132,6 +136,7 @@ namespace
   {
     protected:
       void setUpInput( labelPathEditWidget *Input, const QDomElement &Element ) const;
+
     public:
       QString tag() const { return "path"; }
   };
@@ -142,6 +147,7 @@ namespace
   {
     protected:
       void setUpInput( labelSpinWidget *Input, const QDomElement &Element ) const;
+
     public:
       QString tag() const { return "spin"; }
   };
@@ -152,6 +158,7 @@ namespace
   {
     protected:
       void setUpInput( labelLongSpinWidget *Input, const QDomElement &Element ) const;
+
     public:
       QString tag() const { return "longSpin"; }
   };
@@ -162,8 +169,20 @@ namespace
   {
     protected:
       void setUpInput( labelDoubleSpinWidget *Input, const QDomElement &Element ) const;
+
     public:
       QString tag() const { return "doubleSpin"; }
+  };
+
+  // ------------------------------------------------------
+  
+  class checkModifier : public inputModifier<checkBoxWidget>
+  {
+    protected:
+      void setUpInput( checkBoxWidget *, const QDomElement & ) const {}
+
+    public:
+      QString tag() const { return "check"; }
   };
   
   // ------------------------------------------------------
@@ -188,14 +207,6 @@ namespace
   {
     public:
       QString tag() const { return "radio"; }
-  };
-  
-  // ------------------------------------------------------
-  
-  class checkModifier : public inputModifier<checkBoxWidget>
-  {
-    public:
-      QString tag() const { return "check"; }
   };
 
   // ======================================================
@@ -245,7 +256,7 @@ namespace
   
   // ------------------------------------------------------
  
-  void tabModifier::addSubMultiWidget( multiInputWidget *Parent, const QString &SelectorName, const QString &SelectorLabel, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const
+  void tabModifier::addSubMultiWidget( multiInputWidget *Parent, const QString &, const QString &, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const
   {
     Q_ASSERT( Parent != NULL );
     Parent->addTabMultiInputWidget( Name, Label, SubWidget );
@@ -253,7 +264,7 @@ namespace
   
   // ------------------------------------------------------
   
-  void boxModifier::addSubMultiWidget( multiInputWidget *Parent, const QString &SelectorName, const QString &SelectorLabel, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const
+  void boxModifier::addSubMultiWidget( multiInputWidget *Parent, const QString &, const QString &, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const
   {
     Q_ASSERT( Parent != NULL );
     Parent->addBoxMultiInputWidget( Name, Label, SubWidget );

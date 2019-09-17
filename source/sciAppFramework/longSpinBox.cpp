@@ -50,7 +50,7 @@ void longSpinBox::longValidator::setRange( qlonglong Bottom, qlonglong Top )
 
 // ------------------------------------------------------
 
-QValidator::State longSpinBox::longValidator::validate( QString &Input, int &Position ) const
+QValidator::State longSpinBox::longValidator::validate( QString &Input, int & ) const
 {
   if ( Input.contains( QLatin1Char(' ')) )
     return Invalid;
