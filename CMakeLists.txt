@@ -10,8 +10,6 @@ endif()
 set( EXECUTABLE_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/bin/" )
 set( LIBRARY_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/lib/" )
 
-include_directories( "./source/" )
-
 macro( check_found libname )
   if ( ${libname} MATCHES "${libname}-NOTFOUND" )
   else()
@@ -43,9 +41,6 @@ if ( UNIX )
   set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall") 
 endif()
 
-if ( WIN32 )
-  add_definitions( -D_CRT_SECURE_NO_DEPRECATE=1 )
-endif()
 
 add_subdirectory( ./source/sciAppFramework/ )
 add_subdirectory( ./source/examples/ )
