@@ -28,8 +28,7 @@ namespace sciAppFramework
       QStackedWidget *StackedWidget;
 
     public:
-      stackedSelectorWidget( const QString &Label, QWidget *Parent, const QString &SettingsName );
-      virtual ~stackedSelectorWidget() {};
+      stackedSelectorWidget( const QString &Name, const QString &Label, QWidget *Parent );
       
       stackedSelectorWidget& addWidget( const QString &Name, QWidget *Widget ); 
       stackedSelectorWidget& addWidget( const QString &Name, const QVariant &Value, QWidget *Widget ); 
@@ -53,7 +52,7 @@ namespace sciAppFramework
   class comboMultiWidget : public stackedSelectorWidget<labelComboWidget>
   {
     public:
-      explicit comboMultiWidget( const QString &Label, QWidget *Parent = NULL, const QString &SettingsName = QString() );
+      explicit comboMultiWidget( const QString &Name, const QString &Label, QWidget *Parent = NULL );
   };
  
   // ------------------------------------------------------
@@ -61,18 +60,18 @@ namespace sciAppFramework
   class radioMultiWidget : public stackedSelectorWidget<radioButtonWidget>
   {
     public:
-      explicit radioMultiWidget( const QString &Label, QWidget *Parent = NULL, const QString &SettingsName = QString() );
+      explicit radioMultiWidget( const QString &Name, const QString &Label, QWidget *Parent = NULL );
   };
   
   // ======================================================
   
-  template <class selectorWidget> stackedSelectorWidget<selectorWidget>::stackedSelectorWidget( const QString &Label, QWidget *Parent, const QString &SettingsName ) :
+  template <class selectorWidget> stackedSelectorWidget<selectorWidget>::stackedSelectorWidget( const QString &Name, const QString &Label, QWidget *Parent ) :
     QWidget( Parent ),
-    multiSettingsObject( Parent, settingsObject::normolizeToSettingsName(SettingsName) ),
+    multiSettingsObject( Parent, settingsObject::normolizeToSettingsName(Name) ),
     SelectorWidget( NULL ),
     StackedWidget( NULL )
   {
-    SelectorWidget = inputWidget::create<selectorWidget>( this, "Selector", Label, 0 );
+    SelectorWidget = inputWidget::create<selectorWidget>( this, Name, Label, 0 );
     StackedWidget = new QStackedWidget( this );
     StackedWidget->layout()->setAlignment( Qt::AlignTop );
     connect( SelectorWidget, SIGNAL(currentIndexChanged(int)), StackedWidget, SLOT(setCurrentIndex(int)) );

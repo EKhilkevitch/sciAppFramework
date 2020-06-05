@@ -44,7 +44,7 @@ int main( int argc, char **argv )
   Combo->addItem("Item1");
   Combo->addItem("Item2 with very long text and this combo should show it full");
 
-  comboMultiWidget *ComboMultiWidget = new comboMultiWidget("Select widget:");
+  comboMultiWidget *ComboMultiWidget = new comboMultiWidget("SelectWidget","Select widget:");
   ComboMultiWidget->setScrollArea( true );
   ComboMultiWidget->setSettingsName("ComboMW");
   ComboMultiWidget->addWidget( "L1", new QLabel("Label1") );

@@ -7,15 +7,15 @@ using namespace sciAppFramework;
 
 // ======================================================
 
-comboMultiWidget::comboMultiWidget( const QString &Label, QWidget *Parent, const QString &SettingsName ) :
-  stackedSelectorWidget<labelComboWidget>( Label, Parent, SettingsName )
+comboMultiWidget::comboMultiWidget( const QString &Name, const QString &Label, QWidget *Parent ) :
+  stackedSelectorWidget<labelComboWidget>( Name, Label, Parent )
 {
 }
 
 // ======================================================
 
-radioMultiWidget::radioMultiWidget( const QString &Label, QWidget *Parent, const QString &SettingsName ) :
-  stackedSelectorWidget<radioButtonWidget>( Label, Parent, SettingsName )
+radioMultiWidget::radioMultiWidget( const QString &Name, const QString &Label, QWidget *Parent ) :
+  stackedSelectorWidget<radioButtonWidget>( Name, Label, Parent )
 {
 }
 

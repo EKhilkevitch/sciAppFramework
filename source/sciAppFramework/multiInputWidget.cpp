@@ -201,7 +201,7 @@ template <class selectorWidget> selectorWidget* multiInputWidget::addSelectorInp
   selectorWidget *SelectorWidget = dynamic_cast<selectorWidget*>( layoutOperations::lastWidgetAfterSpacing(layout()) );
   if ( SelectorWidget == NULL || SelectorWidget->settingsName() != SelectorName )
   {
-    SelectorWidget = new selectorWidget( SelectorLabel, this, SelectorName );
+    SelectorWidget = new selectorWidget( SelectorName, SelectorLabel, this );
     addWidgetToLayout( SelectorWidget );
     registerInputWidget( SelectorName, SelectorWidget->selector() );
   }
