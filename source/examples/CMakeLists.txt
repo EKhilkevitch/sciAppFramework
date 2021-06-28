@@ -1,28 +1,37 @@
 
 cmake_minimum_required( VERSION 2.6 )
 
+if(POLICY CMP0012)
+  cmake_policy(SET CMP0012 NEW)
+endif()
+
 if ( ENABLE_EXAMPLES )
 
-  find_package(Qt4 COMPONENTS QtCore QtGui QtXml QUIET )
-  find_package( Qt5 COMPONENTS Widgets Xml LinguistTools QUIET )
+  find_package( Qt4 COMPONENTS QtCore QtGui QtXml QUIET )
+  find_package( Qt5 COMPONENTS Widgets Xml QUIET )
 
   if(WIN32)
     set( gui_type WIN32 )
   endif(WIN32)
 
   if ( ${Qt4_FOUND} )
+    message( "Qt4 found - examples" )
     if ( WIN32 )
       set( QtLibs ${QT_LIBRARIES} ${QT_QTMAIN_LIBRARY} )
     else()
       set( QtLibs ${QT_LIBRARIES} )
     endif()
     include( ${QT_USE_FILE} )
+    message( "include " ${QT_USE_FILE} )
   elseif ( ${Qt5_FOUND} ) 
+    message( "Qt5 found - examples" )
     if ( WIN32 )
       set( QtLibs Qt5::Widgets Qt5::Xml )
     else()
       set( QtLibs Qt5::Widgets Qt5::Xml )
     endif()
+  else()  
+    message( "No Qt found - examples" )
   endif()  
 
   message( "Examples enabled" )

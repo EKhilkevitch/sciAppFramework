@@ -7,7 +7,7 @@ if( POLICY CMP0012 )
 endif()
 
 find_package( Qt4 COMPONENTS QtCore QtGui QtXml QUIET )
-find_package( Qt5 COMPONENTS Widgets Xml LinguistTools QUIET )
+find_package( Qt5 COMPONENTS Widgets Xml QUIET )
 
 project( sciAppFramework ) 
 
@@ -55,6 +55,8 @@ elseif ( ${Qt5_FOUND} )
   add_library( sciAppFramework ${LIBRARY_TYPE} ${sciAppFramework_source_files} ${sciAppFramework_moc_sources} )
   target_link_libraries( sciAppFramework Qt5::Widgets Qt5::Xml )
   target_include_directories( sciAppFramework PRIVATE ${Qt5Widgets_INCLUDE_DIRS} ${Qt5Xml_INCLUDE_DIRS} )
+else()
+  message( "No Qt found - sciAppFramework" )
 endif()
 
 project( sciMeashurementFramework )
