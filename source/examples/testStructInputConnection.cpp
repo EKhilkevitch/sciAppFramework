@@ -1,5 +1,7 @@
 
-#include <QtGui>
+#include <QApplication>
+#include <QString>
+#include <QDebug>
 
 #include "sciAppFramework/inputWidget.h"
 #include "sciAppFramework/labelInputWidget.h"

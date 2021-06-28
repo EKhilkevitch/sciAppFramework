@@ -4,7 +4,7 @@
 #include "sciAppFramework/measurementThread.h"
 #include <exception>
 
-#include <QTime>
+#include <QElapsedTimer>
 
 using namespace sciAppFramework;
 
@@ -148,9 +148,9 @@ void measurementThread::waitForTime( double WaitTime )
 {
   const unsigned OneSleepTime = 2;
 
-  QTime Time;
-  Time.start();
-  while ( Time.elapsed() * 1e-3 < WaitTime && !needToStopMeasurement() )
+  QElapsedTimer Timer;
+  Timer.start();
+  while ( Timer.elapsed() * 1e-3 < WaitTime && !needToStopMeasurement() )
     msleep( OneSleepTime );
 }
 
@@ -170,9 +170,9 @@ void measurementThread::waitWhileRunning( unsigned MaxWaitTimeMs )
 {
   const unsigned OneSleepTime = 20;
 
-  QTime Time;
-  Time.start();
-  while ( Time.elapsed() * 1e-3 < MaxWaitTimeMs && isRunning() )
+  QElapsedTimer Timer;
+  Timer.start();
+  while ( Timer.elapsed() * 1e-3 < MaxWaitTimeMs && isRunning() )
     msleep( OneSleepTime );
 }
       

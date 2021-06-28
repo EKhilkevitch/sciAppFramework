@@ -6,7 +6,7 @@
 
 #include <QLabel>
 #include <QLineEdit>
-#include <QDirModel>
+#include <QFileSystemModel>
 #include <QCompleter>
 #include <QSpinBox>
 #include <QDoubleSpinBox>
@@ -587,7 +587,7 @@ void labelPathEditWidget::setDefaultModes()
 void labelPathEditWidget::setPathCompleter()
 {
   QCompleter *PathCompleter = new QCompleter( this );
-  QDirModel *DirModel = new QDirModel(PathCompleter);
+  QFileSystemModel *DirModel = new QFileSystemModel(PathCompleter);
   PathCompleter->setModel( DirModel );
   getLineEdit()->setCompleter( PathCompleter ); 
 }

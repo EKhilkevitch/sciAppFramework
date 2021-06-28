@@ -1,7 +1,8 @@
 
-#include <QtGui>
-
 #include "sciAppFramework/waitWidget.h"
+
+#include <QApplication>
+#include <QWidget>
 
 using namespace sciAppFramework;
 

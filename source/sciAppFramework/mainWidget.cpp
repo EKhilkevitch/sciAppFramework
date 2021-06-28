@@ -200,7 +200,7 @@ void mainWidget::doLoadSettings( settingsStorage *Settings )
 QString mainWidget::getSaveFileName( const QString &Filter, const QString &DefaultSuffix )
 {
   QFileDialog Dialog( this, "Saving in file...", LastFileName );
-  Dialog.setFilter( Filter );
+  Dialog.setNameFilter( Filter );
   Dialog.setDefaultSuffix( DefaultSuffix );
   Dialog.setAcceptMode( QFileDialog::AcceptSave );
 
@@ -246,7 +246,7 @@ QString mainWidget::getSaveDirectory()
 QString mainWidget::getOpenFileName( const QString &Filter )
 {
   QFileDialog Dialog( this, "Open file...", LastFileName );
-  Dialog.setFilter( Filter );
+  Dialog.setNameFilter( Filter );
   Dialog.setAcceptMode( QFileDialog::AcceptOpen );
   Dialog.setFileMode( QFileDialog::ExistingFiles );
 

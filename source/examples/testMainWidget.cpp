@@ -1,6 +1,4 @@
 
-#include <QtGui>
-
 #include "sciAppFramework/inputWidget.h"
 #include "sciAppFramework/multiInputWidget.h"
 #include "sciAppFramework/measureMainWidget.h"
@@ -10,6 +8,8 @@
 #include "sciAppFramework/main.h"
 
 #include "scigraphics/qt4/manager.h"
+
+#include <QLabel>
 
 using namespace sciAppFramework;
 

@@ -1,8 +1,9 @@
 
-#include <QtGui>
-
 #include "sciAppFramework/outputWidget.h"
 #include "sciAppFramework/outputSettingsWidget.h"
+
+#include <QApplication>
+#include <QLabel>
 
 using namespace sciAppFramework;
 

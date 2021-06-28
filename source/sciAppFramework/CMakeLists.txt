@@ -1,8 +1,13 @@
 
 cmake_minimum_required( VERSION 2.6 )
 
-find_package( Qt4 COMPONENTS QtCore QtGui QtXml REQUIRED )
-include( ${QT_USE_FILE} )
+
+if( POLICY CMP0012 )
+  cmake_policy(SET CMP0012 NEW)
+endif()
+
+find_package( Qt4 COMPONENTS QtCore QtGui QtXml QUIET )
+find_package( Qt5 COMPONENTS Widgets Xml LinguistTools QUIET )
 
 project( sciAppFramework ) 
 
@@ -23,22 +28,34 @@ set ( sciAppFramework_source_files
                 structInputConnection.cpp
   )
 
-qt4_wrap_cpp( sciAppFramework_moc_sources 
-                inputWidget.h                   
-                labelInputWidget.h
-                adaptedInputWidget.h
-                multiInputWidget.h              
-                catalogueWidget.h
-                waitWidget.h
-                longSpinBox.h
-  )
+set( sciAppFramework_source_moc_files 
+                  inputWidget.h                   
+                  labelInputWidget.h
+                  adaptedInputWidget.h
+                  multiInputWidget.h              
+                  catalogueWidget.h
+                  waitWidget.h
+                  longSpinBox.h
+    )
 
-add_library( sciAppFramework ${LIBRARY_TYPE} ${sciAppFramework_source_files} ${sciAppFramework_moc_sources} )
-target_link_libraries( sciAppFramework ${QT_LIBRARIES} )
-if ( NOT ${scigraphics_LIBRARY} MATCHES "" )
-  target_link_libraries( sciAppFramework ${scigraphics_LIBRARY} ${scigraphicsQt_LIBRARY} )
+
+if ( ${Qt4_FOUND} )
+  message( "Qt4 found - sciAppFramework" )
+
+  include( ${QT_USE_FILE} )
+
+  qt4_wrap_cpp( sciAppFramework_moc_sources ${sciAppFramework_source_moc_files} )
+  add_library( sciAppFramework ${LIBRARY_TYPE} ${sciAppFramework_source_files} ${sciAppFramework_moc_sources} )
+  target_link_libraries( sciAppFramework ${QT_LIBRARIES} )
+elseif ( ${Qt5_FOUND} )
+  message( "Qt5 found - sciAppFramework" )
+
+  qt5_wrap_cpp( sciAppFramework_moc_sources ${sciAppFramework_source_moc_files} )
+  
+  add_library( sciAppFramework ${LIBRARY_TYPE} ${sciAppFramework_source_files} ${sciAppFramework_moc_sources} )
+  target_link_libraries( sciAppFramework Qt5::Widgets Qt5::Xml )
+  target_include_directories( sciAppFramework PRIVATE ${Qt5Widgets_INCLUDE_DIRS} ${Qt5Xml_INCLUDE_DIRS} )
 endif()
-target_include_directories( sciAppFramework PRIVATE ${scigraphics_INCLUDE} )
 
 project( sciMeashurementFramework )
 
@@ -53,7 +70,7 @@ set ( sciMeashurementFramework_source_files
                 mainWidget.cpp
   )
 
-qt4_wrap_cpp( sciMeashurementFramework_moc_sources 
+set( sciMeashurementFramework_source_moc_files
                 measurementThread.h             
                 outputWidget.h                  
                 outputSettingsWidget.h                
@@ -62,9 +79,29 @@ qt4_wrap_cpp( sciMeashurementFramework_moc_sources
                 measureMainWidget.h
   )
 
-add_library( sciMeashurementFramework ${LIBRARY_TYPE} ${sciMeashurementFramework_source_files} ${sciMeashurementFramework_moc_sources} )
-if ( NOT ${scigraphics_LIBRARY} MATCHES "" )
-  target_link_libraries( sciMeashurementFramework sciAppFramework ${scigraphics_LIBRARY} ${scigraphicsQt_LIBRARY} )
+if ( ${Qt4_FOUND} )
+  message( "Qt4 found - sciMeashurementFramework" )
+
+  include( ${QT_USE_FILE} )
+
+  qt4_wrap_cpp( sciMeashurementFramework_moc_sources ${sciMeashurementFramework_source_moc_files} )
+  add_library( sciMeashurementFramework ${LIBRARY_TYPE} ${sciMeashurementFramework_source_files} ${sciMeashurementFramework_moc_sources} )
+  if ( NOT ${scigraphics_LIBRARY} MATCHES "" )
+    target_link_libraries( sciMeashurementFramework sciAppFramework ${scigraphics_LIBRARY} ${scigraphicsQt_LIBRARY} )
+  endif()
+  target_include_directories( sciMeashurementFramework PRIVATE ${scigraphics_INCLUDE} )
+
+elseif ( ${Qt5_FOUND} )
+  message( "Qt5 found - sciMeashurementFramework" )
+
+  qt5_wrap_cpp( sciMeashurementFramework_moc_sources ${sciMeashurementFramework_source_moc_files} )
+  add_library( sciMeashurementFramework ${LIBRARY_TYPE} ${sciMeashurementFramework_source_files} ${sciMeashurementFramework_moc_sources} )
+  if ( NOT ${scigraphics_LIBRARY} MATCHES "" )
+    target_link_libraries( sciMeashurementFramework sciAppFramework ${scigraphics_LIBRARY} ${scigraphicsQt_LIBRARY} )
+  endif()
+  target_include_directories( sciMeashurementFramework PRIVATE ${scigraphics_INCLUDE} )
+  target_include_directories( sciMeashurementFramework PRIVATE ${Qt5Widgets_INCLUDE_DIRS} )
 endif()
-target_include_directories( sciMeashurementFramework PRIVATE ${scigraphics_INCLUDE} )
+
+
 

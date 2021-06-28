@@ -36,7 +36,7 @@ template <class T, class U> bool assertEqImpl( const T &A, const U &B, int Line,
       std::exit(1);                                     \
   } while (false)
 
-int main( int argc, char **argv )
+int main()
 {
 
   QString Xml;

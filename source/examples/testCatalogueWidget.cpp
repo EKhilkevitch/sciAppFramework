@@ -1,7 +1,8 @@
 
-#include <QtGui>
-
 #include "sciAppFramework/catalogueWidget.h"
+
+#include <QPushButton>
+#include <QApplication>
 
 using namespace sciAppFramework;
 

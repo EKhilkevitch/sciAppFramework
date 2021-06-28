@@ -1,9 +1,12 @@
 
-#include <QtGui>
-
 #include "sciAppFramework/inputWidget.h"
 #include "sciAppFramework/labelInputWidget.h"
 #include "sciAppFramework/adaptedInputWidget.h"
+
+#include <QApplication>
+#include <QBoxLayout>
+#include <QDebug>
+#include <QDateTime>
 
 using namespace sciAppFramework;
 

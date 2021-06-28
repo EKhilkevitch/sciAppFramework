@@ -90,7 +90,8 @@ void outputWidget::appendOutputWidgetItem( outputWidgetItem *Item )
       Layout->takeAt(0);
       Layout->addWidget( createTabWidget() );
       addToTabWidget( OutputWidgetItems.first()->outputWidget(), OutputWidgetItems.first()->title() );
-      /* no break */
+      addToTabWidget( Item->outputWidget(), Item->title() );
+      break;
     default:
       addToTabWidget( Item->outputWidget(), Item->title() );
       break;
