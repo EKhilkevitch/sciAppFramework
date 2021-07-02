@@ -26,6 +26,26 @@ namespace sciAppFramework
 
   class multiInputWidgetXmlFactory
   {
+    private:
+      class labelModifier;
+      class spacingModifier;
+      class groupModifier;
+      class tabModifier;
+      class boxModifier;
+      class comboboxModifier;
+      template <class input> class inputModifier;
+      class editModifier;
+      class passwordEditModifier;
+      class doubleEditModifier;
+      class pathEditModifier;
+      class spinModifier;
+      class longSpinModifier;
+      class doubleSpinModifier;
+      class checkModifier;
+      template <class multiItemsInput> class multiItemsModifier;
+      class comboModifier;
+      class radioModifier;
+
     public:
       class modifierOfMultiInputWidget
       {
@@ -64,7 +84,6 @@ namespace sciAppFramework
 
       bool isError() const { return ! ErrorString.isEmpty(); }
       const QString& errorMessage() const { return ErrorString; }
-
 
       multiInputWidget* create( const QString &Name ) const;
       multiInputWidget* create( QWidget *Parent, const QString &Name ) const;

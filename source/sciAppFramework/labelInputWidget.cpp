@@ -226,6 +226,14 @@ labelEditWidget& labelEditWidget::setReadOnly( bool ReadOnly )
 
 // ------------------------------------------------------
       
+labelEditWidget& labelEditWidget::setPasswordMode( bool IsPassword )
+{
+  getLineEdit()->setEchoMode( IsPassword ? QLineEdit::Password : QLineEdit::Normal );
+  return *this;
+}
+
+// ------------------------------------------------------
+      
 labelEditWidget& labelEditWidget::setValidator( QValidator *Validator ) 
 { 
   if ( Validator != NULL ) 

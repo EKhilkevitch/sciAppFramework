@@ -35,6 +35,7 @@ const QString Xml =
 "<testInput>\n"
 "  <label name=\"LabelName\"><text>Simple label text</text><text>Next label text</text></label>\n"
 "  <edit name=\"EditName\"><label>Edit Label</label><value>Edit value</value><stretch><input>5</input><label>5</label></stretch></edit>\n"
+"  <password name=\"PasswordName\"><label>Edit Label</label><value>default</value><stretch><input>5</input><label>5</label></stretch></password>\n"
 "  <spin name=\"SpinName\"><label>Spin</label><value>145</value><min>-4</min><max>200</max></spin>\n"
 "  <spin name=\"SpinName2\"><label>Spin 2</label><value>100</value></spin>\n"
 "  <doubleSpin name=\"DoubleSpinName\"><label>Double spin</label><value>4.5</value><min>-10.5</min><max>10.5</max><step>0.1</step></doubleSpin>\n"

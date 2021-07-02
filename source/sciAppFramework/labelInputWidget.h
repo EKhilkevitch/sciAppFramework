@@ -80,8 +80,9 @@ namespace sciAppFramework
       QString text() const;
       labelEditWidget& setText( const QString& String );
       labelEditWidget& setValidator( QValidator *Validator );
-      
+
       labelEditWidget& setReadOnly( bool ReadOnly );
+      labelEditWidget& setPasswordMode( bool IsPassword );
 
     signals:
       void editingFinished();

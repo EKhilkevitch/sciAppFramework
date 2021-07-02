@@ -17,424 +17,435 @@ using namespace sciAppFramework;
 
 // ======================================================
 
-namespace 
+class multiInputWidgetXmlFactory::labelModifier : public multiInputWidgetXmlFactory::modifierOfMultiInputWidget
 {
-  
-  // ------------------------------------------------------
+  public:
+    QString tag() const { return "label"; }
+    void addToMultiInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const;
+};
 
-  class labelModifier : public multiInputWidgetXmlFactory::modifierOfMultiInputWidget
-  {
-    public:
-      QString tag() const { return "label"; }
-      void addToMultiInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const;
-  };
+// ------------------------------------------------------
 
-  // ------------------------------------------------------
-  
-  class spacingModifier : public multiInputWidgetXmlFactory::modifierOfMultiInputWidget
-  {
-    public:
-      QString tag() const { return "spacing"; }
-      void addToMultiInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const;
-  };
-  
-  // ------------------------------------------------------
-  
-  class groupModifier : public multiInputWidgetXmlFactory::modifierOfMultiInputWidget
-  {
-    private:
-      static int GroupsCount;
+class multiInputWidgetXmlFactory::spacingModifier : public multiInputWidgetXmlFactory::modifierOfMultiInputWidget
+{
+  public:
+    QString tag() const { return "spacing"; }
+    void addToMultiInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const;
+};
 
-    protected:
-      virtual void addSubMultiWidget( multiInputWidget *Parent, const QString &SelectorName, const QString &SelectorLabel, 
-        const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const = 0;
+// ------------------------------------------------------
 
-    public:
-      void addToMultiInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const;
-  };
+class multiInputWidgetXmlFactory::groupModifier : public multiInputWidgetXmlFactory::modifierOfMultiInputWidget
+{
+  private:
+    static int GroupsCount;
 
-  int groupModifier::GroupsCount = 0;
-  
-  // ------------------------------------------------------
-  
-  class tabModifier : public groupModifier
-  {
-    protected:
-      void addSubMultiWidget( multiInputWidget *Parent, const QString &SelectorName, const QString &SelectorLabel, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const;
+  protected:
+    virtual void addSubMultiWidget( multiInputWidget *Parent, const QString &SelectorName, const QString &SelectorLabel, 
+      const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const = 0;
 
-    public:
-      QString tag() const { return "tab"; }
-  };
-  
-  // ------------------------------------------------------
-  
-  class boxModifier : public groupModifier
-  {
-    protected:
-      void addSubMultiWidget( multiInputWidget *Parent, const QString &SelectorName, const QString &SelectorLabel, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const;
+  public:
+    void addToMultiInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const;
+};
 
-    public:
-      QString tag() const { return "box"; }
-  };
-  
-  // ------------------------------------------------------
-  
-  class comboboxModifier : public groupModifier
-  {
-    protected:
-      void addSubMultiWidget( multiInputWidget *Parent, const QString &SelectorName, const QString &SelectorLabel, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const;
+int multiInputWidgetXmlFactory::groupModifier::GroupsCount = 0;
 
-    public:
-      QString tag() const { return "combobox"; }
-  };
-  
-  // ------------------------------------------------------
-  
-  template <class input> class inputModifier : public multiInputWidgetXmlFactory::modifierOfMultiInputWidget
-  {
-    private:
-      static int InputsCount;
+// ------------------------------------------------------
 
-    private:
-      input* createInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const;
-      void setStretchFactors( labelInputWidget* Input, const QDomElement &Element ) const;
+class multiInputWidgetXmlFactory::tabModifier : public groupModifier
+{
+  protected:
+    void addSubMultiWidget( multiInputWidget *Parent, const QString &SelectorName, const QString &SelectorLabel, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const;
 
-    protected:
-      virtual void setUpInput( input *Input, const QDomElement &Element ) const = 0;
+  public:
+    QString tag() const { return "tab"; }
+};
 
-    public:
-      void addToMultiInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const;
-  };
+// ------------------------------------------------------
 
-  template <class input> int inputModifier<input>::InputsCount = 0;
+class multiInputWidgetXmlFactory::boxModifier : public groupModifier
+{
+  protected:
+    void addSubMultiWidget( multiInputWidget *Parent, const QString &SelectorName, const QString &SelectorLabel, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const;
+
+  public:
+    QString tag() const { return "box"; }
+};
+
+// ------------------------------------------------------
+
+class multiInputWidgetXmlFactory::comboboxModifier : public groupModifier
+{
+  protected:
+    void addSubMultiWidget( multiInputWidget *Parent, const QString &SelectorName, const QString &SelectorLabel, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const;
+
+  public:
+    QString tag() const { return "combobox"; }
+};
+
+// ------------------------------------------------------
+
+template <class input> class multiInputWidgetXmlFactory::inputModifier : public multiInputWidgetXmlFactory::modifierOfMultiInputWidget
+{
+  private:
+    static int InputsCount;
+
+  private:
+    input* createInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const;
+    void setStretchFactors( labelInputWidget* Input, const QDomElement &Element ) const;
+
+  protected:
+    virtual void setUpInput( input *Input, const QDomElement &Element ) const = 0;
+
+  public:
+    void addToMultiInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const;
+};
+
+template <class input> int multiInputWidgetXmlFactory::inputModifier<input>::InputsCount = 0;
+
+// ------------------------------------------------------
+
+class multiInputWidgetXmlFactory::editModifier : public multiInputWidgetXmlFactory::inputModifier<labelEditWidget>
+{
+  protected:
+    void setUpInput( labelEditWidget*, const QDomElement & ) const {}
+
+  public:
+    QString tag() const { return "edit"; }
+};
+
+// ------------------------------------------------------
+
+class multiInputWidgetXmlFactory::passwordEditModifier : public multiInputWidgetXmlFactory::inputModifier<labelEditWidget>
+{
+  protected:
+    void setUpInput( labelEditWidget*, const QDomElement & ) const;
+
+  public:
+    QString tag() const { return "password"; }
+};
+
+// ------------------------------------------------------
+
+class multiInputWidgetXmlFactory::doubleEditModifier : public multiInputWidgetXmlFactory::inputModifier<labelDoubleEditWidget>
+{
+  protected:
+    void setUpInput( labelDoubleEditWidget *Input, const QDomElement &Element ) const;
+
+  public:
+    QString tag() const { return "double"; }
+};
   
-  // ------------------------------------------------------
-  
-  class editModifier : public inputModifier<labelEditWidget>
-  {
-    protected:
-      void setUpInput( labelEditWidget*, const QDomElement & ) const {}
+// ------------------------------------------------------
 
-    public:
-      QString tag() const { return "edit"; }
-  };
-  
-  // ------------------------------------------------------
-  
-  class doubleEditModifier : public inputModifier<labelDoubleEditWidget>
-  {
-    protected:
-      void setUpInput( labelDoubleEditWidget *Input, const QDomElement &Element ) const;
+class multiInputWidgetXmlFactory::pathEditModifier : public multiInputWidgetXmlFactory::inputModifier<labelPathEditWidget>
+{
+  protected:
+    void setUpInput( labelPathEditWidget *Input, const QDomElement &Element ) const;
 
-    public:
-      QString tag() const { return "double"; }
-  };
+  public:
+    QString tag() const { return "path"; }
+};
+
+// ------------------------------------------------------
+
+class multiInputWidgetXmlFactory::spinModifier : public multiInputWidgetXmlFactory::inputModifier<labelSpinWidget>
+{
+  protected:
+    void setUpInput( labelSpinWidget *Input, const QDomElement &Element ) const;
+
+  public:
+    QString tag() const { return "spin"; }
+};
+
+// ------------------------------------------------------
+
+class multiInputWidgetXmlFactory::longSpinModifier : public multiInputWidgetXmlFactory::inputModifier<labelLongSpinWidget>
+{
+  protected:
+    void setUpInput( labelLongSpinWidget *Input, const QDomElement &Element ) const;
+
+  public:
+    QString tag() const { return "longSpin"; }
+};
+
+// ------------------------------------------------------
+
+class multiInputWidgetXmlFactory::doubleSpinModifier : public multiInputWidgetXmlFactory::inputModifier<labelDoubleSpinWidget>
+{
+  protected:
+    void setUpInput( labelDoubleSpinWidget *Input, const QDomElement &Element ) const;
+
+  public:
+    QString tag() const { return "doubleSpin"; }
+};
+
+// ------------------------------------------------------
+
+class multiInputWidgetXmlFactory::checkModifier : public multiInputWidgetXmlFactory::inputModifier<checkBoxWidget>
+{
+  protected:
+    void setUpInput( checkBoxWidget *, const QDomElement & ) const {}
+
+  public:
+    QString tag() const { return "check"; }
+};
+
+// ------------------------------------------------------
+
+template <class multiItemsInput> class multiInputWidgetXmlFactory::multiItemsModifier : public multiInputWidgetXmlFactory::inputModifier<multiItemsInput>
+{
+  protected:
+    void setUpInput( multiItemsInput *Input, const QDomElement &Element ) const;
+};
+
+// ------------------------------------------------------
+
+class multiInputWidgetXmlFactory::comboModifier : public multiInputWidgetXmlFactory::multiItemsModifier<labelComboWidget>
+{
+  public:
+    QString tag() const { return "combo"; }
+};
+
+// ------------------------------------------------------
+
+class multiInputWidgetXmlFactory::radioModifier : public multiInputWidgetXmlFactory::multiItemsModifier<radioButtonWidget>
+{
+  public:
+    QString tag() const { return "radio"; }
+};
+
+// ======================================================
+
+void multiInputWidgetXmlFactory::labelModifier::addToMultiInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const
+{
+  if ( Widget == NULL || Element.tagName() != tag() ) 
+    return;
+
+  foreach( QString Text, text( Element, "text" ) )
+    Widget->addLabel( Text );
+}
+
+// ------------------------------------------------------
+
+void multiInputWidgetXmlFactory::spacingModifier::addToMultiInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const
+{
+  if ( Widget == NULL || Element.tagName() != tag() ) 
+    return;
+  
+  int SpacingValue = text( Element, "value" ).value( 0 ).toInt();
+  if ( SpacingValue > 0 )
+    Widget->addSpacing( SpacingValue );
+}
+
+// ------------------------------------------------------
+
+void multiInputWidgetXmlFactory::groupModifier::addToMultiInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const
+{
+  if ( Widget == NULL ) 
+    return;
+
+  modifierOfMultiInputWidgetMap *Modifiers = createModifiersMap();
+  
+  const QString &Name  = attribute( Element, "name", tag() + QString::number(++GroupsCount) );
+  const QString &Label = attribute( Element, "label" );
+  const QString &SelectorName = attribute( Element, "sname", "" );
+  const QString &SelectorLabel = attribute( Element, "slabel" );
+  
+  multiInputWidget *SubWidget = new multiInputWidget( Widget, Name );
+  for ( QDomNode Node = Element.firstChild(); ! Node.isNull(); Node = Node.nextSibling() )  
+    multiInputWidgetXmlFactory::addNextItemToMultiInputWidget( SubWidget, *Modifiers, Node.toElement() );
+  addSubMultiWidget( Widget, SelectorName, SelectorLabel, Name, Label, SubWidget );
+
+  deleteModifiersMap( Modifiers );
+}
+
+// ------------------------------------------------------
+
+void multiInputWidgetXmlFactory::tabModifier::addSubMultiWidget( multiInputWidget *Parent, const QString &, const QString &, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const
+{
+  Q_ASSERT( Parent != NULL );
+  Parent->addTabMultiInputWidget( Name, Label, SubWidget );
+}
+
+// ------------------------------------------------------
+
+void multiInputWidgetXmlFactory::boxModifier::addSubMultiWidget( multiInputWidget *Parent, const QString &, const QString &, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const
+{
+  Q_ASSERT( Parent != NULL );
+  Parent->addBoxMultiInputWidget( Name, Label, SubWidget );
+}
+
+// ------------------------------------------------------
+
+void multiInputWidgetXmlFactory::comboboxModifier::addSubMultiWidget( multiInputWidget *Parent, const QString &SelectorName, const QString &SelectorLabel, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const
+{
+  Q_ASSERT( Parent != NULL );
+  Parent->addComboMultiInputWidget( SelectorName, SelectorLabel, Name, Label, SubWidget );
+}
+
+// ------------------------------------------------------
+  
+template <class input> void multiInputWidgetXmlFactory::inputModifier<input>::addToMultiInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const
+{
+  if ( Element.tagName() != tag() ) 
+    return;
+
+  input *Input = createInputWidget( Widget, Element );
+  setStretchFactors( dynamic_cast<labelInputWidget*>( Input ), Element );
+  setUpInput( Input, Element );
+}
+
+// ------------------------------------------------------ 
     
-  // ------------------------------------------------------
+template <class input> input* multiInputWidgetXmlFactory::inputModifier<input>::createInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const
+{
+  const QString &Name  = attribute( Element, "name", tag() + QString::number(++InputsCount) );
+  const QString &Label = text( Element, "label" ).join(" ");
+  const QString &Value = text( Element, "value" ).join(" ");
 
-  class pathEditModifier : public inputModifier<labelPathEditWidget>
+  if ( Widget == NULL )
+    return inputWidget::create<input>( NULL, Name, Label, QVariant(Value) );
+  return Widget->addInputWidget<input>( Name, Label, QVariant(Value) );
+}
+
+// ------------------------------------------------------ 
+
+template <class input> void multiInputWidgetXmlFactory::inputModifier<input>::setStretchFactors( labelInputWidget* Input, const QDomElement &Element ) const
+{
+  if ( Input == NULL )
+    return;
+  
+  int LabelStretch = 0, InputStretch = 0;
+  const QDomNodeList &StretchNodes = Element.elementsByTagName( "stretch" );
+  if ( ! StretchNodes.isEmpty() )
   {
-    protected:
-      void setUpInput( labelPathEditWidget *Input, const QDomElement &Element ) const;
-
-    public:
-      QString tag() const { return "path"; }
-  };
-
-  // ------------------------------------------------------
-  
-  class spinModifier : public inputModifier<labelSpinWidget>
-  {
-    protected:
-      void setUpInput( labelSpinWidget *Input, const QDomElement &Element ) const;
-
-    public:
-      QString tag() const { return "spin"; }
-  };
-
-  // ------------------------------------------------------
-  
-  class longSpinModifier : public inputModifier<labelLongSpinWidget>
-  {
-    protected:
-      void setUpInput( labelLongSpinWidget *Input, const QDomElement &Element ) const;
-
-    public:
-      QString tag() const { return "longSpin"; }
-  };
-
-  // ------------------------------------------------------
-  
-  class doubleSpinModifier : public inputModifier<labelDoubleSpinWidget>
-  {
-    protected:
-      void setUpInput( labelDoubleSpinWidget *Input, const QDomElement &Element ) const;
-
-    public:
-      QString tag() const { return "doubleSpin"; }
-  };
-
-  // ------------------------------------------------------
-  
-  class checkModifier : public inputModifier<checkBoxWidget>
-  {
-    protected:
-      void setUpInput( checkBoxWidget *, const QDomElement & ) const {}
-
-    public:
-      QString tag() const { return "check"; }
-  };
-  
-  // ------------------------------------------------------
-  
-  template <class multiItemsInput> class multiItemsModifier : public inputModifier<multiItemsInput>
-  {
-    protected:
-      void setUpInput( multiItemsInput *Input, const QDomElement &Element ) const;
-  };
-  
-  // ------------------------------------------------------
-  
-  class comboModifier : public multiItemsModifier<labelComboWidget>
-  {
-    public:
-      QString tag() const { return "combo"; }
-  };
-  
-  // ------------------------------------------------------
-
-  class radioModifier : public multiItemsModifier<radioButtonWidget>
-  {
-    public:
-      QString tag() const { return "radio"; }
-  };
-
-  // ======================================================
-  
-  void labelModifier::addToMultiInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const
-  {
-    if ( Widget == NULL || Element.tagName() != tag() ) 
-      return;
-
-    foreach( QString Text, text( Element, "text" ) )
-      Widget->addLabel( Text );
+    LabelStretch = text( StretchNodes.item(0).toElement(), QString("label") ).value( 0, "" ).toInt();
+    InputStretch = text( StretchNodes.item(0).toElement(), QString("input") ).value( 0, "" ).toInt();
   }
   
-  // ------------------------------------------------------
-  
-  void spacingModifier::addToMultiInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const
+  if ( LabelStretch > 0 && InputStretch > 0 )
+    Input->setStretchFactors( LabelStretch, InputStretch );
+}
+
+// ------------------------------------------------------ 
+
+void multiInputWidgetXmlFactory::pathEditModifier::setUpInput( labelPathEditWidget *Input, const QDomElement &Element ) const
+{
+  Q_ASSERT( Input != NULL );
+
+  QString AcceptMode = text( Element, "mode" ).value(0);
+
+  QRegExp DirMode( "dir$" );
+  if ( AcceptMode.contains( DirMode ) )
   {
-    if ( Widget == NULL || Element.tagName() != tag() ) 
-      return;
+    Input->setFileMode( QFileDialog::DirectoryOnly );
+    AcceptMode.replace( DirMode, QString() );
+  }
+
+  if ( AcceptMode.isEmpty() )
+    /* do nothing */;
+  else if ( AcceptMode == "open" )
+    Input->setAcceptMode( QFileDialog::AcceptOpen );
+  else if ( AcceptMode == "save" )
+    Input->setAcceptMode( QFileDialog::AcceptSave );
+  else
+    qWarning() << "pathEditModifier::setUpInput: invalid accept mode";
+}
+
+// ------------------------------------------------------ 
+
+void multiInputWidgetXmlFactory::passwordEditModifier::setUpInput( labelEditWidget *Input, const QDomElement & ) const
+{
+  Q_ASSERT( Input != NULL );
+
+  Input->setPasswordMode( true );
+}
+
+// ------------------------------------------------------ 
     
-    int SpacingValue = text( Element, "value" ).value( 0 ).toInt();
-    if ( SpacingValue > 0 )
-      Widget->addSpacing( SpacingValue );
-  }
+void multiInputWidgetXmlFactory::doubleEditModifier::setUpInput( labelDoubleEditWidget *Input, const QDomElement &Element ) const
+{
+  Q_ASSERT( Input != NULL );
   
-  // ------------------------------------------------------
-  
-  void groupModifier::addToMultiInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const
-  {
-    if ( Widget == NULL ) 
-      return;
+  bool OkMin = false, OkMax = false;
+  double MinValue = text( Element, "min" ).value( 0 ).toDouble( &OkMin );
+  double MaxValue = text( Element, "max" ).value( 0 ).toDouble( &OkMax );
 
-    multiInputWidgetXmlFactory::modifierOfMultiInputWidgetMap *Modifiers = multiInputWidgetXmlFactory::createModifiersMap();
-    
-    const QString &Name  = attribute( Element, "name", tag() + QString::number(++GroupsCount) );
-    const QString &Label = attribute( Element, "label" );
-    const QString &SelectorName = attribute( Element, "sname", "" );
-    const QString &SelectorLabel = attribute( Element, "slabel" );
-    
-    multiInputWidget *SubWidget = new multiInputWidget( Widget, Name );
-    for ( QDomNode Node = Element.firstChild(); ! Node.isNull(); Node = Node.nextSibling() )  
-      multiInputWidgetXmlFactory::addNextItemToMultiInputWidget( SubWidget, *Modifiers, Node.toElement() );
-    addSubMultiWidget( Widget, SelectorName, SelectorLabel, Name, Label, SubWidget );
+  if ( ! OkMin )      MinValue = Input->minimum();
+  if ( ! OkMax )      MaxValue = Input->maximum();
+  Input->setRange( MinValue, MaxValue );
+}
 
-    multiInputWidgetXmlFactory::deleteModifiersMap( Modifiers );
-  }
-  
-  // ------------------------------------------------------
- 
-  void tabModifier::addSubMultiWidget( multiInputWidget *Parent, const QString &, const QString &, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const
-  {
-    Q_ASSERT( Parent != NULL );
-    Parent->addTabMultiInputWidget( Name, Label, SubWidget );
-  }
-  
-  // ------------------------------------------------------
-  
-  void boxModifier::addSubMultiWidget( multiInputWidget *Parent, const QString &, const QString &, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const
-  {
-    Q_ASSERT( Parent != NULL );
-    Parent->addBoxMultiInputWidget( Name, Label, SubWidget );
-  }
-  
-  // ------------------------------------------------------
-  
-  void comboboxModifier::addSubMultiWidget( multiInputWidget *Parent, const QString &SelectorName, const QString &SelectorLabel, const QString &Name, const QString &Label, multiInputWidget *SubWidget ) const
-  {
-    Q_ASSERT( Parent != NULL );
-    Parent->addComboMultiInputWidget( SelectorName, SelectorLabel, Name, Label, SubWidget );
-  }
-  
-  // ------------------------------------------------------
+// ------------------------------------------------------ 
     
-  template <class input> void inputModifier<input>::addToMultiInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const
-  {
-    if ( Element.tagName() != tag() ) 
-      return;
+void multiInputWidgetXmlFactory::spinModifier::setUpInput( labelSpinWidget *Input, const QDomElement &Element ) const
+{
+  Q_ASSERT( Input != NULL );
 
-    input *Input = createInputWidget( Widget, Element );
-    setStretchFactors( dynamic_cast<labelInputWidget*>( Input ), Element );
-    setUpInput( Input, Element );
-  }
-  
-  // ------------------------------------------------------ 
-      
-  template <class input> input* inputModifier<input>::createInputWidget( multiInputWidget *Widget, const QDomElement &Element ) const
-  {
-    const QString &Name  = attribute( Element, "name", tag() + QString::number(++InputsCount) );
-    const QString &Label = text( Element, "label" ).join(" ");
-    const QString &Value = text( Element, "value" ).join(" ");
+  bool OkMin = false, OkMax = false;
+  int MinValue = text( Element, "min" ).value( 0 ).toInt( &OkMin );
+  int MaxValue = text( Element, "max" ).value( 0 ).toInt( &OkMax );
 
-    if ( Widget == NULL )
-      return inputWidget::create<input>( NULL, Name, Label, QVariant(Value) );
-    return Widget->addInputWidget<input>( Name, Label, QVariant(Value) );
-  }
-  
-  // ------------------------------------------------------ 
-  
-  template <class input> void inputModifier<input>::setStretchFactors( labelInputWidget* Input, const QDomElement &Element ) const
-  {
-    if ( Input == NULL )
-      return;
+  if ( ! OkMin )      MinValue = Input->minimum();
+  if ( ! OkMax )      MaxValue = Input->maximum();
+  Input->setRange( MinValue, MaxValue );
+}
+
+// ------------------------------------------------------ 
+
+void multiInputWidgetXmlFactory::longSpinModifier::setUpInput( labelLongSpinWidget *Input, const QDomElement &Element ) const
+{
+  Q_ASSERT( Input != NULL );
+
+  bool OkMin = false, OkMax = false;
+  qlonglong MinValue = text( Element, "min" ).value( 0 ).toLongLong( &OkMin );
+  qlonglong MaxValue = text( Element, "max" ).value( 0 ).toLongLong( &OkMax );
+
+  if ( ! OkMin )      MinValue = Input->minimum();
+  if ( ! OkMax )      MaxValue = Input->maximum();
+  Input->setRange( MinValue, MaxValue );
+}
+
+// ------------------------------------------------------ 
     
-    int LabelStretch = 0, InputStretch = 0;
-    const QDomNodeList &StretchNodes = Element.elementsByTagName( "stretch" );
-    if ( ! StretchNodes.isEmpty() )
+void multiInputWidgetXmlFactory::doubleSpinModifier::setUpInput( labelDoubleSpinWidget *Input, const QDomElement &Element ) const
+{
+  Q_ASSERT( Input != NULL );
+
+  bool OkMin = false, OkMax = false;
+  double MinValue = text( Element, "min" ).value( 0 ).toDouble( &OkMin );
+  double MaxValue = text( Element, "max" ).value( 0 ).toDouble( &OkMax );
+  if ( ! OkMin )  MinValue = Input->minimum();
+  if ( ! OkMax )  MaxValue = Input->maximum();
+  Input->setRange( MinValue, MaxValue );
+
+  bool OkDecimals = false;
+  double Decimals = text( Element, "decimals" ).value( 0 ).toDouble( &OkDecimals );
+  if ( ! OkDecimals ) Decimals = Input->decimals();
+  Input->setDecimals( Decimals );
+
+  bool OkStep = false;
+  double Step = text( Element, "step" ).value( 0 ).toDouble( &OkStep );
+  if ( ! OkStep ) Step = Input->singleStep();
+  Input->setSingleStep( Step );
+}
+
+// ------------------------------------------------------ 
+
+template <class multiItemsInput> void multiInputWidgetXmlFactory::multiItemsModifier<multiItemsInput>::setUpInput( multiItemsInput *Input, const QDomElement &Element ) const
+{
+  Q_ASSERT( Input != NULL );
+
+  for ( QDomNode Node = Element.firstChild(); ! Node.isNull(); Node = Node.nextSibling() )
+  {
+    if ( Node.nodeName() == "item" )
     {
-      LabelStretch = text( StretchNodes.item(0).toElement(), QString("label") ).value( 0, "" ).toInt();
-      InputStretch = text( StretchNodes.item(0).toElement(), QString("input") ).value( 0, "" ).toInt();
-    }
-    
-    if ( LabelStretch > 0 && InputStretch > 0 )
-      Input->setStretchFactors( LabelStretch, InputStretch );
-  }
-  
-  // ------------------------------------------------------ 
-  
-  void pathEditModifier::setUpInput( labelPathEditWidget *Input, const QDomElement &Element ) const
-  {
-    Q_ASSERT( Input != NULL );
-
-    QString AcceptMode = text( Element, "mode" ).value(0);
-
-    QRegExp DirMode( "dir$" );
-    if ( AcceptMode.contains( DirMode ) )
-    {
-      Input->setFileMode( QFileDialog::DirectoryOnly );
-      AcceptMode.replace( DirMode, QString() );
-    }
-
-    if ( AcceptMode.isEmpty() )
-      /* do nothing */;
-    else if ( AcceptMode == "open" )
-      Input->setAcceptMode( QFileDialog::AcceptOpen );
-    else if ( AcceptMode == "save" )
-      Input->setAcceptMode( QFileDialog::AcceptSave );
-    else
-      qWarning() << "pathEditModifier::setUpInput: invalid accept mode";
-  }
-  
-  // ------------------------------------------------------ 
-      
-  void doubleEditModifier::setUpInput( labelDoubleEditWidget *Input, const QDomElement &Element ) const
-  {
-    Q_ASSERT( Input != NULL );
-    
-    bool OkMin = false, OkMax = false;
-    double MinValue = text( Element, "min" ).value( 0 ).toDouble( &OkMin );
-    double MaxValue = text( Element, "max" ).value( 0 ).toDouble( &OkMax );
-
-    if ( ! OkMin )      MinValue = Input->minimum();
-    if ( ! OkMax )      MaxValue = Input->maximum();
-    Input->setRange( MinValue, MaxValue );
-  }
-  
-  // ------------------------------------------------------ 
-      
-  void spinModifier::setUpInput( labelSpinWidget *Input, const QDomElement &Element ) const
-  {
-    Q_ASSERT( Input != NULL );
-
-    bool OkMin = false, OkMax = false;
-    int MinValue = text( Element, "min" ).value( 0 ).toInt( &OkMin );
-    int MaxValue = text( Element, "max" ).value( 0 ).toInt( &OkMax );
-
-    if ( ! OkMin )      MinValue = Input->minimum();
-    if ( ! OkMax )      MaxValue = Input->maximum();
-    Input->setRange( MinValue, MaxValue );
-  }
-  
-  // ------------------------------------------------------ 
-
-  void longSpinModifier::setUpInput( labelLongSpinWidget *Input, const QDomElement &Element ) const
-  {
-    Q_ASSERT( Input != NULL );
-
-    bool OkMin = false, OkMax = false;
-    qlonglong MinValue = text( Element, "min" ).value( 0 ).toLongLong( &OkMin );
-    qlonglong MaxValue = text( Element, "max" ).value( 0 ).toLongLong( &OkMax );
-
-    if ( ! OkMin )      MinValue = Input->minimum();
-    if ( ! OkMax )      MaxValue = Input->maximum();
-    Input->setRange( MinValue, MaxValue );
-  }
-
-  // ------------------------------------------------------ 
-      
-  void doubleSpinModifier::setUpInput( labelDoubleSpinWidget *Input, const QDomElement &Element ) const
-  {
-    Q_ASSERT( Input != NULL );
-
-    bool OkMin = false, OkMax = false;
-    double MinValue = text( Element, "min" ).value( 0 ).toDouble( &OkMin );
-    double MaxValue = text( Element, "max" ).value( 0 ).toDouble( &OkMax );
-    if ( ! OkMin )  MinValue = Input->minimum();
-    if ( ! OkMax )  MaxValue = Input->maximum();
-    Input->setRange( MinValue, MaxValue );
-
-    bool OkDecimals = false;
-    double Decimals = text( Element, "decimals" ).value( 0 ).toDouble( &OkDecimals );
-    if ( ! OkDecimals ) Decimals = Input->decimals();
-    Input->setDecimals( Decimals );
-
-    bool OkStep = false;
-    double Step = text( Element, "step" ).value( 0 ).toDouble( &OkStep );
-    if ( ! OkStep ) Step = Input->singleStep();
-    Input->setSingleStep( Step );
-  }
-
-  // ------------------------------------------------------ 
-
-  template <class multiItemsInput> void multiItemsModifier<multiItemsInput>::setUpInput( multiItemsInput *Input, const QDomElement &Element ) const
-  {
-    Q_ASSERT( Input != NULL );
-
-    for ( QDomNode Node = Element.firstChild(); ! Node.isNull(); Node = Node.nextSibling() )
-    {
-      if ( Node.nodeName() == "item" )
-      {
-        const QString &Value = multiInputWidgetXmlFactory::modifierOfMultiInputWidget::attribute( Node.toElement(), QString("data") );
-        const QString &Text = multiInputWidgetXmlFactory::modifierOfMultiInputWidget::text( Node ).join( QString() );
-        Input->addItem( Text, QVariant(Value) );
-      }
+      const QString Value = modifierOfMultiInputWidget::attribute( Node.toElement(), QString("data") );
+      const QString Text  = modifierOfMultiInputWidget::text( Node ).join( QString() );
+      Input->addItem( Text, QVariant(Value) );
     }
   }
-
-  // ======================================================
-
 }
 
 // ======================================================
@@ -536,6 +547,7 @@ multiInputWidgetXmlFactory::modifierOfMultiInputWidgetMap* multiInputWidgetXmlFa
     new boxModifier() <<
     new comboboxModifier() <<
     new editModifier() <<
+    new passwordEditModifier() <<
     new doubleEditModifier() <<
     new pathEditModifier() <<
     new spinModifier() << 
