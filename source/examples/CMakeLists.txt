@@ -7,8 +7,10 @@ endif()
 
 if ( ENABLE_EXAMPLES )
 
-  find_package( Qt4 COMPONENTS QtCore QtGui QtXml QUIET )
   find_package( Qt5 COMPONENTS Widgets Xml QUIET )
+  if ( NOT ${Qt5_FOUND} )
+    find_package( Qt4 COMPONENTS QtCore QtGui QtXml QUIET )
+  endif()  
 
   if(WIN32)
     set( gui_type WIN32 )

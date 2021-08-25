@@ -6,8 +6,10 @@ if( POLICY CMP0012 )
   cmake_policy(SET CMP0012 NEW)
 endif()
 
-find_package( Qt4 COMPONENTS QtCore QtGui QtXml QUIET )
 find_package( Qt5 COMPONENTS Widgets Xml QUIET )
+if ( NOT ${Qt5_FOUND} )
+  find_package( Qt4 COMPONENTS QtCore QtGui QtXml QUIET )
+endif()
 
 project( sciAppFramework ) 
 
