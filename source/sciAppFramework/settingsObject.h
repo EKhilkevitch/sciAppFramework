@@ -53,8 +53,6 @@ namespace sciAppFramework
       virtual void saveSettings( settingsStorage *Settings ) const = 0;
       virtual void loadSettings( settingsStorage *Settings ) = 0;
 
-      //void copySettings( settingsObject *Destination ) const;
-
       static QString normolizeToSettingsName( QString String );
   };
 

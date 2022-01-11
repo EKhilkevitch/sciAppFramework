@@ -97,6 +97,8 @@ namespace sciAppFramework
   
   class labelDoubleEditWidget : public labelEditWidget
   {
+    Q_OBJECT
+
     private:
       class fixedDoubleValidator;
 
@@ -104,8 +106,6 @@ namespace sciAppFramework
       int FieldWidth;
       char Format;
       int Precision;
-
-      //QString PrintfFormat;
 
     private:
       // Disable usage of this functions
@@ -115,6 +115,9 @@ namespace sciAppFramework
 
       fixedDoubleValidator* doubleValidator();
       const fixedDoubleValidator* doubleValidator() const;
+
+    private slots:
+      void emitValueChanged();
 
     protected:
       QWidget* createInputWidget(); 
@@ -138,6 +141,9 @@ namespace sciAppFramework
 
       labelDoubleEditWidget& setValue( double Value );
       double value() const;
+
+    signals:
+      void valueChanged( double );
   };
   
   // ======================================================
@@ -204,7 +210,7 @@ namespace sciAppFramework
       int minimum() const;
 
     signals:
-      void valueChanged( int i );
+      void valueChanged( int );
   };
 
   // ======================================================

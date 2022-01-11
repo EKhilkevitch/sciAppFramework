@@ -344,6 +344,10 @@ labelDoubleEditWidget::labelDoubleEditWidget( const QString& LabelText, QWidget 
 { 
   resetPrintfFormat();
   initWidget(LabelText);
+  
+  QLineEdit *Edit = getLineEdit();
+  connect( Edit, SIGNAL(returnPressed()), SLOT(emitValueChanged()) );  
+  connect( Edit, SIGNAL(editingFinished()), SLOT(emitValueChanged()) );  
 }
 
 // ------------------------------------------------------
@@ -352,8 +356,12 @@ labelDoubleEditWidget::labelDoubleEditWidget( const QString& LabelText, double V
   labelEditWidget( 0, Parent, LabelText )
 { 
   resetPrintfFormat();
-  initWidget(LabelText); 
+  initWidget(LabelText);
   setValue(Value); 
+  
+  QLineEdit *Edit = getLineEdit();
+  connect( Edit, SIGNAL(returnPressed()), SLOT(emitValueChanged()) );  
+  connect( Edit, SIGNAL(editingFinished()), SLOT(emitValueChanged()) );  
 }
 
 // ------------------------------------------------------
@@ -525,6 +533,13 @@ QVariant labelDoubleEditWidget::getVariantValue() const
 void labelDoubleEditWidget::setVariantValue( const QVariant &Value ) 
 { 
   setValue( Value.toDouble() ); 
+}
+
+// ------------------------------------------------------
+
+void labelDoubleEditWidget::emitValueChanged()
+{
+  emit valueChanged( value() );
 }
 
 // ======================================================
