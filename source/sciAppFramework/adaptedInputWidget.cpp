@@ -237,7 +237,7 @@ void checkBoxWidget::initWidget( const QString &LabelText )
   setLayout( Layout );
 
   connect( CheckBox, SIGNAL(stateChanged(int)), SIGNAL(stateChanged(int)) );
-  connect( CheckBox, SIGNAL(clicked()), SIGNAL(clicked()) );
+  connect( CheckBox, SIGNAL(clicked(bool)), SIGNAL(clicked(bool)) );
   connect( CheckBox, SIGNAL(clicked()), SLOT(emitCheckedSignal()) );
   connect( CheckBox, SIGNAL(toggled(bool)), SLOT(emitCheckedSignal()) );
 }
@@ -326,6 +326,34 @@ void checkBoxWidget::emitCheckedSignal()
 {
   emit toggled( isChecked() );
   emit changed();
+}
+
+// ------------------------------------------------------
+      
+void checkBoxWidget::setCheckedOn() 
+{ 
+  setCheckState(Qt::Checked); 
+}
+
+// ------------------------------------------------------
+
+void checkBoxWidget::setCheckedOff() 
+{ 
+  setCheckState(Qt::Unchecked); 
+}
+
+// ------------------------------------------------------
+
+void checkBoxWidget::setCheckedPartial() 
+{ 
+  setCheckState(Qt::PartiallyChecked); 
+}
+
+// ------------------------------------------------------
+
+void checkBoxWidget::setCheckState( int State ) 
+{ 
+  setCheckState( static_cast<Qt::CheckState>(State) ); 
 }
 
 // ======================================================

@@ -107,14 +107,14 @@ namespace sciAppFramework
       void setChecked( bool Checked );
 
     public slots:
-      void setCheckedOn() { setCheckState(Qt::Checked); }
-      void setCheckedOff() { setCheckState(Qt::Unchecked); }
-      void setCheckedPartial() { setCheckState(Qt::PartiallyChecked); }
-      void setCheckState( int State ) { setCheckState( static_cast<Qt::CheckState>(State) ); }
+      void setCheckedOn();
+      void setCheckedOff();
+      void setCheckedPartial();
+      void setCheckState( int State );
       void setCheckState( Qt::CheckState State );
     
     signals:
-      void clicked();
+      void clicked( bool = false );
       void stateChanged( int );
       void toggled( bool );
   };
