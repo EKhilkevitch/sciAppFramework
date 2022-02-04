@@ -661,28 +661,36 @@ void labelPathEditWidget::setEditFromFileDialog()
 {
   //qDebug() << "File: " << text() << " path = " << QFileInfo(text()).path();
 
+  const QChar SplitPathChar = ';';
+
 /* 
  * This code not working on Release build with icc on Win32 
  */
 #if __unix__ || _MSC_VER >= 1700 
-  QString CurrDir = QFileInfo( text().length() > 0 ? text() : "." ).path();
+  const QString CurrDir = QFileInfo( text().length() > 0 ? text() : "." ).path();
 
   QFileDialog Dialog( this );
   Dialog.setFileMode( FileMode );
   Dialog.setAcceptMode( AcceptMode );
-  Dialog.setDirectory( Directory );
+
+  if ( FileMode == QFileDialog::DirectoryOnly )
+    Dialog.setDirectory( text() );
+  else
+    Dialog.setDirectory( CurrDir );
+
   Dialog.setNameFilter( Filter );
-  Dialog.selectFile( text().split(";").value(0) );
+  Dialog.selectFile( text().split(SplitPathChar).value(0) );
   Dialog.setOption( QFileDialog::DontUseNativeDialog, false );
   
   if ( Dialog.exec() == QDialog::Accepted )
   {
-    setText( Dialog.selectedFiles().join(";") );
+    setText( Dialog.selectedFiles().join(SplitPathChar) );
     emit changed();
   }
+
 #else
   QWidget *Parent = this;
-  const QString Selected = text().split(";").value(0);
+  const QString Selected = text().split(SplitPathChar).value(0);
   const QString Caption = QString();
   const QString Directory = this->Directory;
   const QString Filter = this->Filter;
@@ -701,19 +709,20 @@ void labelPathEditWidget::setEditFromFileDialog()
     if ( AcceptMode == QFileDialog::AcceptOpen )
     {
       if ( FileMode == QFileDialog::ExistingFiles )
-        FileName = QFileDialog::getOpenFileNames( Parent, Caption, Selected, Filter ).join(";");
+        FileName = QFileDialog::getOpenFileNames( Parent, Caption, Selected, Filter, Options ).join(SplitPathChar);
       else
-        FileName = QFileDialog::getOpenFileName( Parent, Caption, Selected, Filter );
+        FileName = QFileDialog::getOpenFileName( Parent, Caption, Selected, Filter, Options );
     } else {
-      FileName = QFileDialog::getSaveFileName( Parent, Caption, Selected, Filter );
+      FileName = QFileDialog::getSaveFileName( Parent, Caption, Selected, Filter, Options );
     }
   }
 
-  if ( FileName.isEmpty() )
-    return;
-    
-  setText( FileName );
-  emit changed();
+  if ( ! FileName.isEmpty() )
+  {
+    setText( FileName );
+    emit changed();
+  }
+
 #endif
 
 }

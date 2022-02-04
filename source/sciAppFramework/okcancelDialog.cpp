@@ -3,7 +3,6 @@
 
 #include "sciAppFramework/okcancelDialog.h"
 
-#include <QStackedLayout>
 #include <QBoxLayout>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
