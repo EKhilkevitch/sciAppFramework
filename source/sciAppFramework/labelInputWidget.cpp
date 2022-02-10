@@ -709,11 +709,11 @@ void labelPathEditWidget::setEditFromFileDialog()
     if ( AcceptMode == QFileDialog::AcceptOpen )
     {
       if ( FileMode == QFileDialog::ExistingFiles )
-        FileName = QFileDialog::getOpenFileNames( Parent, Caption, Selected, Filter, Options ).join(SplitPathChar);
+        FileName = QFileDialog::getOpenFileNames( Parent, Caption, Selected, Filter ).join(SplitPathChar);
       else
-        FileName = QFileDialog::getOpenFileName( Parent, Caption, Selected, Filter, Options );
+        FileName = QFileDialog::getOpenFileName( Parent, Caption, Selected, Filter );
     } else {
-      FileName = QFileDialog::getSaveFileName( Parent, Caption, Selected, Filter, Options );
+      FileName = QFileDialog::getSaveFileName( Parent, Caption, Selected, Filter );
     }
   }
 
