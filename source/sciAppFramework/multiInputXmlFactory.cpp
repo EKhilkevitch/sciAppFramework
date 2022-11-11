@@ -421,7 +421,7 @@ void multiInputWidgetXmlFactory::doubleSpinModifier::setUpInput( labelDoubleSpin
   Input->setRange( MinValue, MaxValue );
 
   bool OkDecimals = false;
-  double Decimals = text( Element, "decimals" ).value( 0 ).toDouble( &OkDecimals );
+  int Decimals = text( Element, "decimals" ).value( 0 ).toInt( &OkDecimals );
   if ( ! OkDecimals ) Decimals = Input->decimals();
   Input->setDecimals( Decimals );
 
