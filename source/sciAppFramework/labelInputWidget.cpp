@@ -1257,6 +1257,20 @@ QVariant labelComboWidget::currentData() const
 
 // ------------------------------------------------------
 
+QString labelComboWidget::itemText( int Index ) const
+{
+  return getComboBox()->itemText(Index);
+}
+
+// ------------------------------------------------------
+
+QVariant labelComboWidget::itemData( int Index ) const
+{
+  return getComboBox()->itemData(Index);
+}
+
+// ------------------------------------------------------
+
 labelComboWidget& labelComboWidget::addItem( const QString &Text ) 
 {
   return addItem( Text, QVariant(Text) );
@@ -1272,7 +1286,7 @@ labelComboWidget& labelComboWidget::addItem( const QString &Text, const QVariant
 
 // ------------------------------------------------------
 
-labelComboWidget& labelComboWidget::addItems( const QStringList& List ) 
+labelComboWidget& labelComboWidget::addItems( const QStringList &List ) 
 { 
   foreach( QString String, List ) 
     addItem( String ); 
@@ -1296,11 +1310,12 @@ labelComboWidget& labelComboWidget::setCurrentIndex( int Index )
 
 // ------------------------------------------------------
       
-labelComboWidget& labelComboWidget::setCurrentData( const QVariant& V ) 
+labelComboWidget& labelComboWidget::setCurrentData( const QVariant &V ) 
 { 
+  const QComboBox *Box = getComboBox();
   for ( int i = 0; i < count(); i++ ) 
   { 
-    if (getComboBox()->itemData(i) == V ) 
+    if ( Box->itemData(i) == V ) 
       setCurrentIndex(i); 
   } 
   return *this;

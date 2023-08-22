@@ -308,17 +308,23 @@ namespace sciAppFramework
 
       QVariant getVariantValue() const;
       void setVariantValue( const QVariant &Value );
+      
+      int  count() const;
+      void clear();
 
       int  currentIndex() const;
-      int  count() const;
       QString currentText() const;
       QVariant currentData() const;
+      QString itemText( int Index ) const;
+      QVariant itemData( int Index ) const;
+      
       labelComboWidget& addItem( const QString &Text );
       labelComboWidget& addItem( const QString &Text, const QVariant &UserData );
       labelComboWidget& addItems( const QStringList& List );
-      void clear();
+
       labelComboWidget& setCurrentIndex( int Index );
-      labelComboWidget& setCurrentData( const QVariant& V );
+      labelComboWidget& setCurrentData( const QVariant &Variant );
+
       
     signals:
       void currentIndexChanged( int Index );
