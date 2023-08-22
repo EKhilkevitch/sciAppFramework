@@ -1313,10 +1313,14 @@ labelComboWidget& labelComboWidget::setCurrentIndex( int Index )
 labelComboWidget& labelComboWidget::setCurrentData( const QVariant &Variant ) 
 { 
   const QComboBox *Box = getComboBox();
-  for ( int i = 0; i < count(); i++ ) 
+  const int Count = Box->count();
+  for ( int i = 0; i < Count; i++ ) 
   { 
-    if ( Box->itemData(i) == Variant ) 
-      setCurrentIndex(i); 
+    if ( Box->itemData(i) == Variant )
+    {
+      setCurrentIndex(i);
+      break;
+    }
   } 
   return *this;
 }
@@ -1326,10 +1330,14 @@ labelComboWidget& labelComboWidget::setCurrentData( const QVariant &Variant )
 labelComboWidget& labelComboWidget::setCurrentText( const QString &Text )
 {
   const QComboBox *Box = getComboBox();
-  for ( int i = 0; i < count(); i++ ) 
+  const int Count = Box->count();
+  for ( int i = 0; i < Count; i++ ) 
   { 
     if ( Box->itemText(i) == Text ) 
+    {
       setCurrentIndex(i); 
+      break;
+    }
   } 
   return *this;
 }

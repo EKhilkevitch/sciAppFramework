@@ -401,21 +401,21 @@ void xmlSettingsStorage::loadGroupFromElement( const QDomNode &DomNode, group *G
     if ( ! Child.isElement() )
       continue;
     
-    QDomElement Element = Child.toElement();
+    const QDomElement Element = Child.toElement();
     if ( Element.isNull() )
       continue;
 
-    QString TagName = Element.tagName();
+    const QString TagName = Element.tagName();
     if ( TagName.startsWith( ElementPrefix ) )
     {
-      QString Key = Element.attribute( KeyAttributeNameQString );
-      QString Value = Element.attribute( ValueAttributeNameQString );
+      const QString Key = Element.attribute( KeyAttributeNameQString );
+      const QString Value = Element.attribute( ValueAttributeNameQString );
       Group->addElement( Key, Value );
     }
 
     if ( TagName.startsWith( GroupPrefix ) ) 
     {
-      QString Key = Element.attribute( KeyAttributeNameQString );
+      const QString Key = Element.attribute( KeyAttributeNameQString );
       group *SubGroup = Group->addGroup( Key );
       loadGroupFromElement( Child, SubGroup );
     }
