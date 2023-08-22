@@ -324,6 +324,7 @@ namespace sciAppFramework
 
       labelComboWidget& setCurrentIndex( int Index );
       labelComboWidget& setCurrentData( const QVariant &Variant );
+      labelComboWidget& setCurrentText( const QString &Text );
 
       
     signals:
