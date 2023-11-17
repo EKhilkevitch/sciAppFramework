@@ -20,10 +20,13 @@ int main( int argc, char **argv )
 
   labelEditWidget *Edit1 = new labelEditWidget("Text1",&Widget), *Edit2 = new labelEditWidget("Label with very very very long text","abcd");
   labelEditWidget *Edit3 = new labelEditWidget("Text3");
-  labelPathEditWidget *PathEdit1 = new labelPathEditWidget("PathEdit1");
-  labelPathEditWidget *PathEdit2 = new labelPathEditWidget("PathEdit2");
+  labelPathEditWidget *PathEdit1 = new labelPathEditWidget("PathEdit1 - ExistingFiles");
+  PathEdit1->setFileMode( QFileDialog::ExistingFiles );
+  labelPathEditWidget *PathEdit2 = new labelPathEditWidget("PathEdit2 - DirectoryOnly");
   PathEdit2->setFileMode( QFileDialog::DirectoryOnly );
   PathEdit2->setText( "/tmp/evgeniy" );
+  labelPathEditWidget *PathEdit3 = new labelPathEditWidget("PathEdit2 - save");
+  PathEdit3->setAcceptMode( QFileDialog::AcceptSave );
   labelDoubleEditWidget *DoubleEdit1 = new labelDoubleEditWidget("DoubleEdit",0.3e-6);
   labelSpinWidget *Spin1 = new labelSpinWidget( "Spin1", 3 );
   labelDoubleSpinWidget *Spin2 = new labelDoubleSpinWidget( "Spin2", 1.3 );
@@ -43,6 +46,7 @@ int main( int argc, char **argv )
   Layout->addWidget( Edit2 );
   Layout->addWidget( PathEdit1 );
   Layout->addWidget( PathEdit2 );
+  Layout->addWidget( PathEdit3 );
   Layout->addWidget( DoubleEdit1 );
   Layout->addWidget( Spin1 );
   Layout->addWidget( Spin2 );
